@@ -1,0 +1,36 @@
+{
+  "name": "rpg",
+  "version": "1.0.0",
+  "description": "Openclassroom project",
+  "main": "bundle.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "watch": "webpack --watch",
+    "start": "webpack --watch & webpack-dev-server --open-page 'index.html'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rickyseezy/rpg.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rickyseezy/rpg/issues"
+  },
+  "homepage": "https://github.com/rickyseezy/rpg#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "babel-loader": "^8.0.4",
+    "babel-preset-env": "^1.7.0",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.9.0"
+  },
+  "dependencies": {
+    "path": "^0.12.7",
+    "require": "^2.4.20"
+  }
+}
