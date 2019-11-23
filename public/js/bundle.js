@@ -116,7 +116,7 @@ if (!name_j2 || name_j2 === "") {
 );*/
 
 var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_0__["GenGrid"](10, 10);
-grid.createGrid(); //cd /c/Users/User/Desktop/OPENCLASSROOMS/p6_plateau
+grid.createGrid(); //cd /c/Users/User/Desktop/OPENCLASSROOMS/p6_jeu
 
 /***/ }),
 /* 1 */
@@ -164,6 +164,8 @@ function () {
         for (var j = 0; j < this.column; j++) {
           var td = document.createElement('td');
           td.setAttribute("class", "tdstyle");
+          td.setAttribute("data-x", i);
+          td.setAttribute("data-y", j);
           td.id = "td-" + i + j;
           tr.appendChild(td);
         }
