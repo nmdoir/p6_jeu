@@ -191,7 +191,14 @@ function availableMove() {
 }
 
 function scanTab {
-    while (i < )
+    let scanCell = document.getElementsByClassName("tdstyle");
+    for (let i = 0; i < 10 ; i++) {
+        for (let j = 0; j < 10; j++) {
+            if (scanCell.dataset.x === j && scanCell.dataset.y === i) {
+                //Action
+            }
+        }
+    }
 }
 
 

@@ -25,8 +25,8 @@ class GenGrid {
             for (let j = 0; j < this.column; j++) {
                 let td = document.createElement('td');
                 td.setAttribute("class", "tdstyle");
-                td.setAttribute("data-x", i);
-                td.setAttribute("data-y", j);
+                td.setAttribute("data-x", j);
+                td.setAttribute("data-y", i);
                 td.id = "td-" + i + j;
                 tr.appendChild(td)
             }
