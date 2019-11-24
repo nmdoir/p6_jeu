@@ -1,5 +1,6 @@
 import {Weapon} from "../js/weapon";
 import {Player} from "../js/player";
+import {Move} from "../js/move";
 
 //import {Cell} from "./cell";
 
@@ -95,21 +96,9 @@ class GenGrid {
             this.playerTab[i].position = cellPlayer;
             cellPlayer.setAttribute('data-player', this.playerTab[i].id);
         }
+        let move = new Move;
+        move.availableMove();
     }
 }
 
 export { GenGrid };
-
-
-
-
-/* class Grid {
-    constructor(cellId, access, player, weapon, gridLength) {
-        this.cellId = attributeFirst ? attributeFirst : null;
-        this.access = attributeSecond ? attributeSecond : null;
-        this.player = attributeThird ? attributeThird : null;
-        this.gridLength = gridLength
-    }
-
- */
-

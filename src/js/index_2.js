@@ -171,11 +171,10 @@ function createPlayer() {
 }
 }*/
 
-function availableMove() {
+function availableMoveTest() {
     for (let i = 0; i < playerTab.length; i++) {
-        let currentCellId = document.hasAttribute('data-player').id; //ou = playerTab[i].position
+        let currentCellId = document.hasAttribute('data-player').id;
         let currentCell = currentCellId[3] + currentCellId[4];
-        console.log(currentCellId);
         let access = [-30, -20, -10, -3, -2, -1, 1, 2, 3, 10, 20, 30];
         let availableCells = [];
         for (let number of access) {
@@ -190,12 +189,27 @@ function availableMove() {
     }
 }
 
+function availableMove2() {
+    let currentCellX = document.hasAttribute('data-player').x;
+    let currentCellY = document.hasAttribute('data-player').y;
+    let availableY = 0;
+    let availableX = 0;
+    let nextCell = document.dataset.availableX && document.dataset.availableY;
+    for (availableY; availableY < 10 ; availableY++) {
+        for (availableX; availableX < 10; availableX++) {
+            if ((Number(currentCellY.dataset.y) === availableY && Number(currentCellX.dataset.x) === (availableX-3 || availableX-2 || availableX-1 || availableX+1 || availableX+2 || availableX+3)) || (Number(currentCellX.dataset.x) === availableX && Number(currentCellY.dataset.y) === (availableY-3 || availableY-2 || availableY-1 || availableY+1 || availableY+2 || availableY+3))) {
+                nextCell.setAttribute('data-playeraccess', 1);
+            }
+        }
+    }
+}
+
 function scanTab {
     let scanCell = document.getElementsByClassName("tdstyle");
     for (let i = 0; i < 10 ; i++) {
         for (let j = 0; j < 10; j++) {
-            if (scanCell.dataset.x === j && scanCell.dataset.y === i) {
-                //Action
+            if (Number(scanCell.dataset.y) === i && Number(scanCell.dataset.x) === j) {
+                //action
             }
         }
     }

@@ -127,11 +127,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GenGrid", function() { return GenGrid; });
 /* harmony import */ var _js_weapon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var _js_player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+/* harmony import */ var _js_move__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
  //import {Cell} from "./cell";
@@ -244,6 +246,9 @@ function () {
         this.playerTab[i].position = cellPlayer;
         cellPlayer.setAttribute('data-player', this.playerTab[i].id);
       }
+
+      var move = new _js_move__WEBPACK_IMPORTED_MODULE_2__["Move"]();
+      move.availableMove();
     }
   }]);
 
@@ -251,15 +256,6 @@ function () {
 }();
 
 
-/* class Grid {
-    constructor(cellId, access, player, weapon, gridLength) {
-        this.cellId = attributeFirst ? attributeFirst : null;
-        this.access = attributeSecond ? attributeSecond : null;
-        this.player = attributeThird ? attributeThird : null;
-        this.gridLength = gridLength
-    }
-
- */
 
 /***/ }),
 /* 2 */
@@ -421,6 +417,81 @@ function () {
 
   return Player;
 }();
+
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Move", function() { return Move; });
+/* harmony import */ var _js_player__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Move =
+/*#__PURE__*/
+function () {
+  function Move() {
+    _classCallCheck(this, Move);
+  }
+
+  _createClass(Move, [{
+    key: "availableMove",
+    value: function availableMove() {
+      var player = new _js_player__WEBPACK_IMPORTED_MODULE_0__["Player"]();
+      this.playerTab = player.getPlayerTab();
+      var td = null;
+
+      for (var i = 0; i < 2; i++) {
+        var currentCell = document.getElementById(this.playerTab[i].position);
+
+        for (var browseCells = 0; browseCells < 100; browseCells++) {
+          if (browseCells < 10) {
+            td = 'td-0';
+          } else {
+            td = 'td-';
+          }
+
+          var nextCell = document.getElementById(td + browseCells);
+
+          if (currentCell.dataset.y === nextCell.dataset.y && currentCell.dataset.x === (nextCell.dataset.x - 3 || nextCell.dataset.x - 2 || nextCell.dataset.x - 1 || nextCell.dataset.x + 1 || nextCell.dataset.x + 2 || nextCell.dataset.x + 3) || currentCell.dataset.x === nextCell.dataset.x && currentCell.dataset.y === (nextCell.dataset.y - 3 || nextCell.dataset.y - 2 || nextCell.dataset.y - 1 || nextCell.dataset.y + 1 || nextCell.dataset.y + 2 || nextCell.dataset.y + 3)) {
+            nextCell.setAttribute('data-playeraccess', 1);
+          }
+        }
+      }
+    }
+  }]);
+
+  return Move;
+}();
+/*let currentCell1 = document.querySelector("td[data-player=player1]");
+let cell = document.getElementsByClassName("tdstyle");
+let nextCell = currentCell1.dataset.x;
+for (let availableY = 0; availableY < 10 ; availableY++) {
+    for (let availableX = 0; availableX < 10; availableX++) {
+        let nextCell = (Number(cell.dataset.x) === availableX) && (Number(cell.dataset.y) === availableY);
+        if ((Number(currentCell.dataset.y) === availableY && Number(currentCell.dataset.x) === (availableX-3 || availableX-2 || availableX-1 || availableX+1 || availableX+2 || availableX+3)) || (Number(currentCell.dataset.x) === availableX && Number(currentCell.dataset.y) === (availableY-3 || availableY-2 || availableY-1 || availableY+1 || availableY+2 || availableY+3))) {
+        nextCell.setAttribute('data-playeraccess', 1);
+        }
+    }
+}
+  for (let availableY = 0; availableY < 10 ; availableY++) {
+            for (let availableX = 0; availableX < 10; availableX++) {
+                let nextCell = (Number(cell.dataset.x) === availableX) && (Number(cell.dataset.y) === availableY);
+                if ((Number(currentCell.dataset.y) === availableY && Number(currentCell.dataset.x) === (availableX-3 || availableX-2 || availableX-1 || availableX+1 || availableX+2 || availableX+3)) || (Number(currentCell.dataset.x) === availableX && Number(currentCell.dataset.y) === (availableY-3 || availableY-2 || availableY-1 || availableY+1 || availableY+2 || availableY+3))) {
+                    nextCell.setAttribute('data-playeraccess', 1);
+                }
+            }
+    }*/
+
 
 
 
