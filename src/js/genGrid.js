@@ -93,8 +93,9 @@ class GenGrid {
         this.playerTab = player.getPlayerTab();
         for (let i = 0; i < 2; i++) {
             let cellPlayer = this.getRandomCell();
-            this.playerTab[i].position = cellPlayer;
-            cellPlayer.setAttribute('data-player', this.playerTab[i].id);
+            //if ((!document.getElementById(cellPlayer).y === document.querySelector("td.[data-player=player1]").y) && (!document.getElementById(cellPlayer).x === document.querySelector("td.[data-player=player1]").x)) {
+                this.playerTab[i].position = cellPlayer;
+                cellPlayer.setAttribute('data-player', this.playerTab[i].id);
         }
         let move = new Move;
         move.availableMove();

@@ -242,7 +242,8 @@ function () {
       this.playerTab = player.getPlayerTab();
 
       for (var i = 0; i < 2; i++) {
-        var cellPlayer = this.getRandomCell();
+        var cellPlayer = this.getRandomCell(); //if ((!document.getElementById(cellPlayer).y === document.querySelector("td.[data-player=player1]").y) && (!document.getElementById(cellPlayer).x === document.querySelector("td.[data-player=player1]").x)) {
+
         this.playerTab[i].position = cellPlayer;
         cellPlayer.setAttribute('data-player', this.playerTab[i].id);
       }
