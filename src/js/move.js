@@ -21,6 +21,10 @@ class Move {
             }
         }
     }
+
+    movement() {
+
+    }
 }
 
         /*let currentCell1 = document.querySelector("td[data-player=player1]");

@@ -169,6 +169,7 @@ function () {
           td.setAttribute("data-x", j);
           td.setAttribute("data-y", i);
           td.id = "td-" + i + j;
+          td.addEventListener('click', _js_move__WEBPACK_IMPORTED_MODULE_2__["Move"].movement());
           tr.appendChild(td);
         }
       }
@@ -469,6 +470,9 @@ function () {
         }
       }
     }
+  }, {
+    key: "movement",
+    value: function movement() {}
   }]);
 
   return Move;

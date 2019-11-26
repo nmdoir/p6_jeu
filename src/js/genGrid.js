@@ -29,6 +29,7 @@ class GenGrid {
                 td.setAttribute("data-x", j);
                 td.setAttribute("data-y", i);
                 td.id = "td-" + i + j;
+                td.addEventListener('click', Move.movement());
                 tr.appendChild(td)
             }
         }
@@ -37,6 +38,7 @@ class GenGrid {
         this.createNoAccess();
         this.createWeapon();
         this.createPlayer();
+
     }
 
     getRandomCell() {
