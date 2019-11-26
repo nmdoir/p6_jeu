@@ -3,6 +3,8 @@
 //import {Weapon} from "./weapon";
 //import {Cell} from "./cell";
 
+import {Player} from "./player";
+
 var name_j1 = prompt("Entrez le nom du joueur 1 : ");
 var name_j2 = prompt("Entrez le nom du joueur 2 : ");
 
@@ -198,6 +200,26 @@ function availableMove2() {
     for (availableY; availableY < 10 ; availableY++) {
         for (availableX; availableX < 10; availableX++) {
             if ((Number(currentCellY.dataset.y) === availableY && Number(currentCellX.dataset.x) === (availableX-3 || availableX-2 || availableX-1 || availableX+1 || availableX+2 || availableX+3)) || (Number(currentCellX.dataset.x) === availableX && Number(currentCellY.dataset.y) === (availableY-3 || availableY-2 || availableY-1 || availableY+1 || availableY+2 || availableY+3))) {
+                nextCell.setAttribute('data-playeraccess', 1);
+            }
+        }
+    }
+}
+
+availableMoveLast() {
+    let player = new Player;
+    this.playerTab = player.getPlayerTab();
+    let td = null;
+    for (let i = 0; i < 2; i++) {
+        let currentCell = document.getElementById(this.playerTab[i].position);
+        for (let browseCells = 0; browseCells < 100; browseCells++) {
+            if (browseCells < 10) {
+                td = 'td-0'
+            } else {
+                td = 'td-'
+            }
+            let nextCell = document.getElementById(td + browseCells);
+            if ((currentCell.dataset.y === nextCell.dataset.y && currentCell.dataset.x === (nextCell.dataset.x - 3 || nextCell.dataset.x - 2 || nextCell.dataset.x - 1 || nextCell.dataset.x + 1 || nextCell.dataset.x + 2 || nextCell.dataset.x + 3)) || (currentCell.dataset.x === nextCell.dataset.x && currentCell.dataset.y === (nextCell.dataset.y - 3 || nextCell.dataset.y - 2 || nextCell.dataset.y - 1 || nextCell.dataset.y + 1 || nextCell.dataset.y + 2 || nextCell.dataset.y + 3))) {
                 nextCell.setAttribute('data-playeraccess', 1);
             }
         }

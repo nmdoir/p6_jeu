@@ -15,6 +15,7 @@ class GenGrid {
     createGrid() {
         let table = document.createElement('table');
         let tbody = document.createElement('tbody');
+        let move = new Move();
         table.setAttribute("class", "center");
         table.appendChild(tbody);
 
@@ -29,7 +30,10 @@ class GenGrid {
                 td.setAttribute("data-x", j);
                 td.setAttribute("data-y", i);
                 td.id = "td-" + i + j;
-                td.addEventListener('click', Move.movement());
+                td.addEventListener('click', () => {
+                    this.playerTab = move.move(td.id, this.playerTab)
+                }
+                );
                 tr.appendChild(td)
             }
         }
@@ -101,6 +105,7 @@ class GenGrid {
         }
         let move = new Move;
         move.availableMove();
+        move.playerMove();
     }
 }
 

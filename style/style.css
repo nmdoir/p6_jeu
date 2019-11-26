@@ -10110,3 +10110,7 @@ table.center {
     background-image:url(img/j2.png);
     background-size: 100% 100%;
 }
+
+[data-playeraccess="1"] {
+    background-color:darkgrey;
+}

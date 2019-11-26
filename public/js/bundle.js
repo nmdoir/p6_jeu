@@ -153,8 +153,11 @@ function () {
   _createClass(GenGrid, [{
     key: "createGrid",
     value: function createGrid() {
+      var _this = this;
+
       var table = document.createElement('table');
       var tbody = document.createElement('tbody');
+      var move = new _js_move__WEBPACK_IMPORTED_MODULE_2__["Move"]();
       table.setAttribute("class", "center");
       table.appendChild(tbody);
 
@@ -163,14 +166,20 @@ function () {
         tr.setAttribute("class", "tdstyle");
         tbody.appendChild(tr);
 
-        for (var j = 0; j < this.column; j++) {
+        var _loop = function _loop(j) {
           var td = document.createElement('td');
           td.setAttribute("class", "tdstyle");
           td.setAttribute("data-x", j);
           td.setAttribute("data-y", i);
           td.id = "td-" + i + j;
-          td.addEventListener('click', _js_move__WEBPACK_IMPORTED_MODULE_2__["Move"].movement());
+          td.addEventListener('click', function () {
+            _this.playerTab = move.move(td.id, _this.playerTab);
+          });
           tr.appendChild(td);
+        };
+
+        for (var j = 0; j < this.column; j++) {
+          _loop(j);
         }
       }
 
@@ -251,6 +260,7 @@ function () {
 
       var move = new _js_move__WEBPACK_IMPORTED_MODULE_2__["Move"]();
       move.availableMove();
+      move.playerMove();
     }
   }]);
 
@@ -448,12 +458,12 @@ function () {
   _createClass(Move, [{
     key: "availableMove",
     value: function availableMove() {
+      var td = null;
       var player = new _js_player__WEBPACK_IMPORTED_MODULE_0__["Player"]();
       this.playerTab = player.getPlayerTab();
-      var td = null;
 
       for (var i = 0; i < 2; i++) {
-        var currentCell = document.getElementById(this.playerTab[i].position);
+        var playerCell = document.getElementById(this.playerTab[i].position);
 
         for (var browseCells = 0; browseCells < 100; browseCells++) {
           if (browseCells < 10) {
@@ -462,41 +472,45 @@ function () {
             td = 'td-';
           }
 
-          var nextCell = document.getElementById(td + browseCells);
+          var availableCell = document.getElementById(td + browseCells);
 
-          if (currentCell.dataset.y === nextCell.dataset.y && currentCell.dataset.x === (nextCell.dataset.x - 3 || nextCell.dataset.x - 2 || nextCell.dataset.x - 1 || nextCell.dataset.x + 1 || nextCell.dataset.x + 2 || nextCell.dataset.x + 3) || currentCell.dataset.x === nextCell.dataset.x && currentCell.dataset.y === (nextCell.dataset.y - 3 || nextCell.dataset.y - 2 || nextCell.dataset.y - 1 || nextCell.dataset.y + 1 || nextCell.dataset.y + 2 || nextCell.dataset.y + 3)) {
-            nextCell.setAttribute('data-playeraccess', 1);
+          if (playerCell.dataset.y === availableCell.dataset.y && playerCell.dataset.x === (availableCell.dataset.x - 3 || availableCell.dataset.x - 2 || availableCell.dataset.x - 1 || availableCell.dataset.x + 1 || availableCell.dataset.x + 2 || availableCell.dataset.x + 3) || playerCell.dataset.x === availableCell.dataset.x && playerCell.dataset.y === (availableCell.dataset.y - 3 || availableCell.dataset.y - 2 || availableCell.dataset.y - 1 || availableCell.dataset.y + 1 || availableCell.dataset.y + 2 || availableCell.dataset.y + 3)) {
+            availableCell.setAttribute('data-playeraccess', 1);
           }
         }
       }
     }
   }, {
-    key: "movement",
-    value: function movement() {}
+    key: "move",
+    value: function move(cellId, playerTab) {
+      var player = null;
+
+      for (var i = 0; i < 2; i++) {
+        if (playerTab[i].move === true) {
+          player = playerTab[i];
+        }
+      }
+
+      var currentCell = document.getElementById(player.position);
+      var nextCell = document.getElementById(cellId);
+      this.playerMove(nextCell, currentCell, player);
+      return playerTab;
+    }
+  }, {
+    key: "playerMove",
+    value: function playerMove(nextCell, currentCell, player) {
+      //const limit = 3;
+      if (currentCell.dataset.y === nextCell.dataset.y && currentCell.dataset.x === (nextCell.dataset.x - 3 || nextCell.dataset.x - 2 || nextCell.dataset.x - 1 || nextCell.dataset.x + 1 || nextCell.dataset.x + 2 || nextCell.dataset.x + 3) || currentCell.dataset.x === nextCell.dataset.x && currentCell.dataset.y === (nextCell.dataset.y - 3 || nextCell.dataset.y - 2 || nextCell.dataset.y - 1 || nextCell.dataset.y + 1 || nextCell.dataset.y + 2 || nextCell.dataset.y + 3) && nextCell.id !== currentCell.id && !nextCell.hasAttribute('data-player') && !nextCell.hasAttribute('data-access')) {
+        nextCell.setAttribute('data-player', player.id);
+        currentCell.removeAttribute('data-player');
+        player.position = nextCell.id;
+        player.countMove++;
+      }
+    }
   }]);
 
   return Move;
 }();
-/*let currentCell1 = document.querySelector("td[data-player=player1]");
-let cell = document.getElementsByClassName("tdstyle");
-let nextCell = currentCell1.dataset.x;
-for (let availableY = 0; availableY < 10 ; availableY++) {
-    for (let availableX = 0; availableX < 10; availableX++) {
-        let nextCell = (Number(cell.dataset.x) === availableX) && (Number(cell.dataset.y) === availableY);
-        if ((Number(currentCell.dataset.y) === availableY && Number(currentCell.dataset.x) === (availableX-3 || availableX-2 || availableX-1 || availableX+1 || availableX+2 || availableX+3)) || (Number(currentCell.dataset.x) === availableX && Number(currentCell.dataset.y) === (availableY-3 || availableY-2 || availableY-1 || availableY+1 || availableY+2 || availableY+3))) {
-        nextCell.setAttribute('data-playeraccess', 1);
-        }
-    }
-}
-  for (let availableY = 0; availableY < 10 ; availableY++) {
-            for (let availableX = 0; availableX < 10; availableX++) {
-                let nextCell = (Number(cell.dataset.x) === availableX) && (Number(cell.dataset.y) === availableY);
-                if ((Number(currentCell.dataset.y) === availableY && Number(currentCell.dataset.x) === (availableX-3 || availableX-2 || availableX-1 || availableX+1 || availableX+2 || availableX+3)) || (Number(currentCell.dataset.x) === availableX && Number(currentCell.dataset.y) === (availableY-3 || availableY-2 || availableY-1 || availableY+1 || availableY+2 || availableY+3))) {
-                    nextCell.setAttribute('data-playeraccess', 1);
-                }
-            }
-    }*/
-
 
 
 
