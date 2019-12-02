@@ -2,27 +2,45 @@ import { Player } from "../js/player";
 
 class Move {
 
-    availableMove() {
+    //TODO: change weapon images to png (to have grey background when accessible)
+    //TODO: no access after obstacles
+    availableMove(playerTab) {
         let td = null;
-        let player = new Player();
-        this.playerTab = player.getPlayerTab();
-        for (let i = 0; i < 2; i++) {
-            let playerCell = document.getElementById(this.playerTab[i].position);
+        let availableCell = null;
+        for (let i = 0; i < playerTab.length; i++) {
+            let playerCell = document.getElementById(playerTab[i].position);
             for (let browseCells = 0; browseCells < 100; browseCells++) {
                 if (browseCells < 10) {
                     td = 'td-0'
                 } else {
                     td = 'td-'
                 }
-                let availableCell = document.getElementById(td + browseCells);
-                if ((playerCell.dataset.y === availableCell.dataset.y && playerCell.dataset.x === (availableCell.dataset.x - 3 || availableCell.dataset.x - 2 || availableCell.dataset.x - 1 || availableCell.dataset.x + 1 || availableCell.dataset.x + 2 || availableCell.dataset.x + 3)) || (playerCell.dataset.x === availableCell.dataset.x && playerCell.dataset.y === (availableCell.dataset.y - 3 || availableCell.dataset.y - 2 || availableCell.dataset.y - 1 || availableCell.dataset.y + 1 || availableCell.dataset.y + 2 || availableCell.dataset.y + 3))) {
-                    availableCell.setAttribute('data-playeraccess', 1);
+                availableCell = document.getElementById(td + browseCells);
+                if (
+                    (
+                        (playerCell.dataset.y === availableCell.dataset.y) &&
+                        (availableCell.dataset.x >= (Number(playerCell.dataset.x) - 3)) &&
+                        (availableCell.dataset.x <= (Number(playerCell.dataset.x) + 3)) &&
+                        (availableCell.dataset.x !== playerCell.dataset.x) &&
+                        (Number(availableCell.dataset.access) !== 0)
+                    )
+                    ||
+                    (
+                        (playerCell.dataset.x === availableCell.dataset.x) &&
+                        (availableCell.dataset.y >= (Number(playerCell.dataset.y) - 3)) &&
+                        (availableCell.dataset.y <= (Number(playerCell.dataset.y) + 3)) &&
+                        (availableCell.dataset.y !== playerCell.dataset.y) &&
+                        (Number(availableCell.dataset.access) !== 0)
+                    )
+                ) {
+                        availableCell.setAttribute('data-playeraccess', 1);
                 }
             }
         }
     }
-
-    move(cellId, playerTab) {
+//&& (availableCell.dataset.x >= (playerCell.dataset.x - 3))
+    // availableCell.dataset.x + 3)) || (playerCell.dataset.x === availableCell.dataset.x && playerCell.dataset.y === (availableCell.dataset.y - 3 || availableCell.dataset.y - 2 || availableCell.dataset.y - 1 || availableCell.dataset.y + 1 || availableCell.dataset.y + 2 || availableCell.dataset.y + 3))
+    /*move(cellId, playerTab) {
         let player = null;
 
         for (let i = 0; i < 2; i++) {
@@ -52,7 +70,7 @@ class Move {
             player.position = nextCell.id;
             player.countMove++;
         }
-    }
+    }*/
 }
 
 

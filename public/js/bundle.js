@@ -186,7 +186,7 @@ function () {
       this.board.appendChild(table);
       this.createNoAccess();
       this.createWeapon();
-      this.createPlayer();
+      this.createMovement();
     }
   }, {
     key: "getRandomCell",
@@ -244,23 +244,29 @@ function () {
         cellWeapon = this.getRandomCell();
         cellWeapon.setAttribute('data-weapon', randomWeapon);
       }
-    }
+    } //TODO: avoid 2 players on the same X or Y
+    //TODO: avoid no access cells around player
+
   }, {
     key: "createPlayer",
     value: function createPlayer() {
       var player = new _js_player__WEBPACK_IMPORTED_MODULE_1__["Player"]();
-      this.playerTab = player.getPlayerTab();
+      var playerTab = player.getPlayerTab();
 
       for (var i = 0; i < 2; i++) {
         var cellPlayer = this.getRandomCell(); //if ((!document.getElementById(cellPlayer).y === document.querySelector("td.[data-player=player1]").y) && (!document.getElementById(cellPlayer).x === document.querySelector("td.[data-player=player1]").x)) {
 
-        this.playerTab[i].position = cellPlayer;
-        cellPlayer.setAttribute('data-player', this.playerTab[i].id);
+        playerTab[i].position = cellPlayer.id;
+        cellPlayer.setAttribute('data-player', playerTab[i].id);
       }
 
+      return playerTab;
+    }
+  }, {
+    key: "createMovement",
+    value: function createMovement() {
       var move = new _js_move__WEBPACK_IMPORTED_MODULE_2__["Move"]();
-      move.availableMove();
-      move.playerMove();
+      move.availableMove(this.createPlayer()); //move.playerMove();
     }
   }]);
 
@@ -457,13 +463,14 @@ function () {
 
   _createClass(Move, [{
     key: "availableMove",
-    value: function availableMove() {
+    //TODO: change weapon images to png (to have grey background when accessible)
+    //TODO: no access after obstacles
+    value: function availableMove(playerTab) {
       var td = null;
-      var player = new _js_player__WEBPACK_IMPORTED_MODULE_0__["Player"]();
-      this.playerTab = player.getPlayerTab();
+      var availableCell = null;
 
-      for (var i = 0; i < 2; i++) {
-        var playerCell = document.getElementById(this.playerTab[i].position);
+      for (var i = 0; i < playerTab.length; i++) {
+        var playerCell = document.getElementById(playerTab[i].position);
 
         for (var browseCells = 0; browseCells < 100; browseCells++) {
           if (browseCells < 10) {
@@ -472,41 +479,42 @@ function () {
             td = 'td-';
           }
 
-          var availableCell = document.getElementById(td + browseCells);
+          availableCell = document.getElementById(td + browseCells);
 
-          if (playerCell.dataset.y === availableCell.dataset.y && playerCell.dataset.x === (availableCell.dataset.x - 3 || availableCell.dataset.x - 2 || availableCell.dataset.x - 1 || availableCell.dataset.x + 1 || availableCell.dataset.x + 2 || availableCell.dataset.x + 3) || playerCell.dataset.x === availableCell.dataset.x && playerCell.dataset.y === (availableCell.dataset.y - 3 || availableCell.dataset.y - 2 || availableCell.dataset.y - 1 || availableCell.dataset.y + 1 || availableCell.dataset.y + 2 || availableCell.dataset.y + 3)) {
+          if (playerCell.dataset.y === availableCell.dataset.y && availableCell.dataset.x >= Number(playerCell.dataset.x) - 3 && availableCell.dataset.x <= Number(playerCell.dataset.x) + 3 && availableCell.dataset.x !== playerCell.dataset.x && Number(availableCell.dataset.access) !== 0 || playerCell.dataset.x === availableCell.dataset.x && availableCell.dataset.y >= Number(playerCell.dataset.y) - 3 && availableCell.dataset.y <= Number(playerCell.dataset.y) + 3 && availableCell.dataset.y !== playerCell.dataset.y && Number(availableCell.dataset.access) !== 0) {
             availableCell.setAttribute('data-playeraccess', 1);
           }
         }
       }
-    }
-  }, {
-    key: "move",
-    value: function move(cellId, playerTab) {
-      var player = null;
+    } //&& (availableCell.dataset.x >= (playerCell.dataset.x - 3))
+    // availableCell.dataset.x + 3)) || (playerCell.dataset.x === availableCell.dataset.x && playerCell.dataset.y === (availableCell.dataset.y - 3 || availableCell.dataset.y - 2 || availableCell.dataset.y - 1 || availableCell.dataset.y + 1 || availableCell.dataset.y + 2 || availableCell.dataset.y + 3))
 
-      for (var i = 0; i < 2; i++) {
-        if (playerTab[i].move === true) {
-          player = playerTab[i];
+    /*move(cellId, playerTab) {
+        let player = null;
+          for (let i = 0; i < 2; i++) {
+            if (playerTab[i].move === true) {
+                player = playerTab[i];
+            }
         }
-      }
+          let currentCell = document.getElementById(player.position);
+        let nextCell = document.getElementById(cellId);
+        this.playerMove(nextCell, currentCell, player);
+        return playerTab;
+    }
+        playerMove(nextCell, currentCell, player) {
+        //const limit = 3;
+        if ((currentCell.dataset.y === nextCell.dataset.y
+            && currentCell.dataset.x === (nextCell.dataset.x - 3 || nextCell.dataset.x - 2 || nextCell.dataset.x - 1 || nextCell.dataset.x + 1 || nextCell.dataset.x + 2 || nextCell.dataset.x + 3)) || (currentCell.dataset.x === nextCell.dataset.x && currentCell.dataset.y === (nextCell.dataset.y - 3 || nextCell.dataset.y - 2 || nextCell.dataset.y - 1 || nextCell.dataset.y + 1 || nextCell.dataset.y + 2 || nextCell.dataset.y + 3))
+            && nextCell.id !== currentCell.id
+            && !nextCell.hasAttribute('data-player')
+            && !nextCell.hasAttribute('data-access')) {
+              nextCell.setAttribute('data-player', player.id)
+            currentCell.removeAttribute('data-player');
+              player.position = nextCell.id;
+            player.countMove++;
+        }
+    }*/
 
-      var currentCell = document.getElementById(player.position);
-      var nextCell = document.getElementById(cellId);
-      this.playerMove(nextCell, currentCell, player);
-      return playerTab;
-    }
-  }, {
-    key: "playerMove",
-    value: function playerMove(nextCell, currentCell, player) {
-      //const limit = 3;
-      if (currentCell.dataset.y === nextCell.dataset.y && currentCell.dataset.x === (nextCell.dataset.x - 3 || nextCell.dataset.x - 2 || nextCell.dataset.x - 1 || nextCell.dataset.x + 1 || nextCell.dataset.x + 2 || nextCell.dataset.x + 3) || currentCell.dataset.x === nextCell.dataset.x && currentCell.dataset.y === (nextCell.dataset.y - 3 || nextCell.dataset.y - 2 || nextCell.dataset.y - 1 || nextCell.dataset.y + 1 || nextCell.dataset.y + 2 || nextCell.dataset.y + 3) && nextCell.id !== currentCell.id && !nextCell.hasAttribute('data-player') && !nextCell.hasAttribute('data-access')) {
-        nextCell.setAttribute('data-player', player.id);
-        currentCell.removeAttribute('data-player');
-        player.position = nextCell.id;
-        player.countMove++;
-      }
-    }
   }]);
 
   return Move;
