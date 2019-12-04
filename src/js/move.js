@@ -40,16 +40,15 @@ class Move {
         }
     }
     move(cellId, playerTab) {
+        console.log(playerTab);
         let player = null;
         for (let i = 0; i < 2; i++) {
             //if (playerTab[i].move === true) {}
-                player = playerTab[i];
+            player = playerTab[i];
+            let currentCell = document.getElementById(player[i].position);
+            let nextCell = document.getElementById(cellId);
+            this.playerMove(nextCell, currentCell, player);
         }
-
-        let currentCell = document.getElementById(player.position);
-        console.log(currentCell);
-        let nextCell = document.getElementById(cellId);
-        this.playerMove(nextCell, currentCell, player);
     }
 
 

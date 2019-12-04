@@ -41,9 +41,9 @@ class GenGrid {
         }
 
         this.board.appendChild(table);
+        this.createMovement();
         this.createNoAccess();
         this.createWeapon();
-        this.createMovement();
     }
 
     getRandomCell() {
@@ -74,11 +74,21 @@ class GenGrid {
     }
 
     createNoAccess() {
-        let cellAccess = null;
+        let idNoAccess = null;
+        let cellPlayer = [];
+        let cell = document.getElementsByTagName("td");
+        for (let j = 0; j < cell.length; j++) {
+            if (cell[j].hasAttribute("data-player")) {
+                cellPlayer.push(cell[j]);
+            }
+        }
         for (let i = 0; i < 25; i++) {
-            cellAccess = this.getRandomCell();
-            cellAccess.style.backgroundColor = 'black';
-            cellAccess.setAttribute('data-access', 0);
+            idNoAccess = this.getRandomCell();
+            while (idNoAccess.dataset.x === cellPlayer[0].dataset.x || idNoAccess.dataset.x === cellPlayer[1].dataset.x || idNoAccess.dataset.y === cellPlayer[0].dataset.y || idNoAccess.dataset.y === cellPlayer[1].dataset.y) {
+                idNoAccess = this.getRandomCell();
+            }
+            idNoAccess.style.backgroundColor = 'black';
+            idNoAccess.setAttribute('data-access', 0);
         }
     }
 
@@ -96,7 +106,6 @@ class GenGrid {
     }
 
     //TODO: avoid 2 players on the same X or Y
-    //TODO: avoid no access cells around player
     createPlayer() {
         let player = new Player;
         let playerTab = player.getPlayerTab();

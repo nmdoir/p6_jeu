@@ -186,9 +186,9 @@ function () {
       }
 
       this.board.appendChild(table);
+      this.createMovement();
       this.createNoAccess();
       this.createWeapon();
-      this.createMovement();
     }
   }, {
     key: "getRandomCell",
@@ -226,12 +226,25 @@ function () {
   }, {
     key: "createNoAccess",
     value: function createNoAccess() {
-      var cellAccess = null;
+      var idNoAccess = null;
+      var cellPlayer = [];
+      var cell = document.getElementsByTagName("td");
+
+      for (var j = 0; j < cell.length; j++) {
+        if (cell[j].hasAttribute("data-player")) {
+          cellPlayer.push(cell[j]);
+        }
+      }
 
       for (var i = 0; i < 25; i++) {
-        cellAccess = this.getRandomCell();
-        cellAccess.style.backgroundColor = 'black';
-        cellAccess.setAttribute('data-access', 0);
+        idNoAccess = this.getRandomCell();
+
+        while (idNoAccess.dataset.x === cellPlayer[0].dataset.x || idNoAccess.dataset.x === cellPlayer[1].dataset.x || idNoAccess.dataset.y === cellPlayer[0].dataset.y || idNoAccess.dataset.y === cellPlayer[1].dataset.y) {
+          idNoAccess = this.getRandomCell();
+        }
+
+        idNoAccess.style.backgroundColor = 'black';
+        idNoAccess.setAttribute('data-access', 0);
       }
     }
   }, {
@@ -247,7 +260,6 @@ function () {
         cellWeapon.setAttribute('data-weapon', randomWeapon);
       }
     } //TODO: avoid 2 players on the same X or Y
-    //TODO: avoid no access cells around player
 
   }, {
     key: "createPlayer",
@@ -492,17 +504,16 @@ function () {
   }, {
     key: "move",
     value: function move(cellId, playerTab) {
+      console.log(playerTab);
       var player = null;
 
       for (var i = 0; i < 2; i++) {
         //if (playerTab[i].move === true) {}
         player = playerTab[i];
+        var currentCell = document.getElementById(player[i].position);
+        var nextCell = document.getElementById(cellId);
+        this.playerMove(nextCell, currentCell, player);
       }
-
-      var currentCell = document.getElementById(player.position);
-      console.log(currentCell);
-      var nextCell = document.getElementById(cellId);
-      this.playerMove(nextCell, currentCell, player);
     }
   }, {
     key: "playerMove",
