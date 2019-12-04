@@ -41,13 +41,11 @@ class Move {
     }
     move(cellId, playerTab) {
         console.log(playerTab);
-        let player = null;
         for (let i = 0; i < 2; i++) {
             //if (playerTab[i].move === true) {}
-            player = playerTab[i];
-            let currentCell = document.getElementById(player[i].position);
+            let currentCell = document.getElementById(playerTab[i].position);
             let nextCell = document.getElementById(cellId);
-            this.playerMove(nextCell, currentCell, player);
+            this.playerMove(nextCell, currentCell, playerTab);
         }
     }
 

@@ -15,7 +15,7 @@ class GenGrid {
     createGrid() {
         let table = document.createElement('table');
         let tbody = document.createElement('tbody');
-        let move = new Move();
+        //let move = new Move();
         let player = new Player;
         this.playerTab = player.getPlayerTab()
         table.setAttribute("class", "center");
@@ -32,10 +32,6 @@ class GenGrid {
                 td.setAttribute("data-x", j);
                 td.setAttribute("data-y", i);
                 td.id = "td-" + i + j;
-                td.addEventListener('click', () => {
-                        this.playerTab = move.move(td.id, this.playerTab)
-                    }
-                );
                 tr.appendChild(td)
             }
         }
@@ -77,6 +73,7 @@ class GenGrid {
         let idNoAccess = null;
         let cellPlayer = [];
         let cell = document.getElementsByTagName("td");
+        //Look for the players' positions and add them in a tab
         for (let j = 0; j < cell.length; j++) {
             if (cell[j].hasAttribute("data-player")) {
                 cellPlayer.push(cell[j]);
@@ -84,6 +81,7 @@ class GenGrid {
         }
         for (let i = 0; i < 25; i++) {
             idNoAccess = this.getRandomCell();
+            //Avoid no access cells around player so that he's not blocked in a corner
             while (idNoAccess.dataset.x === cellPlayer[0].dataset.x || idNoAccess.dataset.x === cellPlayer[1].dataset.x || idNoAccess.dataset.y === cellPlayer[0].dataset.y || idNoAccess.dataset.y === cellPlayer[1].dataset.y) {
                 idNoAccess = this.getRandomCell();
             }
@@ -109,9 +107,13 @@ class GenGrid {
     createPlayer() {
         let player = new Player;
         let playerTab = player.getPlayerTab();
+        let playerCellTab = [];
         for (let i = 0; i < 2; i++) {
             let cellPlayer = this.getRandomCell();
-            //if ((!document.getElementById(cellPlayer).y === document.querySelector("td.[data-player=player1]").y) && (!document.getElementById(cellPlayer).x === document.querySelector("td.[data-player=player1]").x)) {
+            playerCellTab.push(cellPlayer);
+            /*while (document.getElementById(playerCellTab[0]).x === document.getElementById(playerCellTab[1]).x || document.getElementById(playerCellTab[0]).y === document.getElementById(playerCellTab[1]).y) {
+                cellPlayer = this.getRandomCell();
+            }*/
                 playerTab[i].position = cellPlayer.id;
                 cellPlayer.setAttribute('data-player', playerTab[i].id);
         }
@@ -120,7 +122,17 @@ class GenGrid {
 
     createMovement() {
         let move = new Move;
-        move.availableMove(this.createPlayer());
+        let newPlayer = this.createPlayer();
+        move.availableMove(newPlayer);
+        let td = document.getElementsByTagName('td');
+        for (let i = 0; i < td.length; i++) {
+            if (td[i].dataset.playeraccess === 1) {
+                td.addEventListener('click', () => {
+                    this.playerTab = move.move(td.id, newPlayer);
+                    }
+                )
+            }
+        }
     }
 }
 

@@ -153,11 +153,9 @@ function () {
   _createClass(GenGrid, [{
     key: "createGrid",
     value: function createGrid() {
-      var _this = this;
-
       var table = document.createElement('table');
-      var tbody = document.createElement('tbody');
-      var move = new _js_move__WEBPACK_IMPORTED_MODULE_2__["Move"]();
+      var tbody = document.createElement('tbody'); //let move = new Move();
+
       var player = new _js_player__WEBPACK_IMPORTED_MODULE_1__["Player"]();
       this.playerTab = player.getPlayerTab();
       table.setAttribute("class", "center");
@@ -168,20 +166,13 @@ function () {
         tr.setAttribute("class", "tdstyle");
         tbody.appendChild(tr);
 
-        var _loop = function _loop(j) {
+        for (var j = 0; j < this.column; j++) {
           var td = document.createElement('td');
           td.setAttribute("class", "tdstyle");
           td.setAttribute("data-x", j);
           td.setAttribute("data-y", i);
           td.id = "td-" + i + j;
-          td.addEventListener('click', function () {
-            _this.playerTab = move.move(td.id, _this.playerTab);
-          });
           tr.appendChild(td);
-        };
-
-        for (var j = 0; j < this.column; j++) {
-          _loop(j);
         }
       }
 
@@ -228,7 +219,7 @@ function () {
     value: function createNoAccess() {
       var idNoAccess = null;
       var cellPlayer = [];
-      var cell = document.getElementsByTagName("td");
+      var cell = document.getElementsByTagName("td"); //Look for the players' positions and add them in a tab
 
       for (var j = 0; j < cell.length; j++) {
         if (cell[j].hasAttribute("data-player")) {
@@ -237,7 +228,7 @@ function () {
       }
 
       for (var i = 0; i < 25; i++) {
-        idNoAccess = this.getRandomCell();
+        idNoAccess = this.getRandomCell(); //Avoid no access cells around player so that he's not blocked in a corner
 
         while (idNoAccess.dataset.x === cellPlayer[0].dataset.x || idNoAccess.dataset.x === cellPlayer[1].dataset.x || idNoAccess.dataset.y === cellPlayer[0].dataset.y || idNoAccess.dataset.y === cellPlayer[1].dataset.y) {
           idNoAccess = this.getRandomCell();
@@ -266,9 +257,14 @@ function () {
     value: function createPlayer() {
       var player = new _js_player__WEBPACK_IMPORTED_MODULE_1__["Player"]();
       var playerTab = player.getPlayerTab();
+      var playerCellTab = [];
 
       for (var i = 0; i < 2; i++) {
-        var cellPlayer = this.getRandomCell(); //if ((!document.getElementById(cellPlayer).y === document.querySelector("td.[data-player=player1]").y) && (!document.getElementById(cellPlayer).x === document.querySelector("td.[data-player=player1]").x)) {
+        var cellPlayer = this.getRandomCell();
+        playerCellTab.push(cellPlayer);
+        /*while (document.getElementById(playerCellTab[0]).x === document.getElementById(playerCellTab[1]).x || document.getElementById(playerCellTab[0]).y === document.getElementById(playerCellTab[1]).y) {
+            cellPlayer = this.getRandomCell();
+        }*/
 
         playerTab[i].position = cellPlayer.id;
         cellPlayer.setAttribute('data-player', playerTab[i].id);
@@ -279,8 +275,20 @@ function () {
   }, {
     key: "createMovement",
     value: function createMovement() {
+      var _this = this;
+
       var move = new _js_move__WEBPACK_IMPORTED_MODULE_2__["Move"]();
-      move.availableMove(this.createPlayer());
+      var newPlayer = this.createPlayer();
+      move.availableMove(newPlayer);
+      var td = document.getElementsByTagName('td');
+
+      for (var i = 0; i < td.length; i++) {
+        if (td[i].dataset.playeraccess === 1) {
+          td.addEventListener('click', function () {
+            _this.playerTab = move.move(td.id, newPlayer);
+          });
+        }
+      }
     }
   }]);
 
@@ -505,14 +513,12 @@ function () {
     key: "move",
     value: function move(cellId, playerTab) {
       console.log(playerTab);
-      var player = null;
 
       for (var i = 0; i < 2; i++) {
         //if (playerTab[i].move === true) {}
-        player = playerTab[i];
-        var currentCell = document.getElementById(player[i].position);
+        var currentCell = document.getElementById(playerTab[i].position);
         var nextCell = document.getElementById(cellId);
-        this.playerMove(nextCell, currentCell, player);
+        this.playerMove(nextCell, currentCell, playerTab);
       }
     }
   }, {
