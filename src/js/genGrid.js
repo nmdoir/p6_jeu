@@ -15,7 +15,7 @@ class GenGrid {
     createGrid() {
         let table = document.createElement('table');
         let tbody = document.createElement('tbody');
-        //let move = new Move();
+        let move = new Move();
         let player = new Player;
         this.playerTab = player.getPlayerTab()
         table.setAttribute("class", "center");
@@ -32,6 +32,11 @@ class GenGrid {
                 td.setAttribute("data-x", j);
                 td.setAttribute("data-y", i);
                 td.id = "td-" + i + j;
+                td.addEventListener('click', () => {
+                    if (td.dataset.playeraccess === "1") {
+                        this.playerTab = move.move(td.id, this.playerTab);
+                    }
+                });
                 tr.appendChild(td)
             }
         }
@@ -40,6 +45,7 @@ class GenGrid {
         this.createMovement();
         this.createNoAccess();
         this.createWeapon();
+        this.playerTab[0].move = true;
     }
 
     getRandomCell() {
@@ -105,8 +111,6 @@ class GenGrid {
 
     //TODO: avoid 2 players on the same X or Y
     createPlayer() {
-        let player = new Player;
-        let playerTab = player.getPlayerTab();
         let playerCellTab = [];
         for (let i = 0; i < 2; i++) {
             let cellPlayer = this.getRandomCell();
@@ -114,26 +118,18 @@ class GenGrid {
             /*while (document.getElementById(playerCellTab[0]).x === document.getElementById(playerCellTab[1]).x || document.getElementById(playerCellTab[0]).y === document.getElementById(playerCellTab[1]).y) {
                 cellPlayer = this.getRandomCell();
             }*/
-                playerTab[i].position = cellPlayer.id;
-                cellPlayer.setAttribute('data-player', playerTab[i].id);
+                this.playerTab[i].position = cellPlayer.id;
+                cellPlayer.setAttribute('data-player', this.playerTab[i].id);
         }
-        return playerTab;
+        return this.playerTab;
     }
 
     createMovement() {
         let move = new Move;
         let newPlayer = this.createPlayer();
         move.availableMove(newPlayer);
-        let td = document.getElementsByTagName('td');
-        for (let i = 0; i < td.length; i++) {
-            if (td[i].dataset.playeraccess === 1) {
-                td.addEventListener('click', () => {
-                    this.playerTab = move.move(td.id, newPlayer);
-                    }
-                )
-            }
-        }
     }
+
 }
 
 export { GenGrid };

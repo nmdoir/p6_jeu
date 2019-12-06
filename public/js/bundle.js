@@ -153,9 +153,11 @@ function () {
   _createClass(GenGrid, [{
     key: "createGrid",
     value: function createGrid() {
-      var table = document.createElement('table');
-      var tbody = document.createElement('tbody'); //let move = new Move();
+      var _this = this;
 
+      var table = document.createElement('table');
+      var tbody = document.createElement('tbody');
+      var move = new _js_move__WEBPACK_IMPORTED_MODULE_2__["Move"]();
       var player = new _js_player__WEBPACK_IMPORTED_MODULE_1__["Player"]();
       this.playerTab = player.getPlayerTab();
       table.setAttribute("class", "center");
@@ -166,13 +168,22 @@ function () {
         tr.setAttribute("class", "tdstyle");
         tbody.appendChild(tr);
 
-        for (var j = 0; j < this.column; j++) {
+        var _loop = function _loop(j) {
           var td = document.createElement('td');
           td.setAttribute("class", "tdstyle");
           td.setAttribute("data-x", j);
           td.setAttribute("data-y", i);
           td.id = "td-" + i + j;
+          td.addEventListener('click', function () {
+            if (td.dataset.playeraccess === "1") {
+              _this.playerTab = move.move(td.id, _this.playerTab);
+            }
+          });
           tr.appendChild(td);
+        };
+
+        for (var j = 0; j < this.column; j++) {
+          _loop(j);
         }
       }
 
@@ -180,6 +191,7 @@ function () {
       this.createMovement();
       this.createNoAccess();
       this.createWeapon();
+      this.playerTab[0].move = true;
     }
   }, {
     key: "getRandomCell",
@@ -255,8 +267,6 @@ function () {
   }, {
     key: "createPlayer",
     value: function createPlayer() {
-      var player = new _js_player__WEBPACK_IMPORTED_MODULE_1__["Player"]();
-      var playerTab = player.getPlayerTab();
       var playerCellTab = [];
 
       for (var i = 0; i < 2; i++) {
@@ -266,29 +276,18 @@ function () {
             cellPlayer = this.getRandomCell();
         }*/
 
-        playerTab[i].position = cellPlayer.id;
-        cellPlayer.setAttribute('data-player', playerTab[i].id);
+        this.playerTab[i].position = cellPlayer.id;
+        cellPlayer.setAttribute('data-player', this.playerTab[i].id);
       }
 
-      return playerTab;
+      return this.playerTab;
     }
   }, {
     key: "createMovement",
     value: function createMovement() {
-      var _this = this;
-
       var move = new _js_move__WEBPACK_IMPORTED_MODULE_2__["Move"]();
       var newPlayer = this.createPlayer();
       move.availableMove(newPlayer);
-      var td = document.getElementsByTagName('td');
-
-      for (var i = 0; i < td.length; i++) {
-        if (td[i].dataset.playeraccess === 1) {
-          td.addEventListener('click', function () {
-            _this.playerTab = move.move(td.id, newPlayer);
-          });
-        }
-      }
     }
   }]);
 
@@ -398,7 +397,7 @@ function () {
       "life": this.life,
       "weapon": this.weapon,
       "position": this.position,
-      "move": this.move,
+      "move": true,
       "countMove": 0
     }, {
       "id": "player2",
@@ -412,6 +411,24 @@ function () {
   }
 
   _createClass(Player, [{
+    key: "getPlayerTab",
+    value: function getPlayerTab() {
+      return this.playerTab;
+    }
+  }, {
+    key: "allowMove",
+    value: function allowMove(playerTab) {
+      if (playerTab[0].move === true) {
+        playerTab[0].move = false;
+        playerTab[1].move = true;
+      } else if (playerTab[1].move === true) {
+        playerTab[1].move = false;
+        playerTab[0].move = true;
+      }
+
+      return playerTab;
+    }
+  }, {
     key: "getName",
     value: function getName() {
       return this.name;
@@ -435,11 +452,6 @@ function () {
     key: "getPosition",
     value: function getPosition() {
       return this.position;
-    }
-  }, {
-    key: "getPlayerTab",
-    value: function getPlayerTab() {
-      return this.playerTab;
     }
   }, {
     key: "increaseLife",
@@ -512,25 +524,44 @@ function () {
   }, {
     key: "move",
     value: function move(cellId, playerTab) {
-      console.log(playerTab);
+      var player = null;
+      var currentCell = null;
 
-      for (var i = 0; i < 2; i++) {
-        //if (playerTab[i].move === true) {}
-        var currentCell = document.getElementById(playerTab[i].position);
-        var nextCell = document.getElementById(cellId);
-        this.playerMove(nextCell, currentCell, playerTab);
+      for (var i = 0; i < playerTab.length; i++) {
+        if (playerTab[i].move === true) {
+          player = playerTab[i];
+        }
+
+        currentCell = document.getElementById(playerTab[i].position);
       }
+
+      var nextCell = document.getElementById(cellId);
+      this.playerMove(nextCell, currentCell, player, playerTab);
+      console.log(player);
+      console.log(playerTab);
+      return playerTab;
     }
   }, {
     key: "playerMove",
-    value: function playerMove(nextCell, currentCell, player) {
-      //const limit = 3;
+    value: function playerMove(nextCell, currentCell, player, playerTab) {
+      var newPlayer = new _js_player__WEBPACK_IMPORTED_MODULE_0__["Player"]();
+
       if (nextCell.dataset.playeraccess === "1" && nextCell.id !== currentCell.id) {
+        //Update player position
         nextCell.setAttribute('data-player', player.id);
-        currentCell.removeAttribute('data-player');
         player.position = nextCell.id;
-        player.countMove++;
+        player.countMove++; //Remove last position
+
+        currentCell.removeAttribute('data-player');
+
+        if (player.move === true) {
+          newPlayer.allowMove(playerTab);
+        }
+
+        return true;
       }
+
+      return false;
     }
   }]);
 

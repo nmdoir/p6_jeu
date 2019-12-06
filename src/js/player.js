@@ -15,7 +15,7 @@ class Player {
                 "life": this.life,
                 "weapon": this.weapon,
                 "position": this.position,
-                "move": this.move,
+                "move": true,
                 "countMove": 0
             },
             {
@@ -28,6 +28,22 @@ class Player {
                 "countMove": 0
             }
         ]
+    }
+
+    getPlayerTab() {
+        return this.playerTab
+    }
+
+    allowMove(playerTab) {
+        if(playerTab[0].move === true){
+            playerTab[0].move = false;
+            playerTab[1].move = true;
+        }
+        else if (playerTab[1].move === true) {
+            playerTab[1].move = false;
+            playerTab[0].move = true;
+        }
+        return playerTab;
     }
 
     getName() {
@@ -50,9 +66,6 @@ class Player {
         return this.position
     }
 
-    getPlayerTab() {
-        return this.playerTab
-    }
 
     increaseLife(points) {
         this.life += points;

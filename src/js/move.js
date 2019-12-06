@@ -39,28 +39,43 @@ class Move {
             }
         }
     }
+
     move(cellId, playerTab) {
-        console.log(playerTab);
-        for (let i = 0; i < 2; i++) {
-            //if (playerTab[i].move === true) {}
-            let currentCell = document.getElementById(playerTab[i].position);
-            let nextCell = document.getElementById(cellId);
-            this.playerMove(nextCell, currentCell, playerTab);
+        let player = null;
+        let currentCell = null;
+        for (let i = 0; i < playerTab.length; i++) {
+            if (playerTab[i].move === true) {
+                player = playerTab[i];
+            }
+            currentCell = document.getElementById(playerTab[i].position);
         }
+        let nextCell = document.getElementById(cellId);
+        this.playerMove(nextCell, currentCell, player, playerTab);
+        console.log(player);
+        console.log(playerTab);
+
+        return playerTab;
     }
 
 
-    playerMove(nextCell, currentCell, player) {
-        //const limit = 3;
+    playerMove(nextCell, currentCell, player, playerTab) {
+        let newPlayer = new Player();
         if (nextCell.dataset.playeraccess === "1"
             && nextCell.id !== currentCell.id) {
-
-            nextCell.setAttribute('data-player', player.id)
-            currentCell.removeAttribute('data-player');
-
+            //Update player position
+            nextCell.setAttribute('data-player', player.id);
             player.position = nextCell.id;
             player.countMove++;
+
+            //Remove last position
+            currentCell.removeAttribute('data-player');
+
+            if (player.move === true) {
+            newPlayer.allowMove(playerTab);
+            }
+            return true;
         }
+        return false;
     }
 }
 
