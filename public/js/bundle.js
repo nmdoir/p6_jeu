@@ -179,7 +179,6 @@ function () {
               _this.playerTab = move.move(td.id, _this.playerTab);
             }
           });
-          console.log(_this.playerTab);
           tr.appendChild(td);
         };
 
@@ -422,6 +421,8 @@ function () {
         playerTab[0].move = true;
       }
 
+      console.log(playerTab[0]);
+      console.log(playerTab[1]);
       return playerTab;
     }
   }, {
@@ -521,19 +522,16 @@ function () {
     key: "move",
     value: function move(cellId, playerTab) {
       var player = null;
-      var currentCell = null;
 
       for (var i = 0; i < playerTab.length; i++) {
         if (playerTab[i].move === true) {
           player = playerTab[i];
         }
-
-        currentCell = document.getElementById(playerTab[i].position);
       }
 
+      var currentCell = document.getElementById(player.position);
       var nextCell = document.getElementById(cellId);
       this.playerMove(nextCell, currentCell, player, playerTab);
-      console.log(player);
       console.log(playerTab);
       return playerTab;
     }
@@ -548,11 +546,7 @@ function () {
         player.position = nextCell.id; //Remove last position
 
         currentCell.removeAttribute('data-player');
-
-        if (player.move === true) {
-          newPlayer.allowMove(playerTab);
-        }
-
+        newPlayer.allowMove(playerTab);
         return true;
       }
 

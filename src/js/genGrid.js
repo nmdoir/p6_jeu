@@ -37,7 +37,6 @@ class GenGrid {
                         this.playerTab = move.move(td.id, this.playerTab);
                     }
                 });
-                console.log(this.playerTab);
                 tr.appendChild(td)
             }
         }

@@ -42,16 +42,14 @@ class Move {
 
     move(cellId, playerTab) {
         let player = null;
-        let currentCell = null;
         for (let i = 0; i < playerTab.length; i++) {
             if (playerTab[i].move === true) {
                 player = playerTab[i];
             }
-            currentCell = document.getElementById(playerTab[i].position);
         }
+        let currentCell = document.getElementById(player.position);
         let nextCell = document.getElementById(cellId);
         this.playerMove(nextCell, currentCell, player, playerTab);
-        console.log(player);
         console.log(playerTab);
 
         return playerTab;
@@ -69,9 +67,8 @@ class Move {
             //Remove last position
             currentCell.removeAttribute('data-player');
 
-            if (player.move === true) {
             newPlayer.allowMove(playerTab);
-            }
+
             return true;
         }
         return false;
