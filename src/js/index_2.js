@@ -253,3 +253,25 @@ $(document).ready(function() {
     let grid = new GenGrid(10, 10);
     grid.createGrid();
 });*/
+
+//remplacée par une fonction avec this.playerTab
+createNoAccess() {
+    let idNoAccess = null;
+    let cellPlayer = [];
+    let cell = document.getElementsByTagName("td");
+    //Look for the players' positions and add them in a tab
+    for (let j = 0; j < cell.length; j++) {
+        if (cell[j].hasAttribute("data-player")) {
+            cellPlayer.push(cell[j]);
+        }
+    }
+    for (let i = 0; i < 25; i++) {
+        idNoAccess = this.getRandomCell();
+        //Avoid no access cells around player so that he's not blocked in a corner
+        while (idNoAccess.dataset.x === cellPlayer[0].dataset.x || idNoAccess.dataset.x === cellPlayer[1].dataset.x || idNoAccess.dataset.y === cellPlayer[0].dataset.y || idNoAccess.dataset.y === cellPlayer[1].dataset.y) {
+            idNoAccess = this.getRandomCell();
+        }
+        idNoAccess.style.backgroundColor = 'black';
+        idNoAccess.setAttribute('data-access', 0);
+    }
+}

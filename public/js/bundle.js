@@ -179,6 +179,7 @@ function () {
               _this.playerTab = move.move(td.id, _this.playerTab);
             }
           });
+          console.log(_this.playerTab);
           tr.appendChild(td);
         };
 
@@ -230,20 +231,17 @@ function () {
     key: "createNoAccess",
     value: function createNoAccess() {
       var idNoAccess = null;
-      var cellPlayer = [];
-      var cell = document.getElementsByTagName("td"); //Look for the players' positions and add them in a tab
-
-      for (var j = 0; j < cell.length; j++) {
-        if (cell[j].hasAttribute("data-player")) {
-          cellPlayer.push(cell[j]);
-        }
-      }
+      var playerTab = this.playerTab;
 
       for (var i = 0; i < 25; i++) {
-        idNoAccess = this.getRandomCell(); //Avoid no access cells around player so that he's not blocked in a corner
+        idNoAccess = this.getRandomCell();
 
-        while (idNoAccess.dataset.x === cellPlayer[0].dataset.x || idNoAccess.dataset.x === cellPlayer[1].dataset.x || idNoAccess.dataset.y === cellPlayer[0].dataset.y || idNoAccess.dataset.y === cellPlayer[1].dataset.y) {
-          idNoAccess = this.getRandomCell();
+        for (var _i = 0; _i < playerTab.length; _i++) {
+          var playerPosition = document.getElementById(playerTab[_i].position); //Avoid no access cells around player so that he's not blocked in a corner
+
+          while (idNoAccess.dataset.x === playerPosition.dataset.x || idNoAccess.dataset.x === playerPosition.dataset.x || idNoAccess.dataset.y === playerPosition.dataset.y || idNoAccess.dataset.y === playerPosition.dataset.y) {
+            idNoAccess = this.getRandomCell();
+          }
         }
 
         idNoAccess.style.backgroundColor = 'black';
@@ -397,16 +395,14 @@ function () {
       "life": this.life,
       "weapon": this.weapon,
       "position": this.position,
-      "move": true,
-      "countMove": 0
+      "move": true
     }, {
       "id": "player2",
       "name": _index__WEBPACK_IMPORTED_MODULE_0__["name_j2"],
       "life": this.life,
       "weapon": this.weapon,
       "position": this.position,
-      "move": this.move,
-      "countMove": 0
+      "move": this.move
     }];
   }
 
@@ -549,8 +545,7 @@ function () {
       if (nextCell.dataset.playeraccess === "1" && nextCell.id !== currentCell.id) {
         //Update player position
         nextCell.setAttribute('data-player', player.id);
-        player.position = nextCell.id;
-        player.countMove++; //Remove last position
+        player.position = nextCell.id; //Remove last position
 
         currentCell.removeAttribute('data-player');
 

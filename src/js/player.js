@@ -16,7 +16,6 @@ class Player {
                 "weapon": this.weapon,
                 "position": this.position,
                 "move": true,
-                "countMove": 0
             },
             {
                 "id": "player2",
@@ -25,7 +24,6 @@ class Player {
                 "weapon": this.weapon,
                 "position": this.position,
                 "move": this.move,
-                "countMove": 0
             }
         ]
     }

@@ -65,7 +65,6 @@ class Move {
             //Update player position
             nextCell.setAttribute('data-player', player.id);
             player.position = nextCell.id;
-            player.countMove++;
 
             //Remove last position
             currentCell.removeAttribute('data-player');
