@@ -7,9 +7,19 @@ class Move {
 
     availableMove(playerTab) {
         let td = null;
+        for (let browseCells = 0; browseCells < 100; browseCells++) {
+            if (browseCells < 10) {
+                td = 'td-0'
+            } else {
+                td = 'td-'
+            }
+            document.getElementById(td + browseCells).removeAttribute('data-playeraccess');
+        }
         let availableCell = null;
         for (let i = 0; i < playerTab.length; i++) {
             let playerCell = document.getElementById(playerTab[i].position);
+            let playerMove = playerTab[i].move;
+            console.log(playerMove);
             for (let browseCells = 0; browseCells < 100; browseCells++) {
                 if (browseCells < 10) {
                     td = 'td-0'
@@ -19,6 +29,7 @@ class Move {
                 availableCell = document.getElementById(td + browseCells);
                 if (
                     (
+                        (playerTab[i].move === true) &&
                         (playerCell.dataset.y === availableCell.dataset.y) &&
                         (availableCell.dataset.x >= (Number(playerCell.dataset.x) - 3)) &&
                         (availableCell.dataset.x <= (Number(playerCell.dataset.x) + 3)) &&
@@ -27,6 +38,7 @@ class Move {
                     )
                     ||
                     (
+                        (playerTab[i].move === true) &&
                         (playerCell.dataset.x === availableCell.dataset.x) &&
                         (availableCell.dataset.y >= (Number(playerCell.dataset.y) - 3)) &&
                         (availableCell.dataset.y <= (Number(playerCell.dataset.y) + 3)) &&
@@ -40,6 +52,7 @@ class Move {
         }
     }
 
+
     move(cellId, playerTab) {
         let player = null;
         for (let i = 0; i < playerTab.length; i++) {
@@ -50,7 +63,6 @@ class Move {
         let currentCell = document.getElementById(player.position);
         let nextCell = document.getElementById(cellId);
         this.playerMove(nextCell, currentCell, player, playerTab);
-        console.log(playerTab);
 
         return playerTab;
     }
@@ -60,6 +72,7 @@ class Move {
         let newPlayer = new Player();
         if (nextCell.dataset.playeraccess === "1"
             && nextCell.id !== currentCell.id) {
+
             //Update player position
             nextCell.setAttribute('data-player', player.id);
             player.position = nextCell.id;

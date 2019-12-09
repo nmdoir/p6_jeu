@@ -160,6 +160,7 @@ function () {
       var move = new _js_move__WEBPACK_IMPORTED_MODULE_2__["Move"]();
       var player = new _js_player__WEBPACK_IMPORTED_MODULE_1__["Player"]();
       this.playerTab = player.getPlayerTab();
+      this.playerTab[0].move = true;
       table.setAttribute("class", "center");
       table.appendChild(tbody);
 
@@ -177,6 +178,7 @@ function () {
           td.addEventListener('click', function () {
             if (td.dataset.playeraccess === "1") {
               _this.playerTab = move.move(td.id, _this.playerTab);
+              move.availableMove(_this.playerTab);
             }
           });
           tr.appendChild(td);
@@ -231,6 +233,7 @@ function () {
     value: function createNoAccess() {
       var idNoAccess = null;
       var playerTab = this.playerTab;
+      console.log(playerTab);
 
       for (var i = 0; i < 25; i++) {
         idNoAccess = this.getRandomCell();
@@ -269,7 +272,10 @@ function () {
       for (var i = 0; i < 2; i++) {
         var cellPlayer = this.getRandomCell();
         playerCellTab.push(cellPlayer);
-        /*while (document.getElementById(playerCellTab[0]).x === document.getElementById(playerCellTab[1]).x || document.getElementById(playerCellTab[0]).y === document.getElementById(playerCellTab[1]).y) {
+        /*while (document.getElementById(cellPlayer).hasAttribute('data-playeraccess')) {
+            cellPlayer = this.getRandomCell();
+        }
+        while (document.getElementById(playerCellTab[0]).x === document.getElementById(playerCellTab[1]).x || document.getElementById(playerCellTab[0]).y === document.getElementById(playerCellTab[1]).y) {
             cellPlayer = this.getRandomCell();
         }*/
 
@@ -394,7 +400,7 @@ function () {
       "life": this.life,
       "weapon": this.weapon,
       "position": this.position,
-      "move": true
+      "move": this.move
     }, {
       "id": "player2",
       "name": _index__WEBPACK_IMPORTED_MODULE_0__["name_j2"],
@@ -498,21 +504,34 @@ function () {
     //TODO: no access after obstacles
     value: function availableMove(playerTab) {
       var td = null;
+
+      for (var browseCells = 0; browseCells < 100; browseCells++) {
+        if (browseCells < 10) {
+          td = 'td-0';
+        } else {
+          td = 'td-';
+        }
+
+        document.getElementById(td + browseCells).removeAttribute('data-playeraccess');
+      }
+
       var availableCell = null;
 
       for (var i = 0; i < playerTab.length; i++) {
         var playerCell = document.getElementById(playerTab[i].position);
+        var playerMove = playerTab[i].move;
+        console.log(playerMove);
 
-        for (var browseCells = 0; browseCells < 100; browseCells++) {
-          if (browseCells < 10) {
+        for (var _browseCells = 0; _browseCells < 100; _browseCells++) {
+          if (_browseCells < 10) {
             td = 'td-0';
           } else {
             td = 'td-';
           }
 
-          availableCell = document.getElementById(td + browseCells);
+          availableCell = document.getElementById(td + _browseCells);
 
-          if (playerCell.dataset.y === availableCell.dataset.y && availableCell.dataset.x >= Number(playerCell.dataset.x) - 3 && availableCell.dataset.x <= Number(playerCell.dataset.x) + 3 && availableCell.dataset.x !== playerCell.dataset.x && !availableCell.hasAttribute('data-access') || playerCell.dataset.x === availableCell.dataset.x && availableCell.dataset.y >= Number(playerCell.dataset.y) - 3 && availableCell.dataset.y <= Number(playerCell.dataset.y) + 3 && availableCell.dataset.y !== playerCell.dataset.y && !availableCell.hasAttribute('data-access')) {
+          if (playerTab[i].move === true && playerCell.dataset.y === availableCell.dataset.y && availableCell.dataset.x >= Number(playerCell.dataset.x) - 3 && availableCell.dataset.x <= Number(playerCell.dataset.x) + 3 && availableCell.dataset.x !== playerCell.dataset.x && !availableCell.hasAttribute('data-access') || playerTab[i].move === true && playerCell.dataset.x === availableCell.dataset.x && availableCell.dataset.y >= Number(playerCell.dataset.y) - 3 && availableCell.dataset.y <= Number(playerCell.dataset.y) + 3 && availableCell.dataset.y !== playerCell.dataset.y && !availableCell.hasAttribute('data-access')) {
             availableCell.setAttribute('data-playeraccess', 1);
           }
         }
@@ -532,7 +551,6 @@ function () {
       var currentCell = document.getElementById(player.position);
       var nextCell = document.getElementById(cellId);
       this.playerMove(nextCell, currentCell, player, playerTab);
-      console.log(playerTab);
       return playerTab;
     }
   }, {

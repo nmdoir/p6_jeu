@@ -15,7 +15,7 @@ class Player {
                 "life": this.life,
                 "weapon": this.weapon,
                 "position": this.position,
-                "move": true,
+                "move": this.move,
             },
             {
                 "id": "player2",
