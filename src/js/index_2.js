@@ -254,22 +254,21 @@ $(document).ready(function() {
     grid.createGrid();
 });*/
 
-//remplacée par une fonction avec this.playerTab
+//nouvelle fonction avec this.playerTab qui ne fonctionne pas
+
+
 createNoAccess() {
     let idNoAccess = null;
-    let cellPlayer = [];
-    let cell = document.getElementsByTagName("td");
-    //Look for the players' positions and add them in a tab
-    for (let j = 0; j < cell.length; j++) {
-        if (cell[j].hasAttribute("data-player")) {
-            cellPlayer.push(cell[j]);
-        }
-    }
+    let playerTab = this.playerTab;
+    console.log(playerTab);
     for (let i = 0; i < 25; i++) {
         idNoAccess = this.getRandomCell();
-        //Avoid no access cells around player so that he's not blocked in a corner
-        while (idNoAccess.dataset.x === cellPlayer[0].dataset.x || idNoAccess.dataset.x === cellPlayer[1].dataset.x || idNoAccess.dataset.y === cellPlayer[0].dataset.y || idNoAccess.dataset.y === cellPlayer[1].dataset.y) {
-            idNoAccess = this.getRandomCell();
+        for (let i = 0; i < playerTab.length; i++) {
+            let playerPosition = document.getElementById(playerTab[i].position);
+            //Avoid no access cells around player so that he's not blocked in a corner
+            while (idNoAccess.dataset.x === playerPosition.dataset.x || idNoAccess.dataset.x === playerPosition.dataset.x || idNoAccess.dataset.y === playerPosition.dataset.y || idNoAccess.dataset.y === playerPosition.dataset.y) {
+                idNoAccess = this.getRandomCell();
+            }
         }
         idNoAccess.style.backgroundColor = 'black';
         idNoAccess.setAttribute('data-access', 0);

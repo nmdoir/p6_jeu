@@ -79,22 +79,26 @@ class GenGrid {
 
     createNoAccess() {
         let idNoAccess = null;
-        let playerTab = this.playerTab;
-        console.log(playerTab);
+        let cellPlayer = [];
+        let cell = document.getElementsByTagName("td");
+        //Look for the players' positions and add them in a tab
+        for (let j = 0; j < cell.length; j++) {
+            if (cell[j].hasAttribute("data-player")) {
+                cellPlayer.push(cell[j]);
+            }
+        }
         for (let i = 0; i < 25; i++) {
             idNoAccess = this.getRandomCell();
-            for (let i = 0; i < playerTab.length; i++) {
-                let playerPosition = document.getElementById(playerTab[i].position);
-                //Avoid no access cells around player so that he's not blocked in a corner
-                while (idNoAccess.dataset.x === playerPosition.dataset.x || idNoAccess.dataset.x === playerPosition.dataset.x || idNoAccess.dataset.y === playerPosition.dataset.y || idNoAccess.dataset.y === playerPosition.dataset.y) {
-                    idNoAccess = this.getRandomCell();
-                }
+            //Avoid no access cells around player so that he's not blocked in a corner
+            while (idNoAccess.dataset.x === cellPlayer[0].dataset.x || idNoAccess.dataset.x === cellPlayer[1].dataset.x || idNoAccess.dataset.y === cellPlayer[0].dataset.y || idNoAccess.dataset.y === cellPlayer[1].dataset.y) {
+                idNoAccess = this.getRandomCell();
             }
             idNoAccess.style.backgroundColor = 'black';
             idNoAccess.setAttribute('data-access', 0);
         }
     }
 
+    //TODO: change weapon images to png (to have grey background when accessible)
     createWeapon() {
         let cellWeapon = null;
         let weapon = new Weapon();
@@ -114,17 +118,19 @@ class GenGrid {
         for (let i = 0; i < 2; i++) {
             let cellPlayer = this.getRandomCell();
             playerCellTab.push(cellPlayer);
-            /*while (document.getElementById(cellPlayer).hasAttribute('data-playeraccess')) {
+            //Avoid 2 players next to each other when initializing the grid
+            /*if (playerCellTab[1].dataset.x === playerCellTab[0].dataset.x || document.getElementById(playerCellTab[1]).y === document.getElementById(playerCellTab[0]).y) {
                 cellPlayer = this.getRandomCell();
-            }
-            while (document.getElementById(playerCellTab[0]).x === document.getElementById(playerCellTab[1]).x || document.getElementById(playerCellTab[0]).y === document.getElementById(playerCellTab[1]).y) {
-                cellPlayer = this.getRandomCell();
+                playerCellTab.pop();
+                playerCellTab.push(cellPlayer);
             }*/
                 this.playerTab[i].position = cellPlayer.id;
                 cellPlayer.setAttribute('data-player', this.playerTab[i].id);
         }
+        console.log(playerCellTab);
         return this.playerTab;
     }
+
 
     createMovement() {
         let move = new Move;

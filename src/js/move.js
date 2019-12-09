@@ -2,7 +2,6 @@ import { Player } from "../js/player";
 
 class Move {
 
-    //TODO: change weapon images to png (to have grey background when accessible)
     //TODO: no access after obstacles
 
     availableMove(playerTab) {
@@ -18,8 +17,6 @@ class Move {
         let availableCell = null;
         for (let i = 0; i < playerTab.length; i++) {
             let playerCell = document.getElementById(playerTab[i].position);
-            let playerMove = playerTab[i].move;
-            console.log(playerMove);
             for (let browseCells = 0; browseCells < 100; browseCells++) {
                 if (browseCells < 10) {
                     td = 'td-0'
@@ -34,7 +31,8 @@ class Move {
                         (availableCell.dataset.x >= (Number(playerCell.dataset.x) - 3)) &&
                         (availableCell.dataset.x <= (Number(playerCell.dataset.x) + 3)) &&
                         (availableCell.dataset.x !== playerCell.dataset.x) &&
-                        (!availableCell.hasAttribute('data-access'))
+                        (!availableCell.hasAttribute('data-access')) &&
+                        (!availableCell.hasAttribute('data-player'))
                     )
                     ||
                     (
@@ -43,7 +41,9 @@ class Move {
                         (availableCell.dataset.y >= (Number(playerCell.dataset.y) - 3)) &&
                         (availableCell.dataset.y <= (Number(playerCell.dataset.y) + 3)) &&
                         (availableCell.dataset.y !== playerCell.dataset.y) &&
-                        (!availableCell.hasAttribute('data-access'))
+                        (!availableCell.hasAttribute('data-access')) &&
+                        (!availableCell.hasAttribute('data-player'))
+
                     )
                 ) {
                         availableCell.setAttribute('data-playeraccess', 1);
