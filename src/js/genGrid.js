@@ -127,7 +127,6 @@ class GenGrid {
                 this.playerTab[i].position = cellPlayer.id;
                 cellPlayer.setAttribute('data-player', this.playerTab[i].id);
         }
-        console.log(playerCellTab);
         return this.playerTab;
     }
 
@@ -137,6 +136,14 @@ class GenGrid {
         let newPlayer = this.createPlayer();
         move.availableMove(newPlayer);
     }
+
+    /*updatePlayerWeapon() {
+        for (let i = 0; i < this.playerTab.length; i++) {
+            this.playerTab[i].weapon = document.getElementById(this.playerTab[i].position).dataset.weapon;
+        }
+        console.log(this.playerTab);
+        return this.playerTab;
+    }*/
 
 }
 

@@ -286,7 +286,6 @@ function () {
         cellPlayer.setAttribute('data-player', this.playerTab[i].id);
       }
 
-      console.log(playerCellTab);
       return this.playerTab;
     }
   }, {
@@ -296,6 +295,14 @@ function () {
       var newPlayer = this.createPlayer();
       move.availableMove(newPlayer);
     }
+    /*updatePlayerWeapon() {
+        for (let i = 0; i < this.playerTab.length; i++) {
+            this.playerTab[i].weapon = document.getElementById(this.playerTab[i].position).dataset.weapon;
+        }
+        console.log(this.playerTab);
+        return this.playerTab;
+    }*/
+
   }]);
 
   return GenGrid;
@@ -431,8 +438,6 @@ function () {
         playerTab[0].move = true;
       }
 
-      console.log(playerTab[0]);
-      console.log(playerTab[1]);
       return playerTab;
     }
   }, {
@@ -562,15 +567,27 @@ function () {
       if (nextCell.dataset.playeraccess === "1" && nextCell.id !== currentCell.id) {
         //Update player position
         nextCell.setAttribute('data-player', player.id);
-        player.position = nextCell.id; //Remove last position
+        player.position = nextCell.id; //Update player weapon and weapon shown in the cell
 
-        currentCell.removeAttribute('data-player');
+        if (nextCell.hasAttribute('data-weapon')) {
+          player.weapon = nextCell.dataset.weapon;
+          nextCell.removeAttribute('data-weapon');
+        }
+
+        console.log(player); //Remove last position
+
+        currentCell.removeAttribute('data-player'); //this.getPlayerWeapon(player);
+
         newPlayer.allowMove(playerTab);
         return true;
       }
 
       return false;
     }
+    /*getPlayerWeapon(player) {
+        return player.weapon;
+    }*/
+
   }]);
 
   return Move;

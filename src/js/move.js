@@ -77,15 +77,28 @@ class Move {
             nextCell.setAttribute('data-player', player.id);
             player.position = nextCell.id;
 
+            //Update player weapon and weapon shown in the cell
+            if (nextCell.hasAttribute('data-weapon')) {
+                player.weapon = nextCell.dataset.weapon;
+                nextCell.removeAttribute('data-weapon');
+            }
+            console.log(player);
+
             //Remove last position
             currentCell.removeAttribute('data-player');
 
+            //this.getPlayerWeapon(player);
             newPlayer.allowMove(playerTab);
+
 
             return true;
         }
         return false;
     }
+
+    /*getPlayerWeapon(player) {
+        return player.weapon;
+    }*/
 }
 
 

@@ -41,11 +41,9 @@ class Player {
             playerTab[1].move = false;
             playerTab[0].move = true;
         }
-        console.log(playerTab[0]);
-        console.log(playerTab[1]);
-
         return playerTab;
     }
+
 
     getName() {
         return this.name
