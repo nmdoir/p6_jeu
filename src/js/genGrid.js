@@ -35,6 +35,7 @@ class GenGrid {
                 td.id = "td-" + i + j;
                 td.addEventListener('click', () => {
                     if (td.dataset.playeraccess === "1") {
+                        console.log(this.playerTab);
                         this.playerTab = move.move(td.id, this.playerTab);
                         move.availableMove(this.playerTab);
                     }
@@ -98,7 +99,6 @@ class GenGrid {
         }
     }
 
-    //TODO: change weapon images to png (to have grey background when accessible)
     createWeapon() {
         let cellWeapon = null;
         let weapon = new Weapon();
@@ -112,21 +112,21 @@ class GenGrid {
         }
     }
 
-    //TODO: avoid 2 players on the same X or Y
+    //TODO: function can be improved?
     createPlayer() {
-        let playerCellTab = [];
-        for (let i = 0; i < 2; i++) {
-            let cellPlayer = this.getRandomCell();
-            playerCellTab.push(cellPlayer);
-            //Avoid 2 players next to each other when initializing the grid
-            /*if (playerCellTab[1].dataset.x === playerCellTab[0].dataset.x || document.getElementById(playerCellTab[1]).y === document.getElementById(playerCellTab[0]).y) {
-                cellPlayer = this.getRandomCell();
-                playerCellTab.pop();
-                playerCellTab.push(cellPlayer);
-            }*/
-                this.playerTab[i].position = cellPlayer.id;
-                cellPlayer.setAttribute('data-player', this.playerTab[i].id);
+        let cellPlayer0 = this.getRandomCell();
+        this.playerTab[0].position = cellPlayer0.id;
+        cellPlayer0.setAttribute('data-player', this.playerTab[0].id);
+
+        let cellPlayer1 = this.getRandomCell();
+
+        //Avoid 2 players next to each other when initializing the grid
+        while (Number(cellPlayer1.id.slice(3)) > Number((cellPlayer0.id.slice(3) - 12)) && Number(cellPlayer1.id.slice(3)) < Number((cellPlayer0.id.slice(3) + 12))) {
+            cellPlayer1 = this.getRandomCell();
         }
+        this.playerTab[1].position = cellPlayer1.id;
+        cellPlayer1.setAttribute('data-player', this.playerTab[1].id);
+
         return this.playerTab;
     }
 
@@ -136,14 +136,6 @@ class GenGrid {
         let newPlayer = this.createPlayer();
         move.availableMove(newPlayer);
     }
-
-    /*updatePlayerWeapon() {
-        for (let i = 0; i < this.playerTab.length; i++) {
-            this.playerTab[i].weapon = document.getElementById(this.playerTab[i].position).dataset.weapon;
-        }
-        console.log(this.playerTab);
-        return this.playerTab;
-    }*/
 
 }
 

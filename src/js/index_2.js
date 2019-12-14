@@ -274,3 +274,80 @@ createNoAccess() {
         idNoAccess.setAttribute('data-access', 0);
     }
 }
+
+
+if (
+    (
+        (playerTab[i].move === true) &&
+        (playerCell.dataset.y === availableCell.dataset.y) &&
+        (availableCell.dataset.x >= (Number(playerCell.dataset.x) - 3)) &&
+        (availableCell.dataset.x <= (Number(playerCell.dataset.x) + 3)) &&
+        (availableCell.dataset.x !== playerCell.dataset.x) &&
+        (!availableCell.hasAttribute('data-access')) &&
+        (!availableCell.hasAttribute('data-player'))
+    )
+    ||
+    (
+        (playerTab[i].move === true) &&
+        (playerCell.dataset.x === availableCell.dataset.x) &&
+        (availableCell.dataset.y >= (Number(playerCell.dataset.y) - 3)) &&
+        (availableCell.dataset.y <= (Number(playerCell.dataset.y) + 3)) &&
+        (availableCell.dataset.y !== playerCell.dataset.y) &&
+        (!availableCell.hasAttribute('data-access')) &&
+        (!availableCell.hasAttribute('data-player'))
+
+    )
+) {
+
+    for (let j = 1; j <= 3; j++) {
+        while (
+            //(playerCell.dataset.y === availableCell.dataset.y) &&
+            (availableCell.dataset.x === (Number(playerCell.dataset.x) - j)) /*&&
+                            (
+                                !availableCell.hasAttribute('data-access') ||
+                                !availableCell.hasAttribute('data-player')
+                            )*/
+            ) {
+            availableCell.setAttribute('data-playeraccess', 1);
+        }
+    }
+    /*for (let j = 1; j <= 3; j++) {
+        while (
+            (playerCell.dataset.y === availableCell.dataset.y) &&
+            (availableCell.dataset.x === (Number(playerCell.dataset.x) + j)) &&
+            (
+                !availableCell.hasAttribute('data-access') ||
+                !availableCell.hasAttribute('data-player')
+            )
+            ) {
+            availableCell.setAttribute('data-playeraccess', 1);
+        }
+    }
+    for (let j = 1; j <= 3; j++) {
+        while (
+            (playerCell.dataset.x === availableCell.dataset.x) &&
+            (availableCell.dataset.y === (Number(playerCell.dataset.y) - j)) &&
+            (
+                !availableCell.hasAttribute('data-access') ||
+                !availableCell.hasAttribute('data-player')
+            )
+            ) {
+            availableCell.setAttribute('data-playeraccess', 1);
+        }
+    }
+    for (let j = 1; j <= 3; j++) {
+        while (
+            (playerCell.dataset.x === availableCell.dataset.x) &&
+            (availableCell.dataset.y === (Number(playerCell.dataset.y) + j)) &&
+            (
+                !availableCell.hasAttribute('data-access') ||
+                !availableCell.hasAttribute('data-player')
+            )
+            ) {
+            availableCell.setAttribute('data-playeraccess', 1);
+        }
+    }*/
+}
+}
+}
+}

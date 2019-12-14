@@ -15,7 +15,7 @@ class Move {
             document.getElementById(td + browseCells).removeAttribute('data-playeraccess');
         }
         let availableCell = null;
-        for (let i = 0; i < playerTab.length; i++) {
+        for (let i = 0; i < 2; i++) {
             let playerCell = document.getElementById(playerTab[i].position);
             for (let browseCells = 0; browseCells < 100; browseCells++) {
                 if (browseCells < 10) {
@@ -46,7 +46,56 @@ class Move {
 
                     )
                 ) {
-                        availableCell.setAttribute('data-playeraccess', 1);
+                    availableCell.setAttribute('data-playeraccess', 1);
+
+                    /* for (let j = 1; j <= 3; j++) {
+                        while (
+                            (playerCell.dataset.y === availableCell.dataset.y) &&
+                            (availableCell.dataset.x === (Number(playerCell.dataset.x) - j)) &&
+                            (
+                                !availableCell.hasAttribute('data-access') ||
+                                !availableCell.hasAttribute('data-player')
+                            )
+                            ) {
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        }
+                    }
+                    for (let j = 1; j <= 3; j++) {
+                        while (
+                            (playerCell.dataset.y === availableCell.dataset.y) &&
+                            (availableCell.dataset.x === (Number(playerCell.dataset.x) + j)) &&
+                            (
+                                !availableCell.hasAttribute('data-access') ||
+                                !availableCell.hasAttribute('data-player')
+                            )
+                            ) {
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        }
+                    }
+                    for (let j = 1; j <= 3; j++) {
+                        while (
+                            (playerCell.dataset.x === availableCell.dataset.x) &&
+                            (availableCell.dataset.y === (Number(playerCell.dataset.y) - j)) &&
+                            (
+                                !availableCell.hasAttribute('data-access') ||
+                                !availableCell.hasAttribute('data-player')
+                            )
+                            ) {
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        }
+                    }
+                    for (let j = 1; j <= 3; j++) {
+                        while (
+                            (playerCell.dataset.x === availableCell.dataset.x) &&
+                            (availableCell.dataset.y === (Number(playerCell.dataset.y) + j)) &&
+                            (
+                                !availableCell.hasAttribute('data-access') ||
+                                !availableCell.hasAttribute('data-player')
+                            )
+                            ) {
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        }
+                    }*/
                 }
             }
         }
@@ -70,6 +119,7 @@ class Move {
 
     playerMove(nextCell, currentCell, player, playerTab) {
         let newPlayer = new Player();
+        const oldWeapon = player.weapon;
         if (nextCell.dataset.playeraccess === "1"
             && nextCell.id !== currentCell.id) {
 
@@ -79,16 +129,23 @@ class Move {
 
             //Update player weapon and weapon shown in the cell
             if (nextCell.hasAttribute('data-weapon')) {
-                player.weapon = nextCell.dataset.weapon;
-                nextCell.removeAttribute('data-weapon');
+                if (oldWeapon === null) {
+                    player.weapon = nextCell.dataset.weapon;
+                    nextCell.removeAttribute('data-weapon');
+                }
+                else {
+                    player.weapon = nextCell.dataset.weapon;
+                    nextCell.dataset.weapon = oldWeapon;
+                }
             }
-            console.log(player);
 
             //Remove last position
             currentCell.removeAttribute('data-player');
 
             //this.getPlayerWeapon(player);
             newPlayer.allowMove(playerTab);
+            
+            this.getPlayer(player);
 
 
             return true;
@@ -96,9 +153,11 @@ class Move {
         return false;
     }
 
-    /*getPlayerWeapon(player) {
-        return player.weapon;
-    }*/
+    getPlayer(player) {
+        return player;
+    }
+
+
 }
 
 

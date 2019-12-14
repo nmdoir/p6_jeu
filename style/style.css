@@ -10114,3 +10114,8 @@ table.center {
 [data-playeraccess="1"] {
     background-color:darkgrey;
 }
+
+.centered {
+    text-align: center;
+    align-content: center;
+}
