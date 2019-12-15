@@ -38,6 +38,7 @@ class GenGrid {
                         console.log(this.playerTab);
                         this.playerTab = move.move(td.id, this.playerTab);
                         move.availableMove(this.playerTab);
+                        this.getPlayerInfo(this.playerTab);
                     }
                 });
                 tr.appendChild(td)
@@ -49,6 +50,7 @@ class GenGrid {
         this.createNoAccess();
         this.createWeapon();
         this.playerTab[0].move = true;
+        this.getPlayerInfo(this.playerTab);
     }
 
     getRandomCell() {
@@ -130,11 +132,23 @@ class GenGrid {
         return this.playerTab;
     }
 
-
     createMovement() {
         let move = new Move;
         let newPlayer = this.createPlayer();
         move.availableMove(newPlayer);
+    }
+
+    getPlayerInfo(playerTab) {
+        let weapon = new Weapon;
+        //Life
+        document.getElementById('lifej1').innerHTML = playerTab[0].life;
+        document.getElementById('lifej2').innerHTML = playerTab[1].life;
+        //Weapon
+        document.getElementById('weaponj1').innerHTML = playerTab[0].weapon;
+        document.getElementById('weaponj2').innerHTML = playerTab[1].weapon;
+        //Damage
+        document.getElementById('damagej1').innerHTML = weapon.getWeaponDamage(playerTab[0].weapon);
+        document.getElementById('damagej2').innerHTML = weapon.getWeaponDamage(playerTab[1].weapon);
     }
 
 }

@@ -12,8 +12,11 @@ if (!name_j2 || name_j2 === "") {
     name_j2 = "Joueur 2";
 }
 
+//Display player info
 document.getElementById('namej1').innerHTML = name_j1;
 document.getElementById('namej2').innerHTML = name_j2;
+
+
 
 
 export { name_j1 };

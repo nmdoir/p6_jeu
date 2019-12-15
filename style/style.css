@@ -10071,11 +10071,6 @@ table.center {
     margin-right:auto;
 }
 
-[data-weapon="bow"] {
-    background-image:url(img/bow.PNG);
-    background-size: 100% 100%;
-}
-
 [data-weapon="knife"] {
     background-image:url(img/knife.PNG);
     background-size: 100% 100%;

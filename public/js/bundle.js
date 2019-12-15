@@ -104,7 +104,8 @@ if (!name_j1 || name_j1 === "") {
 
 if (!name_j2 || name_j2 === "") {
   name_j2 = "Joueur 2";
-}
+} //Display player info
+
 
 document.getElementById('namej1').innerHTML = name_j1;
 document.getElementById('namej2').innerHTML = name_j2;
@@ -182,6 +183,8 @@ function () {
               console.log(_this.playerTab);
               _this.playerTab = move.move(td.id, _this.playerTab);
               move.availableMove(_this.playerTab);
+
+              _this.getPlayerInfo(_this.playerTab);
             }
           });
           tr.appendChild(td);
@@ -197,6 +200,7 @@ function () {
       this.createNoAccess();
       this.createWeapon();
       this.playerTab[0].move = true;
+      this.getPlayerInfo(this.playerTab);
     }
   }, {
     key: "getRandomCell",
@@ -292,6 +296,20 @@ function () {
       var newPlayer = this.createPlayer();
       move.availableMove(newPlayer);
     }
+  }, {
+    key: "getPlayerInfo",
+    value: function getPlayerInfo(playerTab) {
+      var weapon = new _js_weapon__WEBPACK_IMPORTED_MODULE_0__["Weapon"](); //Life
+
+      document.getElementById('lifej1').innerHTML = playerTab[0].life;
+      document.getElementById('lifej2').innerHTML = playerTab[1].life; //Weapon
+
+      document.getElementById('weaponj1').innerHTML = playerTab[0].weapon;
+      document.getElementById('weaponj2').innerHTML = playerTab[1].weapon; //Damage
+
+      document.getElementById('damagej1').innerHTML = weapon.getWeaponDamage(playerTab[0].weapon);
+      document.getElementById('damagej2').innerHTML = weapon.getWeaponDamage(playerTab[1].weapon);
+    }
   }]);
 
   return GenGrid;
@@ -319,9 +337,6 @@ function () {
     _classCallCheck(this, Weapon);
 
     this.weaponTab = [{
-      "name": "bow",
-      "damage": "5"
-    }, {
       "name": "knife",
       "damage": "10"
     }, {
@@ -356,8 +371,8 @@ function () {
 
   }, {
     key: "getWeaponDamage",
-    value: function getWeaponDamage() {
-      return this.weaponTab[name].damage;
+    value: function getWeaponDamage(weapon) {
+      return this.weaponTab[name = weapon].damage;
     }
   }]);
 
@@ -391,7 +406,7 @@ function () {
 
     this.name = null;
     this.life = 100;
-    this.weapon = null;
+    this.weapon = "bow";
     this.position = null;
     this.move = false;
     this.playerTab = [{

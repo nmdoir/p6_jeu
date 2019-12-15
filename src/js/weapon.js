@@ -2,10 +2,6 @@ class Weapon {
     constructor() {
         this.weaponTab = [
             {
-                "name": "bow",
-                "damage": "5"
-            },
-            {
                 "name": "knife",
                 "damage": "10"
             },
@@ -42,8 +38,8 @@ class Weapon {
   }*/
 
 
-    getWeaponDamage() {
-        return this.weaponTab[name].damage;
+    getWeaponDamage(weapon) {
+            return this.weaponTab[name=weapon].damage;
     }
 }
 
