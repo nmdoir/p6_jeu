@@ -304,8 +304,8 @@ function () {
       document.getElementById('lifej1').innerHTML = playerTab[0].life;
       document.getElementById('lifej2').innerHTML = playerTab[1].life; //Weapon
 
-      document.getElementById('weaponj1').innerHTML = playerTab[0].weapon;
-      document.getElementById('weaponj2').innerHTML = playerTab[1].weapon; //Damage
+      document.getElementById('weaponj1').innerHTML = weapon.getFrenchWeaponName(playerTab[0].weapon);
+      document.getElementById('weaponj2').innerHTML = weapon.getFrenchWeaponName(playerTab[1].weapon); //Damage
 
       document.getElementById('damagej1').innerHTML = weapon.getWeaponDamage(playerTab[0].weapon);
       document.getElementById('damagej2').innerHTML = weapon.getWeaponDamage(playerTab[1].weapon);
@@ -372,7 +372,24 @@ function () {
   }, {
     key: "getWeaponDamage",
     value: function getWeaponDamage(weapon) {
-      return this.weaponTab[name = weapon].damage;
+      for (var i = 0; i < this.weaponTab.length; i++) {
+        if (this.weaponTab[i].name === weapon) {
+          console.log(this.weaponTab[i].damage);
+          return this.weaponTab[i].damage;
+        }
+      }
+    }
+  }, {
+    key: "getFrenchWeaponName",
+    value: function getFrenchWeaponName(weapon) {
+      var translationTab = {
+        'knife': 'Couteau',
+        'sword': 'Epée',
+        'pistol': 'Revolver',
+        'dynamite': 'Dynamite',
+        'bomb': 'Bombe'
+      };
+      return translationTab[weapon];
     }
   }]);
 
@@ -406,7 +423,7 @@ function () {
 
     this.name = null;
     this.life = 100;
-    this.weapon = "bow";
+    this.weapon = "knife";
     this.position = null;
     this.move = false;
     this.playerTab = [{

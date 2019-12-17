@@ -5,7 +5,7 @@ class Player {
     constructor() {
         this.name = null;
         this.life = 100;
-        this.weapon = "bow";
+        this.weapon = "knife";
         this.position = null;
         this.move = false;
         this.playerTab = [

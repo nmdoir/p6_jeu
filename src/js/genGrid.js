@@ -144,8 +144,8 @@ class GenGrid {
         document.getElementById('lifej1').innerHTML = playerTab[0].life;
         document.getElementById('lifej2').innerHTML = playerTab[1].life;
         //Weapon
-        document.getElementById('weaponj1').innerHTML = playerTab[0].weapon;
-        document.getElementById('weaponj2').innerHTML = playerTab[1].weapon;
+        document.getElementById('weaponj1').innerHTML = weapon.getFrenchWeaponName(playerTab[0].weapon);
+        document.getElementById('weaponj2').innerHTML = weapon.getFrenchWeaponName(playerTab[1].weapon);
         //Damage
         document.getElementById('damagej1').innerHTML = weapon.getWeaponDamage(playerTab[0].weapon);
         document.getElementById('damagej2').innerHTML = weapon.getWeaponDamage(playerTab[1].weapon);

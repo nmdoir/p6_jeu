@@ -39,8 +39,27 @@ class Weapon {
 
 
     getWeaponDamage(weapon) {
-            return this.weaponTab[name=weapon].damage;
+        for (let i = 0; i < this.weaponTab.length; i++) {
+            if (this.weaponTab[i].name === weapon) {
+                console.log(this.weaponTab[i].damage);
+                return this.weaponTab[i].damage;
+            }
+        }
     }
+
+    getFrenchWeaponName(weapon) {
+        let translationTab = {
+            'knife': 'Couteau',
+            'sword': 'Epée',
+            'pistol': 'Revolver',
+            'dynamite': 'Dynamite',
+            'bomb': 'Bombe'
+        };
+        return translationTab[weapon];
+
+
+    }
+
 }
 
 export { Weapon };
