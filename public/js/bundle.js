@@ -140,7 +140,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
- //import {Cell} from "./cell";
+
 
 var GenGrid =
 /*#__PURE__*/
@@ -366,10 +366,6 @@ function () {
 
       return this.weaponTab[randomInt].name;
     }
-    /*getWeaponTab() {
-      return this.weaponTab
-    }*/
-
   }, {
     key: "getWeaponDamage",
     value: function getWeaponDamage(weapon) {
@@ -461,43 +457,18 @@ function () {
 
       return playerTab;
     }
-  }, {
-    key: "getName",
-    value: function getName() {
-      return this.name;
-    }
-  }, {
-    key: "getLife",
-    value: function getLife() {
-      return this.life;
-    }
-  }, {
-    key: "getWeapon",
-    value: function getWeapon() {
-      return this.weapon;
-    }
-  }, {
-    key: "getMove",
-    value: function getMove() {
-      return this.move;
-    }
-  }, {
-    key: "getPosition",
-    value: function getPosition() {
-      return this.position;
-    }
-  }, {
-    key: "increaseLife",
-    value: function increaseLife(points) {
-      this.life += points;
-      return this.life;
-    }
-  }, {
-    key: "decreaseLife",
-    value: function decreaseLife(damage) {
-      this.life -= damage;
-      return this.life;
-    }
+    /*
+        increaseLife(points) {
+            this.life += points;
+            return this.life
+        }
+    
+        decreaseLife(damage) {
+            this.life -= damage;
+            return this.life
+        }
+     */
+
   }]);
 
   return Player;

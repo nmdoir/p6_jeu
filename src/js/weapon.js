@@ -33,11 +33,6 @@ class Weapon {
         return this.weaponTab[randomInt].name;
     }
 
-    /*getWeaponTab() {
-      return this.weaponTab
-  }*/
-
-
     getWeaponDamage(weapon) {
         for (let i = 0; i < this.weaponTab.length; i++) {
             if (this.weaponTab[i].name === weapon) {

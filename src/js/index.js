@@ -17,8 +17,6 @@ document.getElementById('namej1').innerHTML = name_j1;
 document.getElementById('namej2').innerHTML = name_j2;
 
 
-
-
 export { name_j1 };
 export { name_j2 };
 

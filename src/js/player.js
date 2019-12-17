@@ -44,28 +44,7 @@ class Player {
         return playerTab;
     }
 
-
-    getName() {
-        return this.name
-    }
-
-    getLife() {
-        return this.life
-    }
-
-    getWeapon() {
-        return this.weapon
-    }
-
-    getMove() {
-        return this.move
-    }
-
-    getPosition() {
-        return this.position
-    }
-
-
+/*
     increaseLife(points) {
         this.life += points;
         return this.life
@@ -75,6 +54,8 @@ class Player {
         this.life -= damage;
         return this.life
     }
+ */
+
 }
 
 export {Player};

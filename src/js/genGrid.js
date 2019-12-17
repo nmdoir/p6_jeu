@@ -2,8 +2,6 @@ import {Weapon} from "../js/weapon";
 import {Player} from "../js/player";
 import {Move} from "../js/move";
 
-//import {Cell} from "./cell";
-
 class GenGrid {
     constructor(row, column) {
         this.row = row;
