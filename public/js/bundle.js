@@ -95,8 +95,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_genGrid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
  //Demander le nom des joueurs
 
-var name_j1 = prompt("Entrez le nom du joueur 1 : ");
-var name_j2 = prompt("Entrez le nom du joueur 2 : ");
+var name_j1 = ""; //prompt("Entrez le nom du joueur 1 : ");
+
+var name_j2 = ""; //prompt("Entrez le nom du joueur 2 : ");
 
 if (!name_j1 || name_j1 === "") {
   name_j1 = "Joueur 1";
@@ -374,7 +375,6 @@ function () {
     value: function getWeaponDamage(weapon) {
       for (var i = 0; i < this.weaponTab.length; i++) {
         if (this.weaponTab[i].name === weapon) {
-          console.log(this.weaponTab[i].damage);
           return this.weaponTab[i].damage;
         }
       }
@@ -387,7 +387,7 @@ function () {
         'sword': 'Epée',
         'pistol': 'Revolver',
         'dynamite': 'Dynamite',
-        'bomb': 'Bombe'
+        'bomb': 'Boule de feu'
       };
       return translationTab[weapon];
     }

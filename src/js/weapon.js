@@ -41,7 +41,6 @@ class Weapon {
     getWeaponDamage(weapon) {
         for (let i = 0; i < this.weaponTab.length; i++) {
             if (this.weaponTab[i].name === weapon) {
-                console.log(this.weaponTab[i].damage);
                 return this.weaponTab[i].damage;
             }
         }
@@ -53,7 +52,7 @@ class Weapon {
             'sword': 'Epée',
             'pistol': 'Revolver',
             'dynamite': 'Dynamite',
-            'bomb': 'Bombe'
+            'bomb': 'Boule de feu'
         };
         return translationTab[weapon];
 

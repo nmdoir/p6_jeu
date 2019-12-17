@@ -4558,16 +4558,18 @@ input[type="button"].btn-block {
 .card {
     position: relative;
     display: -ms-flexbox;
-    display: flex;
+    display: inline-block;
     -ms-flex-direction: column;
     flex-direction: column;
-    min-width: 0;
+    min-width: 250px;
+    max-width: 250px;
     word-wrap: break-word;
     background-color: #fff;
     background-clip: border-box;
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: 0.25rem;
     margin-bottom: 1rem;
+    margin-top: 1rem;
 }
 
 .card > hr {
@@ -4593,6 +4595,8 @@ input[type="button"].btn-block {
 
 .card-title {
     margin-bottom: 0.75rem;
+    line-height: 35px;
+    vertical-align: middle;
 }
 
 .card-subtitle {
@@ -10113,4 +10117,10 @@ table.center {
 .centered {
     text-align: center;
     align-content: center;
+}
+
+.playerimg {
+    float:left;
+    width:35px;
+    vertical-align: top;
 }
