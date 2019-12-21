@@ -14,6 +14,7 @@ class Move {
             }
             document.getElementById(td + browseCells).removeAttribute('data-playeraccess');
         }
+        //HERE check if 2 players are ready to fight
         let availableCell = null;
         for (let i = 0; i < 2; i++) {
             let playerCell = document.getElementById(playerTab[i].position);
@@ -46,56 +47,59 @@ class Move {
 
                     )
                 ) {
-                    availableCell.setAttribute('data-playeraccess', 1);
+                    //availableCell.setAttribute('data-playeraccess', 1);
 
-                    /* for (let j = 1; j <= 3; j++) {
-                        while (
+                    for (let j = playerCell.dataset.x - 1; j >= playerCell.dataset.x - 3; j--) {
+                        if (
                             (playerCell.dataset.y === availableCell.dataset.y) &&
-                            (availableCell.dataset.x === (Number(playerCell.dataset.x) - j)) &&
                             (
-                                !availableCell.hasAttribute('data-access') ||
-                                !availableCell.hasAttribute('data-player')
+                                availableCell.hasAttribute('data-access') ||
+                                availableCell.hasAttribute('data-player')
                             )
-                            ) {
-                            availableCell.setAttribute('data-playeraccess', 1);
+                        ) {
+                            break;
                         }
+                        availableCell.setAttribute('data-playeraccess', 1);
                     }
-                    for (let j = 1; j <= 3; j++) {
-                        while (
+
+                    for (let j = playerCell.dataset.x + 1; j >= playerCell.dataset.x + 3; j++) {
+                        if (
                             (playerCell.dataset.y === availableCell.dataset.y) &&
-                            (availableCell.dataset.x === (Number(playerCell.dataset.x) + j)) &&
                             (
-                                !availableCell.hasAttribute('data-access') ||
-                                !availableCell.hasAttribute('data-player')
+                                availableCell.hasAttribute('data-access') ||
+                                availableCell.hasAttribute('data-player')
                             )
-                            ) {
-                            availableCell.setAttribute('data-playeraccess', 1);
+                        ) {
+                            break;
                         }
+                        availableCell.setAttribute('data-playeraccess', 1);
                     }
-                    for (let j = 1; j <= 3; j++) {
-                        while (
+
+                    for (let j = playerCell.dataset.y - 1; j >= playerCell.dataset.y - 3; j--) {
+                        if (
                             (playerCell.dataset.x === availableCell.dataset.x) &&
-                            (availableCell.dataset.y === (Number(playerCell.dataset.y) - j)) &&
                             (
-                                !availableCell.hasAttribute('data-access') ||
-                                !availableCell.hasAttribute('data-player')
+                                availableCell.hasAttribute('data-access') ||
+                                availableCell.hasAttribute('data-player')
                             )
-                            ) {
-                            availableCell.setAttribute('data-playeraccess', 1);
+                        ) {
+                            break;
                         }
+                        availableCell.setAttribute('data-playeraccess', 1);
                     }
-                    for (let j = 1; j <= 3; j++) {
-                        while (
+
+                    for (let j = playerCell.dataset.y + 1; j >= playerCell.dataset.y + 3; j++) {
+                        if (
                             (playerCell.dataset.x === availableCell.dataset.x) &&
-                            (availableCell.dataset.y === (Number(playerCell.dataset.y) + j)) &&
                             (
-                                !availableCell.hasAttribute('data-access') ||
-                                !availableCell.hasAttribute('data-player')
+                                availableCell.hasAttribute('data-access') ||
+                                availableCell.hasAttribute('data-player')
                             )
-                            ) {
-                            availableCell.setAttribute('data-playeraccess', 1);
+                        ) {
+                            break;
                         }
-                    }*/
+                        availableCell.setAttribute('data-playeraccess', 1);
+                    }
                 }
             }
         }
@@ -155,6 +159,10 @@ class Move {
 
     getPlayer(player) {
         return player;
+    }
+
+    checkIfFight() {
+
     }
 
 

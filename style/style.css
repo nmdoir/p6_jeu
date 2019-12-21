@@ -10124,3 +10124,7 @@ table.center {
     width:35px;
     vertical-align: top;
 }
+
+.disable {
+    display: none;
+}

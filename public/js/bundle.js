@@ -98,6 +98,7 @@ __webpack_require__.r(__webpack_exports__);
 var name_j1 = ""; //prompt("Entrez le nom du joueur 1 : ");
 
 var name_j2 = ""; //prompt("Entrez le nom du joueur 2 : ");
+//Leur donner un nom par défaut au cas où l'utilisateur n'entre rien
 
 if (!name_j1 || name_j1 === "") {
   name_j1 = "Joueur 1";
@@ -105,11 +106,12 @@ if (!name_j1 || name_j1 === "") {
 
 if (!name_j2 || name_j2 === "") {
   name_j2 = "Joueur 2";
-} //Display player info
+} //Afficher les noms des joueurs dans les blocs info
 
 
 document.getElementById('namej1').innerHTML = name_j1;
-document.getElementById('namej2').innerHTML = name_j2;
+document.getElementById('namej2').innerHTML = name_j2; //On exporte les 2 variables afin de les utiliser dans la classe Player
+
 
  //Insérer la grille dans le HTML
 
@@ -181,7 +183,6 @@ function () {
           td.id = "td-" + i + j;
           td.addEventListener('click', function () {
             if (td.dataset.playeraccess === "1") {
-              console.log(_this.playerTab);
               _this.playerTab = move.move(td.id, _this.playerTab);
               move.availableMove(_this.playerTab);
 
@@ -196,6 +197,7 @@ function () {
         }
       }
 
+      this.displayPlayerInfo();
       this.board.appendChild(table);
       this.createMovement();
       this.createNoAccess();
@@ -310,6 +312,13 @@ function () {
 
       document.getElementById('damagej1').innerHTML = weapon.getWeaponDamage(playerTab[0].weapon);
       document.getElementById('damagej2').innerHTML = weapon.getWeaponDamage(playerTab[1].weapon);
+    } //Afin que les blocs ne s'affichent pas en même temps que les prompts (noms des joueurs)
+
+  }, {
+    key: "displayPlayerInfo",
+    value: function displayPlayerInfo() {
+      var div = document.getElementById('playerinfo');
+      div.classList.remove('disable');
     }
   }]);
 
@@ -408,6 +417,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+//On récupère les variables des noms des joueurs entrés par l'utilisateur
 
 
 
@@ -513,7 +523,8 @@ function () {
         }
 
         document.getElementById(td + browseCells).removeAttribute('data-playeraccess');
-      }
+      } //HERE check if 2 players are ready to fight
+
 
       var availableCell = null;
 
@@ -530,55 +541,38 @@ function () {
           availableCell = document.getElementById(td + _browseCells);
 
           if (playerTab[i].move === true && playerCell.dataset.y === availableCell.dataset.y && availableCell.dataset.x >= Number(playerCell.dataset.x) - 3 && availableCell.dataset.x <= Number(playerCell.dataset.x) + 3 && availableCell.dataset.x !== playerCell.dataset.x && !availableCell.hasAttribute('data-access') && !availableCell.hasAttribute('data-player') || playerTab[i].move === true && playerCell.dataset.x === availableCell.dataset.x && availableCell.dataset.y >= Number(playerCell.dataset.y) - 3 && availableCell.dataset.y <= Number(playerCell.dataset.y) + 3 && availableCell.dataset.y !== playerCell.dataset.y && !availableCell.hasAttribute('data-access') && !availableCell.hasAttribute('data-player')) {
-            availableCell.setAttribute('data-playeraccess', 1);
-            /* for (let j = 1; j <= 3; j++) {
-                while (
-                    (playerCell.dataset.y === availableCell.dataset.y) &&
-                    (availableCell.dataset.x === (Number(playerCell.dataset.x) - j)) &&
-                    (
-                        !availableCell.hasAttribute('data-access') ||
-                        !availableCell.hasAttribute('data-player')
-                    )
-                    ) {
-                    availableCell.setAttribute('data-playeraccess', 1);
-                }
+            //availableCell.setAttribute('data-playeraccess', 1);
+            for (var j = playerCell.dataset.x - 1; j >= playerCell.dataset.x - 3; j--) {
+              if (playerCell.dataset.y === availableCell.dataset.y && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player'))) {
+                break;
+              }
+
+              availableCell.setAttribute('data-playeraccess', 1);
             }
-            for (let j = 1; j <= 3; j++) {
-                while (
-                    (playerCell.dataset.y === availableCell.dataset.y) &&
-                    (availableCell.dataset.x === (Number(playerCell.dataset.x) + j)) &&
-                    (
-                        !availableCell.hasAttribute('data-access') ||
-                        !availableCell.hasAttribute('data-player')
-                    )
-                    ) {
-                    availableCell.setAttribute('data-playeraccess', 1);
-                }
+
+            for (var _j = playerCell.dataset.x + 1; _j >= playerCell.dataset.x + 3; _j++) {
+              if (playerCell.dataset.y === availableCell.dataset.y && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player'))) {
+                break;
+              }
+
+              availableCell.setAttribute('data-playeraccess', 1);
             }
-            for (let j = 1; j <= 3; j++) {
-                while (
-                    (playerCell.dataset.x === availableCell.dataset.x) &&
-                    (availableCell.dataset.y === (Number(playerCell.dataset.y) - j)) &&
-                    (
-                        !availableCell.hasAttribute('data-access') ||
-                        !availableCell.hasAttribute('data-player')
-                    )
-                    ) {
-                    availableCell.setAttribute('data-playeraccess', 1);
-                }
+
+            for (var _j2 = playerCell.dataset.y - 1; _j2 >= playerCell.dataset.y - 3; _j2--) {
+              if (playerCell.dataset.x === availableCell.dataset.x && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player'))) {
+                break;
+              }
+
+              availableCell.setAttribute('data-playeraccess', 1);
             }
-            for (let j = 1; j <= 3; j++) {
-                while (
-                    (playerCell.dataset.x === availableCell.dataset.x) &&
-                    (availableCell.dataset.y === (Number(playerCell.dataset.y) + j)) &&
-                    (
-                        !availableCell.hasAttribute('data-access') ||
-                        !availableCell.hasAttribute('data-player')
-                    )
-                    ) {
-                    availableCell.setAttribute('data-playeraccess', 1);
-                }
-            }*/
+
+            for (var _j3 = playerCell.dataset.y + 1; _j3 >= playerCell.dataset.y + 3; _j3++) {
+              if (playerCell.dataset.x === availableCell.dataset.x && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player'))) {
+                break;
+              }
+
+              availableCell.setAttribute('data-playeraccess', 1);
+            }
           }
         }
       }
@@ -635,6 +629,9 @@ function () {
     value: function getPlayer(player) {
       return player;
     }
+  }, {
+    key: "checkIfFight",
+    value: function checkIfFight() {}
   }]);
 
   return Move;

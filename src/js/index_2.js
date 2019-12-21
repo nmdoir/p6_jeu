@@ -351,3 +351,52 @@ if (
 }
 }
 }
+
+/*for (playerCell.dataset.x; playerCell.dataset.x <= playerCell.dataset.x + 3; playerCell.dataset.x++) {
+                        if (
+                            (playerCell.dataset.y === availableCell.dataset.y) &&
+                            (availableCell.dataset.x === (Number(playerCell.dataset.x) - j)) &&
+                            (
+                                !availableCell.hasAttribute('data-access') ||
+                                !availableCell.hasAttribute('data-player')
+                            )
+                            ) {
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        }
+                    }
+                    for (let j = 1; j <= 3; j++) {
+                        while (
+                            (playerCell.dataset.y === availableCell.dataset.y) &&
+                            (availableCell.dataset.x === (Number(playerCell.dataset.x) + j)) &&
+                            (
+                                !availableCell.hasAttribute('data-access') ||
+                                !availableCell.hasAttribute('data-player')
+                            )
+                            ) {
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        }
+                    }
+                    for (let j = 1; j <= 3; j++) {
+                        while (
+                            (playerCell.dataset.x === availableCell.dataset.x) &&
+                            (availableCell.dataset.y === (Number(playerCell.dataset.y) - j)) &&
+                            (
+                                !availableCell.hasAttribute('data-access') ||
+                                !availableCell.hasAttribute('data-player')
+                            )
+                            ) {
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        }
+                    }
+                    for (let j = 1; j <= 3; j++) {
+                        while (
+                            (playerCell.dataset.x === availableCell.dataset.x) &&
+                            (availableCell.dataset.y === (Number(playerCell.dataset.y) + j)) &&
+                            (
+                                !availableCell.hasAttribute('data-access') ||
+                                !availableCell.hasAttribute('data-player')
+                            )
+                            ) {
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        }
+                    }*/

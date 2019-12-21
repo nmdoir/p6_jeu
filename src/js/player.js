@@ -1,3 +1,4 @@
+//On récupère les variables des noms des joueurs entrés par l'utilisateur
 import { name_j1 } from "./index";
 import { name_j2 } from "./index";
 

@@ -33,7 +33,6 @@ class GenGrid {
                 td.id = "td-" + i + j;
                 td.addEventListener('click', () => {
                     if (td.dataset.playeraccess === "1") {
-                        console.log(this.playerTab);
                         this.playerTab = move.move(td.id, this.playerTab);
                         move.availableMove(this.playerTab);
                         this.getPlayerInfo(this.playerTab);
@@ -43,6 +42,7 @@ class GenGrid {
             }
         }
 
+        this.displayPlayerInfo();
         this.board.appendChild(table);
         this.createMovement();
         this.createNoAccess();
@@ -147,6 +147,12 @@ class GenGrid {
         //Damage
         document.getElementById('damagej1').innerHTML = weapon.getWeaponDamage(playerTab[0].weapon);
         document.getElementById('damagej2').innerHTML = weapon.getWeaponDamage(playerTab[1].weapon);
+    }
+
+    //Afin que les blocs ne s'affichent pas en même temps que les prompts (noms des joueurs)
+    displayPlayerInfo() {
+        let div = document.getElementById('playerinfo');
+        div.classList.remove('disable');
     }
 
 }
