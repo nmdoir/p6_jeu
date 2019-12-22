@@ -14,94 +14,100 @@ class Move {
             }
             document.getElementById(td + browseCells).removeAttribute('data-playeraccess');
         }
-        //HERE check if 2 players are ready to fight
-        let availableCell = null;
-        for (let i = 0; i < 2; i++) {
-            let playerCell = document.getElementById(playerTab[i].position);
-            for (let browseCells = 0; browseCells < 100; browseCells++) {
-                if (browseCells < 10) {
-                    td = 'td-0'
-                } else {
-                    td = 'td-'
-                }
-                availableCell = document.getElementById(td + browseCells);
-                if (
-                    (
-                        (playerTab[i].move === true) &&
-                        (playerCell.dataset.y === availableCell.dataset.y) &&
-                        (availableCell.dataset.x >= (Number(playerCell.dataset.x) - 3)) &&
-                        (availableCell.dataset.x <= (Number(playerCell.dataset.x) + 3)) &&
-                        (availableCell.dataset.x !== playerCell.dataset.x) &&
-                        (!availableCell.hasAttribute('data-access')) &&
-                        (!availableCell.hasAttribute('data-player'))
-                    )
-                    ||
-                    (
-                        (playerTab[i].move === true) &&
-                        (playerCell.dataset.x === availableCell.dataset.x) &&
-                        (availableCell.dataset.y >= (Number(playerCell.dataset.y) - 3)) &&
-                        (availableCell.dataset.y <= (Number(playerCell.dataset.y) + 3)) &&
-                        (availableCell.dataset.y !== playerCell.dataset.y) &&
-                        (!availableCell.hasAttribute('data-access')) &&
-                        (!availableCell.hasAttribute('data-player'))
 
-                    )
-                ) {
-                    //availableCell.setAttribute('data-playeraccess', 1);
-
-                    for (let j = playerCell.dataset.x - 1; j >= playerCell.dataset.x - 3; j--) {
-                        if (
+        let player = new Player();
+        if (this.checkIfFight(playerTab) === false) {
+            let availableCell = null;
+            for (let i = 0; i < 2; i++) {
+                let playerCell = document.getElementById(playerTab[i].position);
+                for (let browseCells = 0; browseCells < 100; browseCells++) {
+                    if (browseCells < 10) {
+                        td = 'td-0'
+                    } else {
+                        td = 'td-'
+                    }
+                    availableCell = document.getElementById(td + browseCells);
+                    if (
+                        (
+                            (playerTab[i].move === true) &&
                             (playerCell.dataset.y === availableCell.dataset.y) &&
-                            (
-                                availableCell.hasAttribute('data-access') ||
-                                availableCell.hasAttribute('data-player')
-                            )
-                        ) {
-                            break;
-                        }
-                        availableCell.setAttribute('data-playeraccess', 1);
-                    }
-
-                    for (let j = playerCell.dataset.x + 1; j >= playerCell.dataset.x + 3; j++) {
-                        if (
-                            (playerCell.dataset.y === availableCell.dataset.y) &&
-                            (
-                                availableCell.hasAttribute('data-access') ||
-                                availableCell.hasAttribute('data-player')
-                            )
-                        ) {
-                            break;
-                        }
-                        availableCell.setAttribute('data-playeraccess', 1);
-                    }
-
-                    for (let j = playerCell.dataset.y - 1; j >= playerCell.dataset.y - 3; j--) {
-                        if (
+                            (availableCell.dataset.x >= (Number(playerCell.dataset.x) - 3)) &&
+                            (availableCell.dataset.x <= (Number(playerCell.dataset.x) + 3)) &&
+                            (availableCell.dataset.x !== playerCell.dataset.x) &&
+                            (!availableCell.hasAttribute('data-access')) &&
+                            (!availableCell.hasAttribute('data-player'))
+                        )
+                        ||
+                        (
+                            (playerTab[i].move === true) &&
                             (playerCell.dataset.x === availableCell.dataset.x) &&
-                            (
-                                availableCell.hasAttribute('data-access') ||
-                                availableCell.hasAttribute('data-player')
-                            )
-                        ) {
-                            break;
-                        }
-                        availableCell.setAttribute('data-playeraccess', 1);
-                    }
+                            (availableCell.dataset.y >= (Number(playerCell.dataset.y) - 3)) &&
+                            (availableCell.dataset.y <= (Number(playerCell.dataset.y) + 3)) &&
+                            (availableCell.dataset.y !== playerCell.dataset.y) &&
+                            (!availableCell.hasAttribute('data-access')) &&
+                            (!availableCell.hasAttribute('data-player'))
 
-                    for (let j = playerCell.dataset.y + 1; j >= playerCell.dataset.y + 3; j++) {
-                        if (
-                            (playerCell.dataset.x === availableCell.dataset.x) &&
-                            (
-                                availableCell.hasAttribute('data-access') ||
-                                availableCell.hasAttribute('data-player')
-                            )
-                        ) {
-                            break;
-                        }
+                        )
+                    ) {
                         availableCell.setAttribute('data-playeraccess', 1);
+
+                        /*for (let j = playerCell.dataset.x - 1; j >= playerCell.dataset.x - 3; j--) {
+                            if (
+                                (playerCell.dataset.y === availableCell.dataset.y) &&
+                                (
+                                    availableCell.hasAttribute('data-access') ||
+                                    availableCell.hasAttribute('data-player')
+                                )
+                            ) {
+                                break;
+                            }
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        }
+
+                        for (let j = playerCell.dataset.x + 1; j >= playerCell.dataset.x + 3; j++) {
+                            if (
+                                (playerCell.dataset.y === availableCell.dataset.y) &&
+                                (
+                                    availableCell.hasAttribute('data-access') ||
+                                    availableCell.hasAttribute('data-player')
+                                )
+                            ) {
+                                break;
+                            }
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        }
+
+                        for (let j = playerCell.dataset.y - 1; j >= playerCell.dataset.y - 3; j--) {
+                            if (
+                                (playerCell.dataset.x === availableCell.dataset.x) &&
+                                (
+                                    availableCell.hasAttribute('data-access') ||
+                                    availableCell.hasAttribute('data-player')
+                                )
+                            ) {
+                                break;
+                            }
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        }
+
+                        for (let j = playerCell.dataset.y + 1; j >= playerCell.dataset.y + 3; j++) {
+                            if (
+                                (playerCell.dataset.x === availableCell.dataset.x) &&
+                                (
+                                    availableCell.hasAttribute('data-access') ||
+                                    availableCell.hasAttribute('data-player')
+                                )
+                            ) {
+                                break;
+                            }
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        }*/
                     }
                 }
             }
+        }
+        else {
+            player.allowFight(playerTab);
         }
     }
 
@@ -161,8 +167,33 @@ class Move {
         return player;
     }
 
-    checkIfFight() {
+    //Vérifie si les 2 joueurs sont côte à côte (renvoie true), pour déclencher le fight
+    checkIfFight(playerTab) {
+        let player1Position = document.getElementById(playerTab[0].position);
+        let player2Position = document.getElementById(playerTab[1].position);
 
+        if (
+            (
+                player1Position.dataset.y === player2Position.dataset.y &&
+                (
+                    Number(player1Position.dataset.x) === (Number(player2Position.dataset.x) + 1) ||
+                    Number(player1Position.dataset.x) === (Number(player2Position.dataset.x) - 1)
+                )
+            )
+            ||
+            (
+                player1Position.dataset.x === player2Position.dataset.x &&
+                (
+                    Number(player1Position.dataset.y) === (Number(player2Position.dataset.y) + 1) ||
+                    Number(player1Position.dataset.y) === (Number(player2Position.dataset.y) - 1)
+                )
+            )
+        ) {
+            return true
+        }
+        else {
+            return false
+        }
     }
 
 

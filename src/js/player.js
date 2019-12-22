@@ -45,6 +45,30 @@ class Player {
         return playerTab;
     }
 
+    //Afficher les boutons d'attaque et de défense en fonction du joueur dont c'est le tour
+    allowFight(playerTab) {
+        let buttonsj1 = document.getElementById('buttonsj1');
+        let buttonsj2 = document.getElementById('buttonsj2');
+        let buttonA = document.createElement('button');
+        let buttonD = document.createElement('button');
+        buttonA.innerHTML = "Attaquer";
+        buttonD.innerHTML = "Défendre";
+
+        if(playerTab[0].move === true){
+            buttonsj1.classList.remove('disable');
+            buttonsj1.appendChild(buttonA).setAttribute('class', 'fightbtn');
+            buttonsj1.appendChild(buttonD).setAttribute('class', 'fightbtn');
+            buttonsj2.setAttribute('class', 'disable');
+        }
+        else if (playerTab[1].move === true) {
+            buttonsj2.classList.remove('disable');
+            buttonsj2.appendChild(buttonA).setAttribute('class', 'fightbtn');
+            buttonsj2.appendChild(buttonD).setAttribute('class', 'fightbtn');
+            buttonsj1.setAttribute('class', 'disable');
+        }
+        return playerTab;
+    }
+
 /*
     increaseLife(points) {
         this.life += points;

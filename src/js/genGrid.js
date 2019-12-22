@@ -149,7 +149,7 @@ class GenGrid {
         document.getElementById('damagej2').innerHTML = weapon.getWeaponDamage(playerTab[1].weapon);
     }
 
-    //Afin que les blocs ne s'affichent pas en même temps que les prompts (noms des joueurs)
+    //Afin que les blocs ne s'affichent pas en même temps que les prompts au moment du chargement de la page
     displayPlayerInfo() {
         let div = document.getElementById('playerinfo');
         div.classList.remove('disable');

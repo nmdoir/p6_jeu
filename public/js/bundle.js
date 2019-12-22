@@ -312,7 +312,7 @@ function () {
 
       document.getElementById('damagej1').innerHTML = weapon.getWeaponDamage(playerTab[0].weapon);
       document.getElementById('damagej2').innerHTML = weapon.getWeaponDamage(playerTab[1].weapon);
-    } //Afin que les blocs ne s'affichent pas en même temps que les prompts (noms des joueurs)
+    } //Afin que les blocs ne s'affichent pas en même temps que les prompts au moment du chargement de la page
 
   }, {
     key: "displayPlayerInfo",
@@ -466,6 +466,31 @@ function () {
       }
 
       return playerTab;
+    } //Afficher les boutons d'attaque et de défense en fonction du joueur dont c'est le tour
+
+  }, {
+    key: "allowFight",
+    value: function allowFight(playerTab) {
+      var buttonsj1 = document.getElementById('buttonsj1');
+      var buttonsj2 = document.getElementById('buttonsj2');
+      var buttonA = document.createElement('button');
+      var buttonD = document.createElement('button');
+      buttonA.innerHTML = "Attaquer";
+      buttonD.innerHTML = "Défendre";
+
+      if (playerTab[0].move === true) {
+        buttonsj1.classList.remove('disable');
+        buttonsj1.appendChild(buttonA).setAttribute('class', 'fightbtn');
+        buttonsj1.appendChild(buttonD).setAttribute('class', 'fightbtn');
+        buttonsj2.setAttribute('class', 'disable');
+      } else if (playerTab[1].move === true) {
+        buttonsj2.classList.remove('disable');
+        buttonsj2.appendChild(buttonA).setAttribute('class', 'fightbtn');
+        buttonsj2.appendChild(buttonD).setAttribute('class', 'fightbtn');
+        buttonsj1.setAttribute('class', 'disable');
+      }
+
+      return playerTab;
     }
     /*
         increaseLife(points) {
@@ -523,58 +548,80 @@ function () {
         }
 
         document.getElementById(td + browseCells).removeAttribute('data-playeraccess');
-      } //HERE check if 2 players are ready to fight
+      }
 
+      var player = new _js_player__WEBPACK_IMPORTED_MODULE_0__["Player"]();
 
-      var availableCell = null;
+      if (this.checkIfFight(playerTab) === false) {
+        var availableCell = null;
 
-      for (var i = 0; i < 2; i++) {
-        var playerCell = document.getElementById(playerTab[i].position);
+        for (var i = 0; i < 2; i++) {
+          var playerCell = document.getElementById(playerTab[i].position);
 
-        for (var _browseCells = 0; _browseCells < 100; _browseCells++) {
-          if (_browseCells < 10) {
-            td = 'td-0';
-          } else {
-            td = 'td-';
-          }
-
-          availableCell = document.getElementById(td + _browseCells);
-
-          if (playerTab[i].move === true && playerCell.dataset.y === availableCell.dataset.y && availableCell.dataset.x >= Number(playerCell.dataset.x) - 3 && availableCell.dataset.x <= Number(playerCell.dataset.x) + 3 && availableCell.dataset.x !== playerCell.dataset.x && !availableCell.hasAttribute('data-access') && !availableCell.hasAttribute('data-player') || playerTab[i].move === true && playerCell.dataset.x === availableCell.dataset.x && availableCell.dataset.y >= Number(playerCell.dataset.y) - 3 && availableCell.dataset.y <= Number(playerCell.dataset.y) + 3 && availableCell.dataset.y !== playerCell.dataset.y && !availableCell.hasAttribute('data-access') && !availableCell.hasAttribute('data-player')) {
-            //availableCell.setAttribute('data-playeraccess', 1);
-            for (var j = playerCell.dataset.x - 1; j >= playerCell.dataset.x - 3; j--) {
-              if (playerCell.dataset.y === availableCell.dataset.y && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player'))) {
-                break;
-              }
-
-              availableCell.setAttribute('data-playeraccess', 1);
+          for (var _browseCells = 0; _browseCells < 100; _browseCells++) {
+            if (_browseCells < 10) {
+              td = 'td-0';
+            } else {
+              td = 'td-';
             }
 
-            for (var _j = playerCell.dataset.x + 1; _j >= playerCell.dataset.x + 3; _j++) {
-              if (playerCell.dataset.y === availableCell.dataset.y && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player'))) {
-                break;
-              }
+            availableCell = document.getElementById(td + _browseCells);
 
+            if (playerTab[i].move === true && playerCell.dataset.y === availableCell.dataset.y && availableCell.dataset.x >= Number(playerCell.dataset.x) - 3 && availableCell.dataset.x <= Number(playerCell.dataset.x) + 3 && availableCell.dataset.x !== playerCell.dataset.x && !availableCell.hasAttribute('data-access') && !availableCell.hasAttribute('data-player') || playerTab[i].move === true && playerCell.dataset.x === availableCell.dataset.x && availableCell.dataset.y >= Number(playerCell.dataset.y) - 3 && availableCell.dataset.y <= Number(playerCell.dataset.y) + 3 && availableCell.dataset.y !== playerCell.dataset.y && !availableCell.hasAttribute('data-access') && !availableCell.hasAttribute('data-player')) {
               availableCell.setAttribute('data-playeraccess', 1);
-            }
-
-            for (var _j2 = playerCell.dataset.y - 1; _j2 >= playerCell.dataset.y - 3; _j2--) {
-              if (playerCell.dataset.x === availableCell.dataset.x && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player'))) {
-                break;
+              /*for (let j = playerCell.dataset.x - 1; j >= playerCell.dataset.x - 3; j--) {
+                  if (
+                      (playerCell.dataset.y === availableCell.dataset.y) &&
+                      (
+                          availableCell.hasAttribute('data-access') ||
+                          availableCell.hasAttribute('data-player')
+                      )
+                  ) {
+                      break;
+                  }
+                  availableCell.setAttribute('data-playeraccess', 1);
               }
-
-              availableCell.setAttribute('data-playeraccess', 1);
-            }
-
-            for (var _j3 = playerCell.dataset.y + 1; _j3 >= playerCell.dataset.y + 3; _j3++) {
-              if (playerCell.dataset.x === availableCell.dataset.x && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player'))) {
-                break;
+                for (let j = playerCell.dataset.x + 1; j >= playerCell.dataset.x + 3; j++) {
+                  if (
+                      (playerCell.dataset.y === availableCell.dataset.y) &&
+                      (
+                          availableCell.hasAttribute('data-access') ||
+                          availableCell.hasAttribute('data-player')
+                      )
+                  ) {
+                      break;
+                  }
+                  availableCell.setAttribute('data-playeraccess', 1);
               }
-
-              availableCell.setAttribute('data-playeraccess', 1);
+                for (let j = playerCell.dataset.y - 1; j >= playerCell.dataset.y - 3; j--) {
+                  if (
+                      (playerCell.dataset.x === availableCell.dataset.x) &&
+                      (
+                          availableCell.hasAttribute('data-access') ||
+                          availableCell.hasAttribute('data-player')
+                      )
+                  ) {
+                      break;
+                  }
+                  availableCell.setAttribute('data-playeraccess', 1);
+              }
+                for (let j = playerCell.dataset.y + 1; j >= playerCell.dataset.y + 3; j++) {
+                  if (
+                      (playerCell.dataset.x === availableCell.dataset.x) &&
+                      (
+                          availableCell.hasAttribute('data-access') ||
+                          availableCell.hasAttribute('data-player')
+                      )
+                  ) {
+                      break;
+                  }
+                  availableCell.setAttribute('data-playeraccess', 1);
+              }*/
             }
           }
         }
+      } else {
+        player.allowFight(playerTab);
       }
     }
   }, {
@@ -628,10 +675,20 @@ function () {
     key: "getPlayer",
     value: function getPlayer(player) {
       return player;
-    }
+    } //Vérifie si les 2 joueurs sont côte à côte (renvoie true), pour déclencher le fight
+
   }, {
     key: "checkIfFight",
-    value: function checkIfFight() {}
+    value: function checkIfFight(playerTab) {
+      var player1Position = document.getElementById(playerTab[0].position);
+      var player2Position = document.getElementById(playerTab[1].position);
+
+      if (player1Position.dataset.y === player2Position.dataset.y && (Number(player1Position.dataset.x) === Number(player2Position.dataset.x) + 1 || Number(player1Position.dataset.x) === Number(player2Position.dataset.x) - 1) || player1Position.dataset.x === player2Position.dataset.x && (Number(player1Position.dataset.y) === Number(player2Position.dataset.y) + 1 || Number(player1Position.dataset.y) === Number(player2Position.dataset.y) - 1)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }]);
 
   return Move;
