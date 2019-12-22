@@ -56,20 +56,27 @@ class Player {
 
         if(playerTab[0].move === true){
             buttonsj1.classList.remove('disable');
-            buttonsj1.appendChild(buttonA).setAttribute('class', 'fightbtn');
-            buttonsj1.appendChild(buttonD).setAttribute('class', 'fightbtn');
+            buttonsj1.appendChild(buttonA).setAttribute('class', 'fightbtn attack');
+            buttonsj1.appendChild(buttonD).setAttribute('class', 'fightbtn defense');
             buttonsj2.setAttribute('class', 'disable');
         }
         else if (playerTab[1].move === true) {
             buttonsj2.classList.remove('disable');
-            buttonsj2.appendChild(buttonA).setAttribute('class', 'fightbtn');
-            buttonsj2.appendChild(buttonD).setAttribute('class', 'fightbtn');
+            buttonsj2.appendChild(buttonA).setAttribute('class', 'fightbtn attack');
+            buttonsj2.appendChild(buttonD).setAttribute('class', 'fightbtn defense');
             buttonsj1.setAttribute('class', 'disable');
         }
         return playerTab;
     }
 
-/*
+    /*getFightMoves() {
+        let decision = null;
+        if (document.getElementById('buttonsj1').addEventListener("click", () => {
+
+        }))
+    }
+
+
     increaseLife(points) {
         this.life += points;
         return this.life

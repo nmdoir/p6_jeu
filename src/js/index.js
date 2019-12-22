@@ -33,4 +33,3 @@ let grid = new GenGrid(10, 10);
 grid.createGrid();
 
 
-//cd /c/Users/User/Desktop/OPENCLASSROOMS/p6_jeu
