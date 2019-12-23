@@ -1,6 +1,7 @@
 //On récupère les variables des noms des joueurs entrés par l'utilisateur
 import { name_j1 } from "./index";
 import { name_j2 } from "./index";
+import {Weapon} from "./weapon";
 
 class Player {
     constructor() {
@@ -45,8 +46,11 @@ class Player {
         return playerTab;
     }
 
+    //TODO: fonction à améliorer, répétitions
+
     //Afficher les boutons d'attaque et de défense en fonction du joueur dont c'est le tour
     allowFight(playerTab) {
+        let weapon = new Weapon();
         let buttonsj1 = document.getElementById('buttonsj1');
         let buttonsj2 = document.getElementById('buttonsj2');
         let buttonA = document.createElement('button');
@@ -55,29 +59,42 @@ class Player {
         buttonD.innerHTML = "Défendre";
 
         if(playerTab[0].move === true){
+            let attackerDamage = weapon.getWeaponDamage(playerTab[0].weapon);
             buttonsj1.classList.remove('disable');
-            buttonsj1.appendChild(buttonA).setAttribute('class', 'fightbtn attack');
-            buttonsj1.appendChild(buttonD).setAttribute('class', 'fightbtn defense');
             buttonsj2.setAttribute('class', 'disable');
+            buttonsj1.appendChild(buttonA).setAttribute('class', 'fightbtn attack'); //supp classes attack/defense?
+            buttonsj1.appendChild(buttonD).setAttribute('class', 'fightbtn defense');
+            buttonA.addEventListener("click", () => {
+                console.log('attaque cliquée');
+                playerTab[1].life -= attackerDamage;
+            });
+            buttonD.addEventListener("click", () => {
+                console.log('defense cliquée');
+                playerTab[1].life -= (attackerDamage / 2);
+            });
+            this.allowMove(playerTab);
         }
         else if (playerTab[1].move === true) {
+            let attackerDamage = weapon.getWeaponDamage(playerTab[1].weapon);
             buttonsj2.classList.remove('disable');
+            buttonsj1.setAttribute('class', 'disable');
             buttonsj2.appendChild(buttonA).setAttribute('class', 'fightbtn attack');
             buttonsj2.appendChild(buttonD).setAttribute('class', 'fightbtn defense');
-            buttonsj1.setAttribute('class', 'disable');
+            buttonA.addEventListener("click", () => {
+                console.log('attaque cliquée');
+                playerTab[0].life -= attackerDamage;
+            });
+            buttonD.addEventListener("click", () => {
+                console.log('defense cliquée');
+                playerTab[0].life -= (attackerDamage / 2);
+            });
+            this.allowMove(playerTab);
         }
+        console.log(playerTab);
         return playerTab;
     }
 
-    /*getFightMoves() {
-        let decision = null;
-        if (document.getElementById('buttonsj1').addEventListener("click", () => {
-
-        }))
-    }
-
-
-    increaseLife(points) {
+    /*increaseLife(points) {
         this.life += points;
         return this.life
     }

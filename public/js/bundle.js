@@ -411,6 +411,7 @@ function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Player", function() { return Player; });
 /* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _weapon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -418,6 +419,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 //On récupère les variables des noms des joueurs entrés par l'utilisateur
+
 
 
 
@@ -466,11 +468,13 @@ function () {
       }
 
       return playerTab;
-    } //Afficher les boutons d'attaque et de défense en fonction du joueur dont c'est le tour
+    } //TODO: fonction à améliorer, répétitions
+    //Afficher les boutons d'attaque et de défense en fonction du joueur dont c'est le tour
 
   }, {
     key: "allowFight",
     value: function allowFight(playerTab) {
+      var weapon = new _weapon__WEBPACK_IMPORTED_MODULE_1__["Weapon"]();
       var buttonsj1 = document.getElementById('buttonsj1');
       var buttonsj2 = document.getElementById('buttonsj2');
       var buttonA = document.createElement('button');
@@ -479,25 +483,43 @@ function () {
       buttonD.innerHTML = "Défendre";
 
       if (playerTab[0].move === true) {
+        var attackerDamage = weapon.getWeaponDamage(playerTab[0].weapon);
         buttonsj1.classList.remove('disable');
-        buttonsj1.appendChild(buttonA).setAttribute('class', 'fightbtn attack');
-        buttonsj1.appendChild(buttonD).setAttribute('class', 'fightbtn defense');
         buttonsj2.setAttribute('class', 'disable');
+        buttonsj1.appendChild(buttonA).setAttribute('class', 'fightbtn attack'); //supp classes attack/defense?
+
+        buttonsj1.appendChild(buttonD).setAttribute('class', 'fightbtn defense');
+        buttonA.addEventListener("click", function () {
+          console.log('attaque cliquée');
+          playerTab[1].life -= attackerDamage;
+        });
+        buttonD.addEventListener("click", function () {
+          console.log('defense cliquée');
+          playerTab[1].life -= attackerDamage / 2;
+        });
+        this.allowMove(playerTab);
       } else if (playerTab[1].move === true) {
+        var _attackerDamage = weapon.getWeaponDamage(playerTab[1].weapon);
+
         buttonsj2.classList.remove('disable');
+        buttonsj1.setAttribute('class', 'disable');
         buttonsj2.appendChild(buttonA).setAttribute('class', 'fightbtn attack');
         buttonsj2.appendChild(buttonD).setAttribute('class', 'fightbtn defense');
-        buttonsj1.setAttribute('class', 'disable');
+        buttonA.addEventListener("click", function () {
+          console.log('attaque cliquée');
+          playerTab[0].life -= _attackerDamage;
+        });
+        buttonD.addEventListener("click", function () {
+          console.log('defense cliquée');
+          playerTab[0].life -= _attackerDamage / 2;
+        });
+        this.allowMove(playerTab);
       }
 
+      console.log(playerTab);
       return playerTab;
     }
-    /*getFightMoves() {
-        let decision = null;
-        if (document.getElementById('buttonsj1').addEventListener("click", () => {
-          }))
-    }
-        increaseLife(points) {
+    /*increaseLife(points) {
         this.life += points;
         return this.life
     }
