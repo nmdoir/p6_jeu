@@ -38,20 +38,30 @@ class Move {
                     if (
                         availableId >= 0 &&
                         playerTab[i].move === true &&
-                        availableCell.dataset.y === playerCell.dataset.y
+                        availableCell.dataset.y === playerCell.dataset.y &&
+                        !availableCell.hasAttribute('data-access') &&
+                        !availableCell.hasAttribute('data-player') &&
+                        !availableCell.hasAttribute('data-playeraccess')
                     ) {
-                        if (
-                            !availableCell.hasAttribute('data-access') &&
-                            !availableCell.hasAttribute('data-player') &&
-                            !availableCell.hasAttribute('data-playeraccess')
-                        ) {
-                            availableCell.setAttribute('data-playeraccess', 1);
-                        } else if (availableCell.hasAttribute('data-playeraccess')) {
-                            noGoCell = document.getElementById(td + (Number(availableId) - 1));
-                            noGoCell.setAttribute('data-playeraccess', 0);
-                        }
+                        availableCell.setAttribute('data-playeraccess', 1);
+                    }
+                    else if (
+                        playerTab[i].move === true &&
+                        availableCell.dataset.y === playerCell.dataset.y &&
+                        availableId >= 1 &&
+                        (
+                            availableCell.hasAttribute('data-access') ||
+                            availableCell.hasAttribute('data-player') ||
+                            availableCell.hasAttribute('data-playeraccess')
+                        )
+                    ) {
+                        noGoCell = document.getElementById(td + (Number(availableId) - 1));
+                        console.log('available' + availableId);
+                        console.log(noGoCell);
+                        noGoCell.setAttribute('data-playeraccess', 0);
                     }
                 }
+
 
                 for (availableId = Number(playerId) + 1; availableId <= Number(playerId) + 3; availableId++) {
                     if (availableId < 10) {
@@ -61,28 +71,31 @@ class Move {
                     }
                     availablePos = td + availableId;
                     availableCell = document.getElementById(availablePos);
-                    console.log(availableId);
-                    console.log("pos td " + availablePos);
-                    console.log(availableCell);
-
 
                     if (
                         availableId < 100 &&
                         playerTab[i].move === true &&
-                        availableCell.dataset.y === playerCell.dataset.y
+                        availableCell.dataset.y === playerCell.dataset.y &&
+                        !availableCell.hasAttribute('data-access') &&
+                        !availableCell.hasAttribute('data-player') &&
+                        !availableCell.hasAttribute('data-playeraccess')
                     ) {
-                        console.log(document.getElementById(td + (Number(availableId) + 1)));
-
-                        if (
-                            !availableCell.hasAttribute('data-access') &&
-                            !availableCell.hasAttribute('data-player') &&
-                            !availableCell.hasAttribute('data-playeraccess')
-                        ) {
-                            availableCell.setAttribute('data-playeraccess', 1);
-                        } else if (availableCell.hasAttribute('data-playeraccess')) {
-                            noGoCell = document.getElementById(td + (Number(availableId) + 1));
-                            noGoCell.setAttribute('data-playeraccess', 0);
-                        }
+                        availableCell.setAttribute('data-playeraccess', 1);
+                    }
+                    else if (
+                        playerTab[i].move === true &&
+                        availableCell.dataset.y === playerCell.dataset.y &&
+                        availableId < 99 &&
+                        (
+                            availableCell.hasAttribute('data-access') ||
+                            availableCell.hasAttribute('data-player') ||
+                            availableCell.hasAttribute('data-playeraccess')
+                        )
+                    ) {
+                        noGoCell = document.getElementById(td + (Number(availableId) + 1));
+                        console.log('available' + availableId);
+                        console.log(noGoCell);
+                        noGoCell.setAttribute('data-playeraccess', 0);
                     }
                 }
 
@@ -100,47 +113,66 @@ class Move {
                         if (
                             availableId >= 0 &&
                             playerTab[i].move === true &&
-                            availableCell.dataset.x === playerCell.dataset.x
+                            availableCell.dataset.x === playerCell.dataset.x &&
+                            !availableCell.hasAttribute('data-access') &&
+                            !availableCell.hasAttribute('data-player') &&
+                            !availableCell.hasAttribute('data-playeraccess')
                         ) {
-                            if (
-                                !availableCell.hasAttribute('data-access') &&
-                                !availableCell.hasAttribute('data-player') &&
-                                !availableCell.hasAttribute('data-playeraccess')
-                            ) {
-                                availableCell.setAttribute('data-playeraccess', 1);
-                            } else if (availableCell.hasAttribute('data-playeraccess')) {
-                                noGoCell = document.getElementById(td + (Number(availableId) - 10));
-                                noGoCell.setAttribute('data-playeraccess', 0);
-                            }
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        }
+                        else if (
+                            playerTab[i].move === true &&
+                            availableCell.dataset.x === playerCell.dataset.x &&
+                            availableId >= 10 &&
+                            (
+                                availableCell.hasAttribute('data-access') ||
+                                availableCell.hasAttribute('data-player') ||
+                                availableCell.hasAttribute('data-playeraccess')
+                            )
+                        ) {
+                            noGoCell = document.getElementById(td + (Number(availableId) - 10));
+                            console.log('available' + availableId);
+                            console.log(noGoCell);
+                            noGoCell.setAttribute('data-playeraccess', 0);
                         }
                     }
+                }
 
-                    for (let jump of verticals) {
-                        for (availableId = Number(playerId) + Number(jump); availableId <= Number(playerId) + 30; availableId++) {
-                            if (availableId < 10) {
-                                td = 'td-0'
-                            } else {
-                                td = 'td-'
-                            }
-                            availablePos = td + availableId;
-                            availableCell = document.getElementById(availablePos);
 
-                            if (
-                                availableId < 100 &&
-                                playerTab[i].move === true &&
-                                availableCell.dataset.x === playerCell.dataset.x
-                            ) {
-                                if (
-                                    !availableCell.hasAttribute('data-access') &&
-                                    !availableCell.hasAttribute('data-player') &&
-                                    !availableCell.hasAttribute('data-playeraccess')
-                                ) {
-                                    availableCell.setAttribute('data-playeraccess', 1);
-                                } else if (availableCell.hasAttribute('data-playeraccess')) {
-                                    noGoCell = document.getElementById(td + (Number(availableId) + 10));
-                                    noGoCell.setAttribute('data-playeraccess', 0);
-                                }
-                            }
+                for (let jump of verticals) {
+                    for (availableId = Number(playerId) + Number(jump); availableId <= Number(playerId) + 30; availableId++) {
+                        if (availableId < 10) {
+                            td = 'td-0'
+                        } else {
+                            td = 'td-'
+                        }
+                        availablePos = td + availableId;
+                        availableCell = document.getElementById(availablePos);
+
+                        if (
+                            availableId < 100 &&
+                            playerTab[i].move === true &&
+                            availableCell.dataset.x === playerCell.dataset.x &&
+                            !availableCell.hasAttribute('data-access') &&
+                            !availableCell.hasAttribute('data-player') &&
+                            !availableCell.hasAttribute('data-playeraccess')
+                        ) {
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        }
+                        else if (
+                            playerTab[i].move === true &&
+                            availableCell.dataset.x === playerCell.dataset.x &&
+                            availableId < 90 &&
+                            (
+                                availableCell.hasAttribute('data-access') ||
+                                availableCell.hasAttribute('data-player') ||
+                                availableCell.hasAttribute('data-playeraccess')
+                            )
+                        ) {
+                            noGoCell = document.getElementById(td + (Number(availableId) + 10));
+                            console.log('available' + availableId);
+                            console.log(noGoCell);
+                            noGoCell.setAttribute('data-playeraccess', 0);
                         }
                     }
                 }
