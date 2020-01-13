@@ -474,6 +474,8 @@ function () {
   }, {
     key: "allowFight",
     value: function allowFight(playerTab) {
+      var _this = this;
+
       var weapon = new _weapon__WEBPACK_IMPORTED_MODULE_1__["Weapon"]();
       var buttonsj1 = document.getElementById('buttonsj1');
       var buttonsj2 = document.getElementById('buttonsj2');
@@ -482,7 +484,7 @@ function () {
       buttonA.innerHTML = "Attaquer";
       buttonD.innerHTML = "Défendre";
 
-      if (playerTab[0].move === true) {
+      if (playerTab[0].move === true && playerTab[0].life > 0 && playerTab[1].life > 0) {
         var attackerDamage = weapon.getWeaponDamage(playerTab[0].weapon);
         buttonsj1.classList.remove('disable');
         buttonsj2.setAttribute('class', 'disable');
@@ -492,13 +494,24 @@ function () {
         buttonA.addEventListener("click", function () {
           console.log('attaque cliquée');
           playerTab[1].life -= attackerDamage;
+          document.getElementById('lifej1').innerHTML = playerTab[1].life;
+          buttonsj1.setAttribute('class', 'disable');
+
+          _this.allowMove(playerTab);
+
+          _this.allowFight(playerTab);
         });
         buttonD.addEventListener("click", function () {
           console.log('defense cliquée');
           playerTab[1].life -= attackerDamage / 2;
+          document.getElementById('lifej1').innerHTML = playerTab[1].life;
+          buttonsj1.setAttribute('class', 'disable');
+
+          _this.allowMove(playerTab);
+
+          _this.allowFight(playerTab);
         });
-        this.allowMove(playerTab);
-      } else if (playerTab[1].move === true) {
+      } else if (playerTab[1].move === true && playerTab[0].life > 0 && playerTab[1].life > 0) {
         var _attackerDamage = weapon.getWeaponDamage(playerTab[1].weapon);
 
         buttonsj2.classList.remove('disable');
@@ -508,15 +521,27 @@ function () {
         buttonA.addEventListener("click", function () {
           console.log('attaque cliquée');
           playerTab[0].life -= _attackerDamage;
+          document.getElementById('lifej1').innerHTML = playerTab[0].life;
+          buttonsj2.setAttribute('class', 'disable');
+
+          _this.allowMove(playerTab);
+
+          _this.allowFight(playerTab);
         });
         buttonD.addEventListener("click", function () {
           console.log('defense cliquée');
           playerTab[0].life -= _attackerDamage / 2;
+          document.getElementById('lifej1').innerHTML = playerTab[0].life;
+          buttonsj2.setAttribute('class', 'disable');
+
+          _this.allowMove(playerTab);
+
+          _this.allowFight(playerTab);
         });
-        this.allowMove(playerTab);
+      } else if (playerTab[0].life === 0 || playerTab[1].life === 0) {
+        prompt("fin du jeu");
       }
 
-      console.log(playerTab);
       return playerTab;
     }
     /*increaseLife(points) {
@@ -627,67 +652,52 @@ function () {
           }
 
           var verticals = [10, 20, 30];
-          /*for (let jump of verticals) {
-              for (availableId = Number(playerId) - Number(jump); availableId >= Number(playerId) - 30; availableId--) {
-                  if (availableId < 10) {
-                      td = 'td-0'
-                  } else {
-                      td = 'td-'
-                  }
-                  availablePos = td + availableId;
-                  availableCell = document.getElementById(availablePos);
-                    if (
-                      availableId >= 0 &&
-                      playerTab[i].move === true &&
-                      availableCell.dataset.x === playerCell.dataset.x &&
-                      !availableCell.hasAttribute('data-access') &&
-                      !availableCell.hasAttribute('data-player') &&
-                      !availableCell.hasAttribute('data-playeraccess')
-                  ) {
-                      availableCell.setAttribute('data-playeraccess', 1);
-                  }
-                  else if (
-                      playerTab[i].move === true &&
-                      availableCell.dataset.x === playerCell.dataset.x &&
-                      availableId >= 10 &&
-                      (
-                          availableCell.hasAttribute('data-access') ||
-                          availableCell.hasAttribute('data-player') ||
-                          availableCell.hasAttribute('data-playeraccess')
-                      )
-                  ) {
-                      noGoCell = document.getElementById(td + (Number(availableId) - 10));
-                      console.log('available' + availableId);
-                      console.log(noGoCell);
-                      noGoCell.setAttribute('data-playeraccess', 0);
-                  }
-              }
-          }
-          */
 
           for (var _i = 0, _verticals = verticals; _i < _verticals.length; _i++) {
             var jump = _verticals[_i];
+            availableId = Number(playerId) - Number(jump);
 
-            for (availableId = Number(playerId) + Number(jump); availableId < Number(playerId) + 31; availableId++) {
-              if (availableId < 10) {
-                td = 'td-0';
-              } else {
-                td = 'td-';
-              }
+            if (availableId < 10) {
+              td = 'td-0';
+            } else {
+              td = 'td-';
+            }
 
-              availablePos = td + availableId;
-              availableCell = document.getElementById(availablePos);
+            availablePos = td + availableId;
+            availableCell = document.getElementById(availablePos);
 
-              if (availableId < 100 && //playerId < 90 &&
-              playerTab[i].move === true && availableCell.dataset.x === playerCell.dataset.x && !availableCell.hasAttribute('data-access') && !availableCell.hasAttribute('data-player') && !availableCell.hasAttribute('data-playeraccess')) {
-                availableCell.setAttribute('data-playeraccess', 1);
-                console.log(availableCell);
-              } else if (playerTab[i].move === true && availableCell.dataset.x === playerCell.dataset.x && availableId < 90 && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player') || availableCell.hasAttribute('data-playeraccess'))) {
-                noGoCell = document.getElementById(td + (Number(availableId) + 10)); //console.log('available' + availableId);
-                //console.log(noGoCell);
+            if (availableId >= 0 && playerTab[i].move === true && availableCell.dataset.x === playerCell.dataset.x && !availableCell.hasAttribute('data-access') && !availableCell.hasAttribute('data-player') && !availableCell.hasAttribute('data-playeraccess')) {
+              availableCell.setAttribute('data-playeraccess', 1);
+            } else if (playerTab[i].move === true && availableCell.dataset.x === playerCell.dataset.x && availableId >= 10 && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player') || availableCell.hasAttribute('data-playeraccess'))) {
+              noGoCell = document.getElementById(td + (Number(availableId) - 10));
+              console.log('available' + availableId);
+              console.log(noGoCell);
+              noGoCell.setAttribute('data-playeraccess', 0);
+            }
+          }
 
-                noGoCell.setAttribute('data-playeraccess', 0);
-              }
+          for (var _i2 = 0, _verticals2 = verticals; _i2 < _verticals2.length; _i2++) {
+            var _jump = _verticals2[_i2];
+            availableId = Number(playerId) + Number(_jump);
+
+            if (availableId < 10) {
+              td = 'td-0';
+            } else {
+              td = 'td-';
+            }
+
+            availablePos = td + availableId;
+            availableCell = document.getElementById(availablePos);
+            console.log(availableId);
+
+            if (availableId < 100 && //playerId < 90 &&
+            playerTab[i].move === true && availableCell.dataset.x === playerCell.dataset.x && !availableCell.hasAttribute('data-access') && !availableCell.hasAttribute('data-player') && !availableCell.hasAttribute('data-playeraccess')) {
+              availableCell.setAttribute('data-playeraccess', 1); //console.log(availableCell);
+            } else if (availableId < 90 && playerTab[i].move === true && availableCell.dataset.x === playerCell.dataset.x && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player') || availableCell.hasAttribute('data-playeraccess'))) {
+              noGoCell = document.getElementById(td + (Number(availableId) + 10)); //console.log('available' + availableId);
+              //console.log(noGoCell);
+
+              noGoCell.setAttribute('data-playeraccess', 0);
             }
           }
         }
