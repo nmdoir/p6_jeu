@@ -507,3 +507,54 @@ if (
 
 
                     }*/
+
+
+
+
+    /*if(playerTab[0].move === true && playerTab[0].life > 0 && playerTab[1].life > 0) {
+        let attackerDamage = weapon.getWeaponDamage(playerTab[0].weapon);
+        buttonsj1.classList.remove('disable');
+        buttonsj2.setAttribute('class', 'disable');
+        buttonA.setAttribute('class', 'fightbtn attack'); //supp classes attack/defense?
+        buttonD.setAttribute('class', 'fightbtn defense');
+        buttonA.addEventListener("click", () => {
+            playerTab[1].life -= attackerDamage;
+            document.getElementById('lifej1').innerHTML = playerTab[1].life;
+            buttonsj1.setAttribute('class', 'disable');
+            this.allowMove(playerTab);
+            this.allowFight(playerTab);
+        });
+        buttonD.addEventListener("click", () => {
+            playerTab[1].life -= (attackerDamage / 2);
+            document.getElementById('lifej1').innerHTML = playerTab[1].life;
+            buttonsj1.setAttribute('class', 'disable');
+            this.allowMove(playerTab);
+            this.allowFight(playerTab);
+        });
+    }
+    else if (playerTab[1].move === true && playerTab[0].life > 0 && playerTab[1].life > 0) {
+        let attackerDamage = weapon.getWeaponDamage(playerTab[1].weapon);
+        buttonsj2.classList.remove('disable');
+        buttonsj1.setAttribute('class', 'disable');
+        buttonsj2.appendChild(buttonA).setAttribute('class', 'fightbtn attack');
+        buttonsj2.appendChild(buttonD).setAttribute('class', 'fightbtn defense');
+        buttonA.addEventListener("click", () => {
+            playerTab[0].life -= attackerDamage;
+            document.getElementById('lifej1').innerHTML = playerTab[0].life;
+            buttonsj2.setAttribute('class', 'disable');
+            this.allowMove(playerTab);
+            this.allowFight(playerTab);
+        });
+        buttonD.addEventListener("click", () => {
+            console.log('defense cliquée');
+            playerTab[0].life -= (attackerDamage / 2);
+            document.getElementById('lifej1').innerHTML = playerTab[0].life;
+            buttonsj2.setAttribute('class', 'disable');
+            this.allowMove(playerTab);
+            this.allowFight(playerTab);
+        });
+    }
+    else if (playerTab[0].life === 0 || playerTab[1].life === 0) {
+        prompt("fin du jeu");
+    }
+    return playerTab;*/

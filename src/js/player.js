@@ -46,69 +46,75 @@ class Player {
         return playerTab;
     }
 
-    //TODO: fonction à améliorer, répétitions
+    //TODO: factoriser les addeventlisteners
 
-    //Afficher les boutons d'attaque et de défense en fonction du joueur dont c'est le tour
+    //Générer les boutons d'attaque et de défense pour démarrer le combat, en fonction du joueur dont c'est le tour
     allowFight(playerTab) {
-        let weapon = new Weapon();
         let buttonsj1 = document.getElementById('buttonsj1');
         let buttonsj2 = document.getElementById('buttonsj2');
-        let buttonA = document.createElement('button');
-        let buttonD = document.createElement('button');
-        buttonA.innerHTML = "Attaquer";
-        buttonD.innerHTML = "Défendre";
+        let buttonA1 = document.createElement('button');
+        let buttonD1 = document.createElement('button');
+        let buttonA2 = document.createElement('button');
+        let buttonD2 = document.createElement('button');
+        buttonA1.innerHTML = "Attaquer";
+        buttonD1.innerHTML = "Défendre";
+        buttonA2.innerHTML = "Attaquer";
+        buttonD2.innerHTML = "Défendre";
 
-        if(playerTab[0].move === true && playerTab[0].life > 0 && playerTab[1].life > 0){
+        //Générer les 4 boutons
+        buttonsj1.appendChild(buttonA1).setAttribute('class', 'fightbtn attack btnj1');
+        buttonsj1.appendChild(buttonD1).setAttribute('class', 'fightbtn defense btnj1');
+        buttonsj2.appendChild(buttonA2).setAttribute('class', 'fightbtn attack btnj2'); //supp classes attack/defense?
+        buttonsj2.appendChild(buttonD2).setAttribute('class', 'fightbtn defense btnj2');
+
+        //Masquer les boutons du joueur dont ce n'est pas le tour
+            if (playerTab[0].move === true) {
+                buttonsj2.setAttribute('class', 'disable');
+            }
+            else if (playerTab[1].move === true) {
+                buttonsj1.setAttribute('class', 'disable');
+            }
+
+        let weapon = new Weapon();
+
+        buttonA1.addEventListener("click", () => {
             let attackerDamage = weapon.getWeaponDamage(playerTab[0].weapon);
-            buttonsj1.classList.remove('disable');
-            buttonsj2.setAttribute('class', 'disable');
-            buttonsj1.appendChild(buttonA).setAttribute('class', 'fightbtn attack'); //supp classes attack/defense?
-            buttonsj1.appendChild(buttonD).setAttribute('class', 'fightbtn defense');
-            buttonA.addEventListener("click", () => {
-                console.log('attaque cliquée');
-                playerTab[1].life -= attackerDamage;
-                document.getElementById('lifej1').innerHTML = playerTab[1].life;
-                buttonsj1.setAttribute('class', 'disable');
-                this.allowMove(playerTab);
-                this.allowFight(playerTab);
-            });
-            buttonD.addEventListener("click", () => {
-                console.log('defense cliquée');
-                playerTab[1].life -= (attackerDamage / 2);
-                document.getElementById('lifej1').innerHTML = playerTab[1].life;
-                buttonsj1.setAttribute('class', 'disable');
-                this.allowMove(playerTab);
-                this.allowFight(playerTab);
-            });
-        }
-        else if (playerTab[1].move === true && playerTab[0].life > 0 && playerTab[1].life > 0) {
-            let attackerDamage = weapon.getWeaponDamage(playerTab[1].weapon);
+            playerTab[1].life -= attackerDamage;
+            document.getElementById('lifej2').innerHTML = playerTab[1].life;
             buttonsj2.classList.remove('disable');
             buttonsj1.setAttribute('class', 'disable');
-            buttonsj2.appendChild(buttonA).setAttribute('class', 'fightbtn attack');
-            buttonsj2.appendChild(buttonD).setAttribute('class', 'fightbtn defense');
-            buttonA.addEventListener("click", () => {
-                console.log('attaque cliquée');
-                playerTab[0].life -= attackerDamage;
-                document.getElementById('lifej1').innerHTML = playerTab[0].life;
-                buttonsj2.setAttribute('class', 'disable');
-                this.allowMove(playerTab);
-                this.allowFight(playerTab);
-            });
-            buttonD.addEventListener("click", () => {
-                console.log('defense cliquée');
-                playerTab[0].life -= (attackerDamage / 2);
-                document.getElementById('lifej1').innerHTML = playerTab[0].life;
-                buttonsj2.setAttribute('class', 'disable');
-                this.allowMove(playerTab);
-                this.allowFight(playerTab);
-            });
-        }
-        else if (playerTab[0].life === 0 || playerTab[1].life === 0) {
-            prompt("fin du jeu");
-        }
-        return playerTab;
+            this.allowMove(playerTab);
+        });
+
+        buttonD1.addEventListener("click", () => {
+            let attackerDamage = weapon.getWeaponDamage(playerTab[0].weapon);
+            playerTab[1].life -= (attackerDamage / 2);
+            document.getElementById('lifej2').innerHTML = playerTab[1].life;
+            buttonsj2.classList.remove('disable');
+            buttonsj1.setAttribute('class', 'disable');
+            this.allowMove(playerTab);
+        });
+
+        buttonA2.addEventListener("click", () => {
+            let attackerDamage = weapon.getWeaponDamage(playerTab[1].weapon);
+            playerTab[0].life -= attackerDamage;
+            document.getElementById('lifej1').innerHTML = playerTab[0].life;
+            buttonsj1.classList.remove('disable');
+            buttonsj2.setAttribute('class', 'disable');
+            this.allowMove(playerTab);
+        });
+
+        buttonD2.addEventListener("click", () => {
+            let attackerDamage = weapon.getWeaponDamage(playerTab[1].weapon);
+            playerTab[0].life -= (attackerDamage / 2);
+            document.getElementById('lifej1').innerHTML = playerTab[0].life;
+            buttonsj1.classList.remove('disable');
+            buttonsj2.setAttribute('class', 'disable');
+            this.allowMove(playerTab);
+        });
     }
+
+
 
     /*increaseLife(points) {
         this.life += points;
