@@ -35,30 +35,28 @@ class Move {
                     availablePos = td + availableId;
                     availableCell = document.getElementById(availablePos);
 
-                    if (
-                        availableId >= 0 &&
-                        playerTab[i].move === true &&
-                        availableCell.dataset.y === playerCell.dataset.y &&
-                        !availableCell.hasAttribute('data-access') &&
-                        !availableCell.hasAttribute('data-player') &&
-                        !availableCell.hasAttribute('data-playeraccess')
-                    ) {
-                        availableCell.setAttribute('data-playeraccess', 1);
-                    }
-                    else if (
-                        playerTab[i].move === true &&
-                        availableCell.dataset.y === playerCell.dataset.y &&
-                        availableId >= 1 &&
-                        (
-                            availableCell.hasAttribute('data-access') ||
-                            availableCell.hasAttribute('data-player') ||
-                            availableCell.hasAttribute('data-playeraccess')
-                        )
-                    ) {
-                        noGoCell = document.getElementById(td + (Number(availableId) - 1));
-                        //console.log('available' + availableId);
-                        //console.log(noGoCell);
-                        noGoCell.setAttribute('data-playeraccess', 0);
+                    if (availableId >= 0 && availableId < 100) {
+                        if (
+                            playerTab[i].move === true &&
+                            availableCell.dataset.y === playerCell.dataset.y &&
+                            !availableCell.hasAttribute('data-access') &&
+                            !availableCell.hasAttribute('data-player') &&
+                            !availableCell.hasAttribute('data-playeraccess')
+                        ) {
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        } else if (
+                            playerTab[i].move === true &&
+                            availableCell.dataset.y === playerCell.dataset.y &&
+                            availableId >= 1 &&
+                            (
+                                availableCell.hasAttribute('data-access') ||
+                                availableCell.hasAttribute('data-player') ||
+                                availableCell.hasAttribute('data-playeraccess')
+                            )
+                        ) {
+                            noGoCell = document.getElementById(td + (Number(availableId) - 1));
+                            noGoCell.setAttribute('data-playeraccess', 0);
+                        }
                     }
                 }
 
@@ -72,30 +70,28 @@ class Move {
                     availablePos = td + availableId;
                     availableCell = document.getElementById(availablePos);
 
-                    if (
-                        availableId < 100 &&
-                        playerTab[i].move === true &&
-                        availableCell.dataset.y === playerCell.dataset.y &&
-                        !availableCell.hasAttribute('data-access') &&
-                        !availableCell.hasAttribute('data-player') &&
-                        !availableCell.hasAttribute('data-playeraccess')
-                    ) {
-                        availableCell.setAttribute('data-playeraccess', 1);
-                    }
-                    else if (
-                        playerTab[i].move === true &&
-                        availableCell.dataset.y === playerCell.dataset.y &&
-                        availableId < 99 &&
-                        (
-                            availableCell.hasAttribute('data-access') ||
-                            availableCell.hasAttribute('data-player') ||
-                            availableCell.hasAttribute('data-playeraccess')
-                        )
-                    ) {
-                        noGoCell = document.getElementById(td + (Number(availableId) + 1));
-                        //console.log('available' + availableId);
-                        //console.log(noGoCell);
-                        noGoCell.setAttribute('data-playeraccess', 0);
+                    if (availableId >= 0 && availableId < 100) {
+                        if (
+                            playerTab[i].move === true &&
+                            availableCell.dataset.y === playerCell.dataset.y &&
+                            !availableCell.hasAttribute('data-access') &&
+                            !availableCell.hasAttribute('data-player') &&
+                            !availableCell.hasAttribute('data-playeraccess')
+                        ) {
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        } else if (
+                            playerTab[i].move === true &&
+                            availableCell.dataset.y === playerCell.dataset.y &&
+                            availableId < 99 &&
+                            (
+                                availableCell.hasAttribute('data-access') ||
+                                availableCell.hasAttribute('data-player') ||
+                                availableCell.hasAttribute('data-playeraccess')
+                            )
+                        ) {
+                            noGoCell = document.getElementById(td + (Number(availableId) + 1));
+                            noGoCell.setAttribute('data-playeraccess', 0);
+                        }
                     }
                 }
 
@@ -110,30 +106,31 @@ class Move {
                     availablePos = td + availableId;
                     availableCell = document.getElementById(availablePos);
 
-                    if (
-                        availableId >= 0 &&
-                        playerTab[i].move === true &&
-                        availableCell.dataset.x === playerCell.dataset.x &&
-                        !availableCell.hasAttribute('data-access') &&
-                        !availableCell.hasAttribute('data-player') &&
-                        !availableCell.hasAttribute('data-playeraccess')
-                    ) {
-                        availableCell.setAttribute('data-playeraccess', 1);
-                    }
-                    else if (
-                        playerTab[i].move === true &&
-                        availableCell.dataset.x === playerCell.dataset.x &&
-                        availableId >= 10 &&
-                        (
-                            availableCell.hasAttribute('data-access') ||
-                            availableCell.hasAttribute('data-player') ||
-                            availableCell.hasAttribute('data-playeraccess')
-                        )
-                    ) {
-                        noGoCell = document.getElementById(td + (Number(availableId) - 10));
-                        console.log('available' + availableId);
-                        console.log(noGoCell);
-                        noGoCell.setAttribute('data-playeraccess', 0);
+                    if (availableId >= 0 && availableId < 100) {
+                        if (
+                            playerTab[i].move === true &&
+                            availableCell.dataset.x === playerCell.dataset.x &&
+                            !availableCell.hasAttribute('data-access') &&
+                            !availableCell.hasAttribute('data-player') &&
+                            !availableCell.hasAttribute('data-playeraccess')
+                        ) {
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        } else if (
+                            playerTab[i].move === true &&
+                            availableCell.dataset.x === playerCell.dataset.x &&
+                            availableId >= 10 &&
+
+                            (
+                                availableCell.hasAttribute('data-access') ||
+                                availableCell.hasAttribute('data-player') ||
+                                availableCell.hasAttribute('data-playeraccess')
+                            )
+                        ) {
+                            noGoCell = document.getElementById(td + (Number(availableId) - 10));
+                            console.log('available' + availableId);
+                            console.log(noGoCell);
+                            noGoCell.setAttribute('data-playeraccess', 0);
+                        }
                     }
                 }
 
@@ -149,36 +146,32 @@ class Move {
                     availableCell = document.getElementById(availablePos);
                     console.log(availableId);
 
-                    if (
-                        availableId < 100 &&
-                            //playerId < 90 &&
-                        playerTab[i].move === true &&
-                        availableCell.dataset.x === playerCell.dataset.x &&
-                        !availableCell.hasAttribute('data-access') &&
-                        !availableCell.hasAttribute('data-player') &&
-                        !availableCell.hasAttribute('data-playeraccess')
-                    ) {
-                        availableCell.setAttribute('data-playeraccess', 1);
-                        //console.log(availableCell);
-                    }
-                    else if (
-                        availableId < 90 &&
-                        playerTab[i].move === true &&
-                        availableCell.dataset.x === playerCell.dataset.x &&
-                        (
-                            availableCell.hasAttribute('data-access') ||
-                            availableCell.hasAttribute('data-player') ||
-                            availableCell.hasAttribute('data-playeraccess')
-                        )
-                    ) {
-                        noGoCell = document.getElementById(td + (Number(availableId) + 10));
-                            //console.log('available' + availableId);
-                            //console.log(noGoCell);
-                        noGoCell.setAttribute('data-playeraccess', 0);
+                    if (availableId >= 0 && availableId < 100) {
+                        if (
+                            playerTab[i].move === true &&
+                            availableCell.dataset.x === playerCell.dataset.x &&
+                            !availableCell.hasAttribute('data-access') &&
+                            !availableCell.hasAttribute('data-player') &&
+                            !availableCell.hasAttribute('data-playeraccess')
+                        ) {
+                            availableCell.setAttribute('data-playeraccess', 1);
+                        } else if (
+                            availableId < 90 &&
+                            playerTab[i].move === true &&
+                            availableCell.dataset.x === playerCell.dataset.x &&
+                            (
+                                availableCell.hasAttribute('data-access') ||
+                                availableCell.hasAttribute('data-player') ||
+                                availableCell.hasAttribute('data-playeraccess')
+                            )
+                        ) {
+                            noGoCell = document.getElementById(td + (Number(availableId) + 10));
+                            noGoCell.setAttribute('data-playeraccess', 0);
+                        }
                     }
                 }
-
             }
+
         }
 
         else {

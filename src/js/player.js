@@ -84,6 +84,7 @@ class Player {
             buttonsj2.classList.remove('disable');
             buttonsj1.setAttribute('class', 'disable');
             this.allowMove(playerTab);
+            this.checkEnd(playerTab);
         });
 
         buttonD1.addEventListener("click", () => {
@@ -93,6 +94,7 @@ class Player {
             buttonsj2.classList.remove('disable');
             buttonsj1.setAttribute('class', 'disable');
             this.allowMove(playerTab);
+            this.checkEnd(playerTab);
         });
 
         buttonA2.addEventListener("click", () => {
@@ -102,6 +104,7 @@ class Player {
             buttonsj1.classList.remove('disable');
             buttonsj2.setAttribute('class', 'disable');
             this.allowMove(playerTab);
+            this.checkEnd(playerTab);
         });
 
         buttonD2.addEventListener("click", () => {
@@ -111,22 +114,29 @@ class Player {
             buttonsj1.classList.remove('disable');
             buttonsj2.setAttribute('class', 'disable');
             this.allowMove(playerTab);
+            this.checkEnd(playerTab);
         });
     }
 
-
-
-    /*increaseLife(points) {
-        this.life += points;
-        return this.life
+    //TODO: améliorer la fonction, factoriser
+    checkEnd(playerTab) {
+        let board = document.getElementById('finish');
+        let box = document.createElement('h3');
+        if (playerTab[0].life < 1) {
+            document.getElementById('buttonsj1').setAttribute('class', 'disable');
+            document.getElementById('buttonsj2').setAttribute('class', 'disable');
+            document.getElementById('lifej1').innerHTML = "0";
+            board.appendChild(box).setAttribute('class', 'text-center');
+            box.innerHTML = name_j2 + " a gagné !";
+        }
+        else if (playerTab[1].life < 1) {
+            document.getElementById('buttonsj1').setAttribute('class', 'disable');
+            document.getElementById('buttonsj2').setAttribute('class', 'disable');
+            document.getElementById('lifej2').innerHTML = "0";
+            board.appendChild(box).setAttribute('class', 'text-center');
+            box.innerHTML = name_j1 + " a gagné !";
+        }
     }
-
-    decreaseLife(damage) {
-        this.life -= damage;
-        return this.life
-    }
- */
-
 }
 
 export {Player};
