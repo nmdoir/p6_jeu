@@ -95,8 +95,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_genGrid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
  //Demander le nom des joueurs
 
-var name_j1 = prompt("Entrez le nom du joueur 1 : ");
-var name_j2 = prompt("Entrez le nom du joueur 2 : "); //Leur donner un nom par défaut au cas où l'utilisateur n'entre rien
+var name_j1 = ""; //prompt("Entrez le nom du joueur 1 : ");
+
+var name_j2 = ""; //prompt("Entrez le nom du joueur 2 : ");
+//Leur donner un nom par défaut au cas où l'utilisateur n'entre rien
 
 if (!name_j1 || name_j1 === "") {
   name_j1 = "Joueur 1";
@@ -475,7 +477,9 @@ function () {
       var _this = this;
 
       var buttonsj1 = document.getElementById('buttonsj1');
+      buttonsj1.setAttribute('damage', null);
       var buttonsj2 = document.getElementById('buttonsj2');
+      buttonsj2.setAttribute('damage', null);
       var buttonA1 = document.createElement('button');
       var buttonD1 = document.createElement('button');
       var buttonA2 = document.createElement('button');
@@ -487,8 +491,7 @@ function () {
 
       buttonsj1.appendChild(buttonA1).setAttribute('class', 'fightbtn attack btnj1');
       buttonsj1.appendChild(buttonD1).setAttribute('class', 'fightbtn defense btnj1');
-      buttonsj2.appendChild(buttonA2).setAttribute('class', 'fightbtn attack btnj2'); //supp classes attack/defense?
-
+      buttonsj2.appendChild(buttonA2).setAttribute('class', 'fightbtn attack btnj2');
       buttonsj2.appendChild(buttonD2).setAttribute('class', 'fightbtn defense btnj2'); //Masquer les boutons du joueur dont ce n'est pas le tour
 
       if (playerTab[0].move === true) {
@@ -499,9 +502,19 @@ function () {
 
       var weapon = new _weapon__WEBPACK_IMPORTED_MODULE_1__["Weapon"]();
       buttonA1.addEventListener("click", function () {
-        var attackerDamage = weapon.getWeaponDamage(playerTab[0].weapon);
-        playerTab[1].life -= attackerDamage;
-        document.getElementById('lifej2').innerHTML = playerTab[1].life;
+        console.log(document.getElementById('buttonsj1').dataset.damage);
+
+        if (document.getElementById('buttonsj1').dataset.damage != null) {
+          var attackerDamage = document.getElementById('buttonsj1').dataset.damage;
+          playerTab[1].life -= attackerDamage;
+          document.getElementById('lifej2').innerHTML = playerTab[1].life;
+        } else {
+          var _attackerDamage = weapon.getWeaponDamage(playerTab[0].weapon);
+
+          playerTab[1].life -= _attackerDamage;
+          document.getElementById('lifej2').innerHTML = playerTab[1].life;
+        }
+
         buttonsj2.classList.remove('disable');
         buttonsj1.setAttribute('class', 'disable');
 
@@ -510,9 +523,8 @@ function () {
         _this.checkEnd(playerTab);
       });
       buttonD1.addEventListener("click", function () {
-        var attackerDamage = weapon.getWeaponDamage(playerTab[0].weapon);
-        playerTab[1].life -= attackerDamage / 2;
-        document.getElementById('lifej2').innerHTML = playerTab[1].life;
+        var attackerDamage = Number(weapon.getWeaponDamage(playerTab[0].weapon) / 2);
+        buttonsj2.setAttribute('damage', String(attackerDamage));
         buttonsj2.classList.remove('disable');
         buttonsj1.setAttribute('class', 'disable');
 
@@ -521,9 +533,19 @@ function () {
         _this.checkEnd(playerTab);
       });
       buttonA2.addEventListener("click", function () {
-        var attackerDamage = weapon.getWeaponDamage(playerTab[1].weapon);
-        playerTab[0].life -= attackerDamage;
-        document.getElementById('lifej1').innerHTML = playerTab[0].life;
+        console.log(document.getElementById('attack2').dataset.damage);
+
+        if (document.getElementById('attack2').dataset.damage != null) {
+          var attackerDamage = document.getElementById('attack2').dataset.damage;
+          playerTab[0].life -= attackerDamage;
+          document.getElementById('lifej1').innerHTML = playerTab[0].life;
+        } else {
+          var _attackerDamage2 = weapon.getWeaponDamage(playerTab[1].weapon);
+
+          playerTab[0].life -= _attackerDamage2;
+          document.getElementById('lifej1').innerHTML = playerTab[0].life;
+        }
+
         buttonsj1.classList.remove('disable');
         buttonsj2.setAttribute('class', 'disable');
 
@@ -532,9 +554,8 @@ function () {
         _this.checkEnd(playerTab);
       });
       buttonD2.addEventListener("click", function () {
-        var attackerDamage = weapon.getWeaponDamage(playerTab[1].weapon);
-        playerTab[0].life -= attackerDamage / 2;
-        document.getElementById('lifej1').innerHTML = playerTab[0].life;
+        var attackerDamage = Number(weapon.getWeaponDamage(playerTab[1].weapon) / 2);
+        buttonsj1.setAttribute('damage', String(attackerDamage));
         buttonsj1.classList.remove('disable');
         buttonsj2.setAttribute('class', 'disable');
 
