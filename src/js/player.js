@@ -107,7 +107,6 @@ class Player {
         });
 
         buttonA2.addEventListener("click", () => {
-            console.log(buttonsj2.dataset.damage);
             if (buttonsj2.dataset.damage > 0) {
                 let attackerDamage = Number(buttonsj2.dataset.damage);
                 playerTab[0].life -= attackerDamage;

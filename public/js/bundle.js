@@ -532,8 +532,6 @@ function () {
         _this.checkEnd(playerTab);
       });
       buttonA2.addEventListener("click", function () {
-        console.log(buttonsj2.dataset.damage);
-
         if (buttonsj2.dataset.damage > 0) {
           var attackerDamage = Number(buttonsj2.dataset.damage);
           playerTab[0].life -= attackerDamage;
@@ -688,7 +686,8 @@ function () {
             }
           }
 
-          var verticals = [10, 20, 30]; //Cases autorisées vers le haut
+          var verticals = [10, 20, 30];
+          var tdnogo = null; //Cases autorisées vers le haut
 
           for (var _i = 0, _verticals = verticals; _i < _verticals.length; _i++) {
             var jump = _verticals[_i];
@@ -696,8 +695,12 @@ function () {
 
             if (availableId < 10) {
               td = 'td-0';
+            } else if (availableId >= 10 && availableId < 20) {
+              td = 'td-';
+              tdnogo = 'td-0';
             } else {
               td = 'td-';
+              tdnogo = 'td-';
             }
 
             availablePos = td + availableId;
@@ -707,13 +710,8 @@ function () {
               if (playerTab[i].move === true && availableCell.dataset.x === playerCell.dataset.x && !availableCell.hasAttribute('data-access') && !availableCell.hasAttribute('data-player') && !availableCell.hasAttribute('data-playeraccess')) {
                 availableCell.setAttribute('data-playeraccess', 1);
               } else if (playerTab[i].move === true && availableCell.dataset.x === playerCell.dataset.x && availableId >= 10 && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player') || availableCell.hasAttribute('data-playeraccess'))) {
-                noGoCell = document.getElementById(td + (Number(availableId) - 10));
-                console.log('available' + availableId);
-                console.log(noGoCell);
-
-                if (noGoCell !== null) {
-                  noGoCell.setAttribute('data-playeraccess', 0);
-                }
+                noGoCell = document.getElementById(tdnogo + (Number(availableId) - 10));
+                noGoCell.setAttribute('data-playeraccess', 0);
               }
             }
           } //Cases autorisées vers le bas
@@ -725,23 +723,23 @@ function () {
 
             if (availableId < 10) {
               td = 'td-0';
+            } else if (availableId >= 10 && availableId < 20) {
+              td = 'td-';
+              tdnogo = 'td-0';
             } else {
               td = 'td-';
+              tdnogo = 'td-';
             }
 
             availablePos = td + availableId;
             availableCell = document.getElementById(availablePos);
-            console.log(availableId);
 
             if (availableId >= 0 && availableId < 100) {
               if (playerTab[i].move === true && availableCell.dataset.x === playerCell.dataset.x && !availableCell.hasAttribute('data-access') && !availableCell.hasAttribute('data-player') && !availableCell.hasAttribute('data-playeraccess')) {
                 availableCell.setAttribute('data-playeraccess', 1);
               } else if (availableId < 90 && playerTab[i].move === true && availableCell.dataset.x === playerCell.dataset.x && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player') || availableCell.hasAttribute('data-playeraccess'))) {
-                noGoCell = document.getElementById(td + (Number(availableId) + 10));
-
-                if (noGoCell !== null) {
-                  noGoCell.setAttribute('data-playeraccess', 0);
-                }
+                noGoCell = document.getElementById(tdnogo + (Number(availableId) + 10));
+                noGoCell.setAttribute('data-playeraccess', 0);
               }
             }
           }

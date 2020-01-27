@@ -100,13 +100,21 @@ class Move {
                 }
 
                 let verticals = [10, 20, 30];
+                let tdnogo = null;
                 //Cases autorisées vers le haut
                 for (let jump of verticals) {
                     availableId = Number(playerId) - Number(jump);
                     if (availableId < 10) {
                         td = 'td-0'
-                    } else {
-                        td = 'td-'
+                    }
+                    else if (availableId >= 10 && availableId < 20)
+                    {
+                        td = 'td-';
+                        tdnogo = 'td-0';
+                    }
+                    else {
+                        td = 'td-';
+                        tdnogo = 'td-';
                     }
                     availablePos = td + availableId;
                     availableCell = document.getElementById(availablePos);
@@ -131,12 +139,8 @@ class Move {
                                 availableCell.hasAttribute('data-playeraccess')
                             )
                         ) {
-                            noGoCell = document.getElementById(td + (Number(availableId) - 10));
-                            console.log('available' + availableId);
-                            console.log(noGoCell);
-                            if (noGoCell !== null) {
-                                noGoCell.setAttribute('data-playeraccess', 0);
-                            }
+                            noGoCell = document.getElementById(tdnogo + (Number(availableId) - 10));
+                            noGoCell.setAttribute('data-playeraccess', 0);
                         }
                     }
                 }
@@ -146,12 +150,18 @@ class Move {
                     availableId = Number(playerId) + Number(jump);
                     if (availableId < 10) {
                         td = 'td-0'
-                    } else {
-                        td = 'td-'
+                    }
+                    else if (availableId >= 10 && availableId < 20)
+                    {
+                        td = 'td-';
+                        tdnogo = 'td-0';
+                    }
+                    else {
+                        td = 'td-';
+                        tdnogo = 'td-';
                     }
                     availablePos = td + availableId;
                     availableCell = document.getElementById(availablePos);
-                    console.log(availableId);
 
                     if (availableId >= 0 && availableId < 100) {
                         if (
@@ -172,10 +182,8 @@ class Move {
                                 availableCell.hasAttribute('data-playeraccess')
                             )
                         ) {
-                            noGoCell = document.getElementById(td + (Number(availableId) + 10));
-                            if (noGoCell !== null) {
-                                noGoCell.setAttribute('data-playeraccess', 0);
-                            }
+                            noGoCell = document.getElementById(tdnogo + (Number(availableId) + 10));
+                            noGoCell.setAttribute('data-playeraccess', 0);
                         }
                     }
                 }
