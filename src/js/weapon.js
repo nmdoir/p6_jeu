@@ -7,19 +7,15 @@ class Weapon {
             },
             {
                 "name": "sword",
-                "damage": "15"
-            },
-            {
-                "name": "pistol",
                 "damage": "20"
             },
             {
-                "name": "dynamite",
-                "damage": "25"
+                "name": "pistol",
+                "damage": "30"
             },
             {
-                "name": "bomb",
-                "damage": "30"
+                "name": "dynamite",
+                "damage": "40"
             }
         ];
     }
@@ -46,8 +42,7 @@ class Weapon {
             'knife': 'Couteau',
             'sword': 'Epée',
             'pistol': 'Revolver',
-            'dynamite': 'Dynamite',
-            'bomb': 'Boule de feu'
+            'dynamite': 'Dynamite'
         };
         return translationTab[weapon];
 
