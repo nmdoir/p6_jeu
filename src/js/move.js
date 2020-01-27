@@ -55,7 +55,9 @@ class Move {
                             )
                         ) {
                             noGoCell = document.getElementById(td + (Number(availableId) - 1));
-                            noGoCell.setAttribute('data-playeraccess', 0);
+                            if (noGoCell !== null) {
+                                noGoCell.setAttribute('data-playeraccess', 0);
+                            }
                         }
                     }
                 }
@@ -90,12 +92,15 @@ class Move {
                             )
                         ) {
                             noGoCell = document.getElementById(td + (Number(availableId) + 1));
-                            noGoCell.setAttribute('data-playeraccess', 0);
+                            if (noGoCell !== null) {
+                                noGoCell.setAttribute('data-playeraccess', 0);
+                            }
                         }
                     }
                 }
 
                 let verticals = [10, 20, 30];
+                //Cases autorisées vers le haut
                 for (let jump of verticals) {
                     availableId = Number(playerId) - Number(jump);
                     if (availableId < 10) {
@@ -115,11 +120,11 @@ class Move {
                             !availableCell.hasAttribute('data-playeraccess')
                         ) {
                             availableCell.setAttribute('data-playeraccess', 1);
-                        } else if (
+                        }
+                        else if (
                             playerTab[i].move === true &&
                             availableCell.dataset.x === playerCell.dataset.x &&
                             availableId >= 10 &&
-
                             (
                                 availableCell.hasAttribute('data-access') ||
                                 availableCell.hasAttribute('data-player') ||
@@ -129,12 +134,14 @@ class Move {
                             noGoCell = document.getElementById(td + (Number(availableId) - 10));
                             console.log('available' + availableId);
                             console.log(noGoCell);
-                            noGoCell.setAttribute('data-playeraccess', 0);
+                            if (noGoCell !== null) {
+                                noGoCell.setAttribute('data-playeraccess', 0);
+                            }
                         }
                     }
                 }
 
-
+                //Cases autorisées vers le bas
                 for (let jump of verticals) {
                     availableId = Number(playerId) + Number(jump);
                     if (availableId < 10) {
@@ -166,7 +173,9 @@ class Move {
                             )
                         ) {
                             noGoCell = document.getElementById(td + (Number(availableId) + 10));
-                            noGoCell.setAttribute('data-playeraccess', 0);
+                            if (noGoCell !== null) {
+                                noGoCell.setAttribute('data-playeraccess', 0);
+                            }
                         }
                     }
                 }

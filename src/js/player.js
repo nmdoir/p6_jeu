@@ -51,9 +51,9 @@ class Player {
     //Générer les boutons d'attaque et de défense pour démarrer le combat, en fonction du joueur dont c'est le tour
     allowFight(playerTab) {
         let buttonsj1 = document.getElementById('buttonsj1');
-        buttonsj1.setAttribute('damage', null);
+        buttonsj1.setAttribute('data-damage', 0);
         let buttonsj2 = document.getElementById('buttonsj2');
-        buttonsj2.setAttribute('damage', null);
+        buttonsj2.setAttribute('data-damage', 0);
         let buttonA1 = document.createElement('button');
         let buttonD1 = document.createElement('button');
         let buttonA2 = document.createElement('button');
@@ -80,11 +80,11 @@ class Player {
         let weapon = new Weapon();
 
         buttonA1.addEventListener("click", () => {
-            console.log(document.getElementById('buttonsj1').dataset.damage);
-            if (document.getElementById('buttonsj1').dataset.damage != null) {
-                let attackerDamage = document.getElementById('buttonsj1').dataset.damage;
+            if (buttonsj1.dataset.damage > 0) {
+                let attackerDamage = Number(buttonsj1.dataset.damage);
                 playerTab[1].life -= attackerDamage;
                 document.getElementById('lifej2').innerHTML = playerTab[1].life;
+                buttonsj1.setAttribute('data-damage', 0);
             }
             else {
                 let attackerDamage = weapon.getWeaponDamage(playerTab[0].weapon);
@@ -99,7 +99,7 @@ class Player {
 
         buttonD1.addEventListener("click", () => {
             let attackerDamage = Number(weapon.getWeaponDamage(playerTab[0].weapon) / 2);
-            buttonsj2.setAttribute('damage', String(attackerDamage));
+            buttonsj2.setAttribute('data-damage', String(attackerDamage));
             buttonsj2.classList.remove('disable');
             buttonsj1.setAttribute('class', 'disable');
             this.allowMove(playerTab);
@@ -107,11 +107,12 @@ class Player {
         });
 
         buttonA2.addEventListener("click", () => {
-            console.log(document.getElementById('attack2').dataset.damage);
-            if (document.getElementById('attack2').dataset.damage != null) {
-                let attackerDamage = document.getElementById('attack2').dataset.damage;
+            console.log(buttonsj2.dataset.damage);
+            if (buttonsj2.dataset.damage > 0) {
+                let attackerDamage = Number(buttonsj2.dataset.damage);
                 playerTab[0].life -= attackerDamage;
                 document.getElementById('lifej1').innerHTML = playerTab[0].life;
+                buttonsj2.setAttribute('data-damage', 0);
             }
             else {
                 let attackerDamage = weapon.getWeaponDamage(playerTab[1].weapon);
@@ -126,7 +127,7 @@ class Player {
 
         buttonD2.addEventListener("click", () => {
             let attackerDamage = Number(weapon.getWeaponDamage(playerTab[1].weapon) / 2);
-            buttonsj1.setAttribute('damage', String(attackerDamage));
+            buttonsj1.setAttribute('data-damage', String(attackerDamage));
             buttonsj1.classList.remove('disable');
             buttonsj2.setAttribute('class', 'disable');
             this.allowMove(playerTab);

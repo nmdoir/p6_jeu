@@ -477,9 +477,9 @@ function () {
       var _this = this;
 
       var buttonsj1 = document.getElementById('buttonsj1');
-      buttonsj1.setAttribute('damage', null);
+      buttonsj1.setAttribute('data-damage', 0);
       var buttonsj2 = document.getElementById('buttonsj2');
-      buttonsj2.setAttribute('damage', null);
+      buttonsj2.setAttribute('data-damage', 0);
       var buttonA1 = document.createElement('button');
       var buttonD1 = document.createElement('button');
       var buttonA2 = document.createElement('button');
@@ -502,12 +502,11 @@ function () {
 
       var weapon = new _weapon__WEBPACK_IMPORTED_MODULE_1__["Weapon"]();
       buttonA1.addEventListener("click", function () {
-        console.log(document.getElementById('buttonsj1').dataset.damage);
-
-        if (document.getElementById('buttonsj1').dataset.damage != null) {
-          var attackerDamage = document.getElementById('buttonsj1').dataset.damage;
+        if (buttonsj1.dataset.damage > 0) {
+          var attackerDamage = Number(buttonsj1.dataset.damage);
           playerTab[1].life -= attackerDamage;
           document.getElementById('lifej2').innerHTML = playerTab[1].life;
+          buttonsj1.setAttribute('data-damage', 0);
         } else {
           var _attackerDamage = weapon.getWeaponDamage(playerTab[0].weapon);
 
@@ -524,7 +523,7 @@ function () {
       });
       buttonD1.addEventListener("click", function () {
         var attackerDamage = Number(weapon.getWeaponDamage(playerTab[0].weapon) / 2);
-        buttonsj2.setAttribute('damage', String(attackerDamage));
+        buttonsj2.setAttribute('data-damage', String(attackerDamage));
         buttonsj2.classList.remove('disable');
         buttonsj1.setAttribute('class', 'disable');
 
@@ -533,12 +532,13 @@ function () {
         _this.checkEnd(playerTab);
       });
       buttonA2.addEventListener("click", function () {
-        console.log(document.getElementById('attack2').dataset.damage);
+        console.log(buttonsj2.dataset.damage);
 
-        if (document.getElementById('attack2').dataset.damage != null) {
-          var attackerDamage = document.getElementById('attack2').dataset.damage;
+        if (buttonsj2.dataset.damage > 0) {
+          var attackerDamage = Number(buttonsj2.dataset.damage);
           playerTab[0].life -= attackerDamage;
           document.getElementById('lifej1').innerHTML = playerTab[0].life;
+          buttonsj2.setAttribute('data-damage', 0);
         } else {
           var _attackerDamage2 = weapon.getWeaponDamage(playerTab[1].weapon);
 
@@ -555,7 +555,7 @@ function () {
       });
       buttonD2.addEventListener("click", function () {
         var attackerDamage = Number(weapon.getWeaponDamage(playerTab[1].weapon) / 2);
-        buttonsj1.setAttribute('damage', String(attackerDamage));
+        buttonsj1.setAttribute('data-damage', String(attackerDamage));
         buttonsj1.classList.remove('disable');
         buttonsj2.setAttribute('class', 'disable');
 
@@ -657,7 +657,10 @@ function () {
                 availableCell.setAttribute('data-playeraccess', 1);
               } else if (playerTab[i].move === true && availableCell.dataset.y === playerCell.dataset.y && availableId >= 1 && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player') || availableCell.hasAttribute('data-playeraccess'))) {
                 noGoCell = document.getElementById(td + (Number(availableId) - 1));
-                noGoCell.setAttribute('data-playeraccess', 0);
+
+                if (noGoCell !== null) {
+                  noGoCell.setAttribute('data-playeraccess', 0);
+                }
               }
             }
           }
@@ -677,12 +680,15 @@ function () {
                 availableCell.setAttribute('data-playeraccess', 1);
               } else if (playerTab[i].move === true && availableCell.dataset.y === playerCell.dataset.y && availableId < 99 && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player') || availableCell.hasAttribute('data-playeraccess'))) {
                 noGoCell = document.getElementById(td + (Number(availableId) + 1));
-                noGoCell.setAttribute('data-playeraccess', 0);
+
+                if (noGoCell !== null) {
+                  noGoCell.setAttribute('data-playeraccess', 0);
+                }
               }
             }
           }
 
-          var verticals = [10, 20, 30];
+          var verticals = [10, 20, 30]; //Cases autorisées vers le haut
 
           for (var _i = 0, _verticals = verticals; _i < _verticals.length; _i++) {
             var jump = _verticals[_i];
@@ -704,10 +710,14 @@ function () {
                 noGoCell = document.getElementById(td + (Number(availableId) - 10));
                 console.log('available' + availableId);
                 console.log(noGoCell);
-                noGoCell.setAttribute('data-playeraccess', 0);
+
+                if (noGoCell !== null) {
+                  noGoCell.setAttribute('data-playeraccess', 0);
+                }
               }
             }
-          }
+          } //Cases autorisées vers le bas
+
 
           for (var _i2 = 0, _verticals2 = verticals; _i2 < _verticals2.length; _i2++) {
             var _jump = _verticals2[_i2];
@@ -728,7 +738,10 @@ function () {
                 availableCell.setAttribute('data-playeraccess', 1);
               } else if (availableId < 90 && playerTab[i].move === true && availableCell.dataset.x === playerCell.dataset.x && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player') || availableCell.hasAttribute('data-playeraccess'))) {
                 noGoCell = document.getElementById(td + (Number(availableId) + 10));
-                noGoCell.setAttribute('data-playeraccess', 0);
+
+                if (noGoCell !== null) {
+                  noGoCell.setAttribute('data-playeraccess', 0);
+                }
               }
             }
           }
