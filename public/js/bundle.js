@@ -110,7 +110,18 @@ if (!name_j2 || name_j2 === "") {
 
 
 document.getElementById('namej1').innerHTML = name_j1;
-document.getElementById('namej2').innerHTML = name_j2; //On exporte les 2 variables afin de les utiliser dans la classe Player
+document.getElementById('namej2').innerHTML = name_j2; //Box règles du jeu
+
+var modal = document.getElementById("rulesModal");
+var btn = document.getElementById("rulesBtn");
+btn.addEventListener("click", function () {
+  modal.style.display = "block";
+});
+window.addEventListener("click", function (event) {
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+}); //On exporte les 2 variables noms des joueurs afin de les utiliser dans la classe Player
 
 
  //Insérer la grille dans le HTML
@@ -566,21 +577,35 @@ function () {
   }, {
     key: "checkEnd",
     value: function checkEnd(playerTab) {
-      var board = document.getElementById('finish');
-      var box = document.createElement('h3');
+      var box = document.getElementById('finish');
+      var div = document.createElement('div');
+      var text = document.createElement('h2');
+      var btnPlayAgain = document.createElement('button');
 
       if (playerTab[0].life < 1) {
         document.getElementById('buttonsj1').setAttribute('class', 'disable');
         document.getElementById('buttonsj2').setAttribute('class', 'disable');
         document.getElementById('lifej1').innerHTML = "0";
-        board.appendChild(box).setAttribute('class', 'text-center');
-        box.innerHTML = _index__WEBPACK_IMPORTED_MODULE_0__["name_j2"] + " a gagné !";
+        box.style.display = "block";
+        box.appendChild(div).setAttribute('class', 'modal-content');
+        div.appendChild(text).innerHTML = _index__WEBPACK_IMPORTED_MODULE_0__["name_j2"] + " a gagné !";
+        div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
+        btnPlayAgain.innerHTML = "Rejouer";
+        btnPlayAgain.addEventListener("click", function () {
+          location.reload();
+        });
       } else if (playerTab[1].life < 1) {
         document.getElementById('buttonsj1').setAttribute('class', 'disable');
         document.getElementById('buttonsj2').setAttribute('class', 'disable');
         document.getElementById('lifej2').innerHTML = "0";
-        board.appendChild(box).setAttribute('class', 'text-center');
-        box.innerHTML = _index__WEBPACK_IMPORTED_MODULE_0__["name_j1"] + " a gagné !";
+        box.style.display = "block";
+        box.appendChild(div).setAttribute('class', 'modal-content');
+        div.appendChild(text).innerHTML = _index__WEBPACK_IMPORTED_MODULE_0__["name_j1"] + " a gagné !";
+        div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
+        btnPlayAgain.innerHTML = "Rejouer";
+        btnPlayAgain.addEventListener("click", function () {
+          location.reload();
+        });
       }
     }
   }]);
@@ -714,7 +739,8 @@ function () {
                 noGoCell.setAttribute('data-playeraccess', 0);
               }
             }
-          } //Cases autorisées vers le bas
+          } //TODO: td répétitif -> fonction
+          //Cases autorisées vers le bas
 
 
           for (var _i2 = 0, _verticals2 = verticals; _i2 < _verticals2.length; _i2++) {

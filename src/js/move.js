@@ -145,6 +145,7 @@ class Move {
                     }
                 }
 
+                //TODO: td répétitif -> fonction
                 //Cases autorisées vers le bas
                 for (let jump of verticals) {
                     availableId = Number(playerId) + Number(jump);

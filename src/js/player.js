@@ -136,21 +136,35 @@ class Player {
 
     //TODO: améliorer la fonction, factoriser
     checkEnd(playerTab) {
-        let board = document.getElementById('finish');
-        let box = document.createElement('h3');
+        let box = document.getElementById('finish');
+        let div = document.createElement('div');
+        let text = document.createElement('h2');
+        let btnPlayAgain = document.createElement('button');
         if (playerTab[0].life < 1) {
             document.getElementById('buttonsj1').setAttribute('class', 'disable');
             document.getElementById('buttonsj2').setAttribute('class', 'disable');
             document.getElementById('lifej1').innerHTML = "0";
-            board.appendChild(box).setAttribute('class', 'text-center');
-            box.innerHTML = name_j2 + " a gagné !";
+            box.style.display = "block";
+            box.appendChild(div).setAttribute('class','modal-content');
+            div.appendChild(text).innerHTML = name_j2 + " a gagné !";
+            div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
+            btnPlayAgain.innerHTML = "Rejouer";
+            btnPlayAgain.addEventListener("click", () => {
+                location.reload();
+            });
         }
         else if (playerTab[1].life < 1) {
             document.getElementById('buttonsj1').setAttribute('class', 'disable');
             document.getElementById('buttonsj2').setAttribute('class', 'disable');
             document.getElementById('lifej2').innerHTML = "0";
-            board.appendChild(box).setAttribute('class', 'text-center');
-            box.innerHTML = name_j1 + " a gagné !";
+            box.style.display = "block";
+            box.appendChild(div).setAttribute('class','modal-content');
+            div.appendChild(text).innerHTML = name_j1 + " a gagné !";
+            div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
+            btnPlayAgain.innerHTML = "Rejouer";
+            btnPlayAgain.addEventListener("click", () => {
+                location.reload();
+            });
         }
     }
 }

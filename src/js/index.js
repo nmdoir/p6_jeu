@@ -17,7 +17,21 @@ if (!name_j2 || name_j2 === "") {
 document.getElementById('namej1').innerHTML = name_j1;
 document.getElementById('namej2').innerHTML = name_j2;
 
-//On exporte les 2 variables afin de les utiliser dans la classe Player
+//Box règles du jeu
+let modal = document.getElementById("rulesModal");
+let btn = document.getElementById("rulesBtn");
+
+btn.addEventListener("click", () => {
+    modal.style.display = "block";
+});
+
+window.addEventListener("click", (event) => {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+});
+
+//On exporte les 2 variables noms des joueurs afin de les utiliser dans la classe Player
 export { name_j1 };
 export { name_j2 };
 
