@@ -39,10 +39,10 @@ class Weapon {
 
     getFrenchWeaponName(weapon) {
         let translationTab = {
-            'knife': 'Couteau',
-            'sword': 'Epée',
-            'pistol': 'Revolver',
-            'dynamite': 'Dynamite'
+            "knife": "Couteau",
+            "sword": "Epée",
+            "pistol": "Revolver",
+            "dynamite": "Dynamite"
         };
         return translationTab[weapon];
 

@@ -90,27 +90,25 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "name_j1", function() { return name_j1; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "name_j2", function() { return name_j2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "nameJ1", function() { return nameJ1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "nameJ2", function() { return nameJ2; });
 /* harmony import */ var _js_genGrid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
  //Demander le nom des joueurs
 
-var name_j1 = ""; //prompt("Entrez le nom du joueur 1 : ");
+var nameJ1 = prompt("Entrez le nom du joueur 1 : ");
+var nameJ2 = prompt("Entrez le nom du joueur 2 : "); //Leur donner un nom par défaut au cas où l'utilisateur n'entre rien
 
-var name_j2 = ""; //prompt("Entrez le nom du joueur 2 : ");
-//Leur donner un nom par défaut au cas où l'utilisateur n'entre rien
-
-if (!name_j1 || name_j1 === "") {
-  name_j1 = "Joueur 1";
+if (!nameJ1 || nameJ1 === "") {
+  nameJ1 = "Joueur 1";
 }
 
-if (!name_j2 || name_j2 === "") {
-  name_j2 = "Joueur 2";
+if (!nameJ2 || nameJ2 === "") {
+  nameJ2 = "Joueur 2";
 } //Afficher les noms des joueurs dans les blocs info
 
 
-document.getElementById('namej1').innerHTML = name_j1;
-document.getElementById('namej2').innerHTML = name_j2; //Box règles du jeu
+document.getElementById("namej1").innerHTML = nameJ1;
+document.getElementById("namej2").innerHTML = nameJ2; //Box règles du jeu
 
 var modal = document.getElementById("rulesModal");
 var btn = document.getElementById("rulesBtn");
@@ -396,10 +394,10 @@ function () {
     key: "getFrenchWeaponName",
     value: function getFrenchWeaponName(weapon) {
       var translationTab = {
-        'knife': 'Couteau',
-        'sword': 'Epée',
-        'pistol': 'Revolver',
-        'dynamite': 'Dynamite'
+        "knife": "Couteau",
+        "sword": "Epée",
+        "pistol": "Revolver",
+        "dynamite": "Dynamite"
       };
       return translationTab[weapon];
     }
@@ -443,14 +441,14 @@ function () {
     this.move = false;
     this.playerTab = [{
       "id": "player1",
-      "name": _index__WEBPACK_IMPORTED_MODULE_0__["name_j1"],
+      "name": _index__WEBPACK_IMPORTED_MODULE_0__["nameJ1"],
       "life": this.life,
       "weapon": this.weapon,
       "position": this.position,
       "move": this.move
     }, {
       "id": "player2",
-      "name": _index__WEBPACK_IMPORTED_MODULE_0__["name_j2"],
+      "name": _index__WEBPACK_IMPORTED_MODULE_0__["nameJ2"],
       "life": this.life,
       "weapon": this.weapon,
       "position": this.position,
@@ -584,7 +582,7 @@ function () {
         document.getElementById('lifej1').innerHTML = "0";
         box.style.display = "block";
         box.appendChild(div).setAttribute('class', 'modal-content');
-        div.appendChild(text).innerHTML = _index__WEBPACK_IMPORTED_MODULE_0__["name_j2"] + " a gagné !";
+        div.appendChild(text).innerHTML = name_j2 + " a gagné !";
         div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
         btnPlayAgain.innerHTML = "Rejouer";
         btnPlayAgain.addEventListener("click", function () {
@@ -596,7 +594,7 @@ function () {
         document.getElementById('lifej2').innerHTML = "0";
         box.style.display = "block";
         box.appendChild(div).setAttribute('class', 'modal-content');
-        div.appendChild(text).innerHTML = _index__WEBPACK_IMPORTED_MODULE_0__["name_j1"] + " a gagné !";
+        div.appendChild(text).innerHTML = name_j1 + " a gagné !";
         div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
         btnPlayAgain.innerHTML = "Rejouer";
         btnPlayAgain.addEventListener("click", function () {
