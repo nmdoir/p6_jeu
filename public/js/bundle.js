@@ -362,16 +362,13 @@ function () {
       "damage": "10"
     }, {
       "name": "sword",
-      "damage": "15"
-    }, {
-      "name": "pistol",
       "damage": "20"
     }, {
-      "name": "dynamite",
-      "damage": "25"
-    }, {
-      "name": "bomb",
+      "name": "pistol",
       "damage": "30"
+    }, {
+      "name": "dynamite",
+      "damage": "40"
     }];
   }
 
@@ -402,8 +399,7 @@ function () {
         'knife': 'Couteau',
         'sword': 'Epée',
         'pistol': 'Revolver',
-        'dynamite': 'Dynamite',
-        'bomb': 'Boule de feu'
+        'dynamite': 'Dynamite'
       };
       return translationTab[weapon];
     }
@@ -533,7 +529,7 @@ function () {
         _this.checkEnd(playerTab);
       });
       buttonD1.addEventListener("click", function () {
-        var attackerDamage = Number(weapon.getWeaponDamage(playerTab[0].weapon) / 2);
+        var attackerDamage = Number(weapon.getWeaponDamage(playerTab[1].weapon) / 2);
         buttonsj2.setAttribute('data-damage', String(attackerDamage));
         buttonsj2.classList.remove('disable');
         buttonsj1.setAttribute('class', 'disable');
@@ -563,7 +559,7 @@ function () {
         _this.checkEnd(playerTab);
       });
       buttonD2.addEventListener("click", function () {
-        var attackerDamage = Number(weapon.getWeaponDamage(playerTab[1].weapon) / 2);
+        var attackerDamage = Number(weapon.getWeaponDamage(playerTab[0].weapon) / 2);
         buttonsj1.setAttribute('data-damage', String(attackerDamage));
         buttonsj1.classList.remove('disable');
         buttonsj2.setAttribute('class', 'disable');

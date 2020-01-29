@@ -98,7 +98,7 @@ class Player {
         });
 
         buttonD1.addEventListener("click", () => {
-            let attackerDamage = Number(weapon.getWeaponDamage(playerTab[0].weapon) / 2);
+            let attackerDamage = Number(weapon.getWeaponDamage(playerTab[1].weapon) / 2);
             buttonsj2.setAttribute('data-damage', String(attackerDamage));
             buttonsj2.classList.remove('disable');
             buttonsj1.setAttribute('class', 'disable');
@@ -125,7 +125,7 @@ class Player {
         });
 
         buttonD2.addEventListener("click", () => {
-            let attackerDamage = Number(weapon.getWeaponDamage(playerTab[1].weapon) / 2);
+            let attackerDamage = Number(weapon.getWeaponDamage(playerTab[0].weapon) / 2);
             buttonsj1.setAttribute('data-damage', String(attackerDamage));
             buttonsj1.classList.remove('disable');
             buttonsj2.setAttribute('class', 'disable');

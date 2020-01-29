@@ -10091,11 +10091,6 @@ table.center {
     background-size: 100% 100%;
 }
 
-[data-weapon="bomb"] {
-    background-image:url(img/bomb.PNG);
-    background-size: 100% 100%;
-}
-
 [data-player="player1"] {
     background-image:url(img/j1.png);
     background-size: 100% 100%;
