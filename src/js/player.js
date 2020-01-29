@@ -1,6 +1,6 @@
 //On récupère les variables des noms des joueurs entrés par l'utilisateur
-import { name_j1 } from "./index";
-import { name_j2 } from "./index";
+import { nameJ1 } from "./index";
+import { nameJ2 } from "./index";
 import {Weapon} from "./weapon";
 
 class Player {
@@ -13,7 +13,7 @@ class Player {
         this.playerTab = [
             {
                 "id": "player1",
-                "name": name_j1,
+                "name": nameJ1,
                 "life": this.life,
                 "weapon": this.weapon,
                 "position": this.position,
@@ -21,7 +21,7 @@ class Player {
             },
             {
                 "id": "player2",
-                "name": name_j2,
+                "name": nameJ2,
                 "life": this.life,
                 "weapon": this.weapon,
                 "position": this.position,
