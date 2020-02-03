@@ -7,12 +7,8 @@ class Move {
     availableMove(playerTab) {
         let td = null;
         for (let browseCells = 0; browseCells < 100; browseCells++) {
-            if (browseCells < 10) {
-                td = 'td-0'
-            } else {
-                td = 'td-'
-            }
-            document.getElementById(td + browseCells).removeAttribute('data-playeraccess');
+            td = this.checkTd(browseCells)[0];
+            document.getElementById(td + browseCells).removeAttribute("data-playeraccess");
         }
 
         let player = new Player();
@@ -27,11 +23,7 @@ class Move {
                 let noGoCell = null;
 
                 for (availableId = Number(playerId) - 1; availableId >= playerId - 3; availableId--) {
-                    if (availableId < 10) {
-                        td = 'td-0'
-                    } else {
-                        td = 'td-'
-                    }
+                    td = this.checkTd(availableId)[0];
                     availablePos = td + availableId;
                     availableCell = document.getElementById(availablePos);
 
@@ -39,24 +31,24 @@ class Move {
                         if (
                             playerTab[i].move === true &&
                             availableCell.dataset.y === playerCell.dataset.y &&
-                            !availableCell.hasAttribute('data-access') &&
-                            !availableCell.hasAttribute('data-player') &&
-                            !availableCell.hasAttribute('data-playeraccess')
+                            !availableCell.hasAttribute("data-access") &&
+                            !availableCell.hasAttribute("data-player") &&
+                            !availableCell.hasAttribute("data-playeraccess")
                         ) {
-                            availableCell.setAttribute('data-playeraccess', 1);
+                            availableCell.setAttribute("data-playeraccess", 1);
                         } else if (
                             playerTab[i].move === true &&
                             availableCell.dataset.y === playerCell.dataset.y &&
                             availableId >= 1 &&
                             (
-                                availableCell.hasAttribute('data-access') ||
-                                availableCell.hasAttribute('data-player') ||
-                                availableCell.hasAttribute('data-playeraccess')
+                                availableCell.hasAttribute("data-access") ||
+                                availableCell.hasAttribute("data-player") ||
+                                availableCell.hasAttribute("data-playeraccess")
                             )
                         ) {
                             noGoCell = document.getElementById(td + (Number(availableId) - 1));
                             if (noGoCell !== null) {
-                                noGoCell.setAttribute('data-playeraccess', 0);
+                                noGoCell.setAttribute("data-playeraccess", 0);
                             }
                         }
                     }
@@ -64,11 +56,7 @@ class Move {
 
 
                 for (availableId = Number(playerId) + 1; availableId <= Number(playerId) + 3; availableId++) {
-                    if (availableId < 10) {
-                        td = 'td-0'
-                    } else {
-                        td = 'td-'
-                    }
+                    td = this.checkTd(availableId)[0];
                     availablePos = td + availableId;
                     availableCell = document.getElementById(availablePos);
 
@@ -76,46 +64,34 @@ class Move {
                         if (
                             playerTab[i].move === true &&
                             availableCell.dataset.y === playerCell.dataset.y &&
-                            !availableCell.hasAttribute('data-access') &&
-                            !availableCell.hasAttribute('data-player') &&
-                            !availableCell.hasAttribute('data-playeraccess')
+                            !availableCell.hasAttribute("data-access") &&
+                            !availableCell.hasAttribute("data-player") &&
+                            !availableCell.hasAttribute("data-playeraccess")
                         ) {
-                            availableCell.setAttribute('data-playeraccess', 1);
+                            availableCell.setAttribute("data-playeraccess", 1);
                         } else if (
                             playerTab[i].move === true &&
                             availableCell.dataset.y === playerCell.dataset.y &&
                             availableId < 99 &&
                             (
-                                availableCell.hasAttribute('data-access') ||
-                                availableCell.hasAttribute('data-player') ||
-                                availableCell.hasAttribute('data-playeraccess')
+                                availableCell.hasAttribute("data-access") ||
+                                availableCell.hasAttribute("data-player") ||
+                                availableCell.hasAttribute("data-playeraccess")
                             )
                         ) {
                             noGoCell = document.getElementById(td + (Number(availableId) + 1));
                             if (noGoCell !== null) {
-                                noGoCell.setAttribute('data-playeraccess', 0);
+                                noGoCell.setAttribute("data-playeraccess", 0);
                             }
                         }
                     }
                 }
 
                 let verticals = [10, 20, 30];
-                let tdnogo = null;
                 //Cases autorisées vers le haut
                 for (let jump of verticals) {
                     availableId = Number(playerId) - Number(jump);
-                    if (availableId < 10) {
-                        td = 'td-0'
-                    }
-                    else if (availableId >= 10 && availableId < 20)
-                    {
-                        td = 'td-';
-                        tdnogo = 'td-0';
-                    }
-                    else {
-                        td = 'td-';
-                        tdnogo = 'td-';
-                    }
+                    td = this.checkTd(availableId)[1];
                     availablePos = td + availableId;
                     availableCell = document.getElementById(availablePos);
 
@@ -123,44 +99,32 @@ class Move {
                         if (
                             playerTab[i].move === true &&
                             availableCell.dataset.x === playerCell.dataset.x &&
-                            !availableCell.hasAttribute('data-access') &&
-                            !availableCell.hasAttribute('data-player') &&
-                            !availableCell.hasAttribute('data-playeraccess')
+                            !availableCell.hasAttribute("data-access") &&
+                            !availableCell.hasAttribute("data-player") &&
+                            !availableCell.hasAttribute("data-playeraccess")
                         ) {
-                            availableCell.setAttribute('data-playeraccess', 1);
+                            availableCell.setAttribute("data-playeraccess", 1);
                         }
                         else if (
                             playerTab[i].move === true &&
                             availableCell.dataset.x === playerCell.dataset.x &&
                             availableId >= 10 &&
                             (
-                                availableCell.hasAttribute('data-access') ||
-                                availableCell.hasAttribute('data-player') ||
-                                availableCell.hasAttribute('data-playeraccess')
+                                availableCell.hasAttribute("data-access") ||
+                                availableCell.hasAttribute("data-player") ||
+                                availableCell.hasAttribute("data-playeraccess")
                             )
                         ) {
-                            noGoCell = document.getElementById(tdnogo + (Number(availableId) - 10));
-                            noGoCell.setAttribute('data-playeraccess', 0);
+                            noGoCell = document.getElementById(td + (Number(availableId) - 10));
+                            noGoCell.setAttribute("data-playeraccess", 0);
                         }
                     }
                 }
 
-                //TODO: td répétitif -> fonction
                 //Cases autorisées vers le bas
                 for (let jump of verticals) {
                     availableId = Number(playerId) + Number(jump);
-                    if (availableId < 10) {
-                        td = 'td-0'
-                    }
-                    else if (availableId >= 10 && availableId < 20)
-                    {
-                        td = 'td-';
-                        tdnogo = 'td-0';
-                    }
-                    else {
-                        td = 'td-';
-                        tdnogo = 'td-';
-                    }
+                    td = this.checkTd(availableId)[1];
                     availablePos = td + availableId;
                     availableCell = document.getElementById(availablePos);
 
@@ -168,23 +132,23 @@ class Move {
                         if (
                             playerTab[i].move === true &&
                             availableCell.dataset.x === playerCell.dataset.x &&
-                            !availableCell.hasAttribute('data-access') &&
-                            !availableCell.hasAttribute('data-player') &&
-                            !availableCell.hasAttribute('data-playeraccess')
+                            !availableCell.hasAttribute("data-access") &&
+                            !availableCell.hasAttribute("data-player") &&
+                            !availableCell.hasAttribute("data-playeraccess")
                         ) {
-                            availableCell.setAttribute('data-playeraccess', 1);
+                            availableCell.setAttribute("data-playeraccess", 1);
                         } else if (
                             availableId < 90 &&
                             playerTab[i].move === true &&
                             availableCell.dataset.x === playerCell.dataset.x &&
                             (
-                                availableCell.hasAttribute('data-access') ||
-                                availableCell.hasAttribute('data-player') ||
-                                availableCell.hasAttribute('data-playeraccess')
+                                availableCell.hasAttribute("data-access") ||
+                                availableCell.hasAttribute("data-player") ||
+                                availableCell.hasAttribute("data-playeraccess")
                             )
                         ) {
-                            noGoCell = document.getElementById(tdnogo + (Number(availableId) + 10));
-                            noGoCell.setAttribute('data-playeraccess', 0);
+                            noGoCell = document.getElementById(td + (Number(availableId) + 10));
+                            noGoCell.setAttribute("data-playeraccess", 0);
                         }
                     }
                 }
@@ -197,6 +161,22 @@ class Move {
         }
     }
 
+    checkTd(availableId) {
+        let tdTab = [];
+        if (availableId < 10) {
+            tdTab[0] = 'td-0'
+        }
+        else if (availableId >= 10 && availableId < 20)
+        {
+            tdTab[0] = 'td-';
+            tdTab[1] = 'td-0';
+        }
+        else {
+            tdTab[0] = 'td-';
+            tdTab[1] = 'td-';
+        }
+        return tdTab;
+    }
 
     move(cellId, playerTab) {
         let player = null;
@@ -220,14 +200,14 @@ class Move {
             && nextCell.id !== currentCell.id) {
 
             //Update player position
-            nextCell.setAttribute('data-player', player.id);
+            nextCell.setAttribute("data-player", player.id);
             player.position = nextCell.id;
 
             //Update player weapon and weapon shown in the cell
-            if (nextCell.hasAttribute('data-weapon')) {
+            if (nextCell.hasAttribute("data-weapon")) {
                 if (oldWeapon === null) {
                     player.weapon = nextCell.dataset.weapon;
-                    nextCell.removeAttribute('data-weapon');
+                    nextCell.removeAttribute("data-weapon");
                 }
                 else {
                     player.weapon = nextCell.dataset.weapon;
@@ -236,7 +216,7 @@ class Move {
             }
 
             //Remove last position
-            currentCell.removeAttribute('data-player');
+            currentCell.removeAttribute("data-player");
 
             //this.getPlayerWeapon(player);
             newPlayer.allowMove(playerTab);
