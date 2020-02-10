@@ -483,23 +483,24 @@ function () {
     value: function allowFight(playerTab) {
       var _this = this;
 
-      var buttonsj1 = document.getElementById('buttonsj1');
-      buttonsj1.setAttribute('data-damage', 0);
-      var buttonsj2 = document.getElementById('buttonsj2');
-      buttonsj2.setAttribute('data-damage', 0);
-      var buttonA1 = document.createElement('button');
-      var buttonD1 = document.createElement('button');
-      var buttonA2 = document.createElement('button');
-      var buttonD2 = document.createElement('button');
-      buttonA1.innerHTML = "Attaquer";
-      buttonD1.innerHTML = "Défendre";
-      buttonA2.innerHTML = "Attaquer";
-      buttonD2.innerHTML = "Défendre"; //Générer les 4 boutons
+      var buttonsj1 = document.getElementById("buttonsj1");
+      buttonsj1.setAttribute("data-damage", 0);
+      var buttonsj2 = document.getElementById("buttonsj2");
+      buttonsj2.setAttribute("data-damage", 0); //Créer les 4 boutons
 
-      buttonsj1.appendChild(buttonA1).setAttribute('class', 'fightbtn attack btnj1');
-      buttonsj1.appendChild(buttonD1).setAttribute('class', 'fightbtn defense btnj1');
-      buttonsj2.appendChild(buttonA2).setAttribute('class', 'fightbtn attack btnj2');
-      buttonsj2.appendChild(buttonD2).setAttribute('class', 'fightbtn defense btnj2'); //Masquer les boutons du joueur dont ce n'est pas le tour
+      var buttonAttackJ1 = document.createElement("button");
+      var buttonDefenseJ1 = document.createElement("button");
+      var buttonAttackJ2 = document.createElement("button");
+      var buttonDefenseJ2 = document.createElement("button");
+      buttonAttackJ1.innerHTML = "Attaquer";
+      buttonDefenseJ1.innerHTML = "Défendre";
+      buttonAttackJ2.innerHTML = "Attaquer";
+      buttonDefenseJ2.innerHTML = "Défendre"; //Insérer les 4 boutons
+
+      buttonsj1.appendChild(buttonAttackJ1).setAttribute("class", "fightbtn attack btnj1");
+      buttonsj1.appendChild(buttonDefenseJ1).setAttribute("class", "fightbtn defense btnj1");
+      buttonsj2.appendChild(buttonAttackJ2).setAttribute("class", "fightbtn attack btnj2");
+      buttonsj2.appendChild(buttonDefenseJ2).setAttribute("class", "fightbtn defense btnj2"); //Masquer les boutons du joueur dont ce n'est pas le tour
 
       if (playerTab[0].move === true) {
         buttonsj2.setAttribute('class', 'disable');
@@ -508,74 +509,85 @@ function () {
       }
 
       var weapon = new _weapon__WEBPACK_IMPORTED_MODULE_1__["Weapon"]();
-      buttonA1.addEventListener("click", function () {
-        if (buttonsj1.dataset.damage > 0) {
-          var attackerDamage = Number(buttonsj1.dataset.damage);
-          playerTab[1].life -= attackerDamage;
-          document.getElementById('lifej2').innerHTML = playerTab[1].life;
-          buttonsj1.setAttribute('data-damage', 0);
-        } else {
-          var _attackerDamage = weapon.getWeaponDamage(playerTab[0].weapon);
+      var buttonsAttack = document.getElementsByClassName("attack");
+      var buttonsDefense = document.getElementsByClassName("defense"); //Ecouter les événements de clic du bouton Attaquer
 
-          playerTab[1].life -= _attackerDamage;
-          document.getElementById('lifej2').innerHTML = playerTab[1].life;
-        }
+      var _loop = function _loop(i) {
+        buttonsAttack[i].addEventListener("click", function () {
+          var attackerDamage; //Vérifier de quel joueur il s'agit
 
-        buttonsj2.classList.remove('disable');
-        buttonsj1.setAttribute('class', 'disable');
+          if (buttonsAttack[i].classList.contains("btnj1")) {
+            //Vérifier s'il y a eu une défense de la part de l'autre joueur, pour retrancher le bon nombre de PV
+            if (buttonsj1.dataset.damage > 0) {
+              attackerDamage = Number(buttonsj1.dataset.damage);
+            } else {
+              attackerDamage = weapon.getWeaponDamage(playerTab[0].weapon);
+            } //Retrancher les points de dégâts et afficher les PV restants
 
-        _this.allowMove(playerTab);
 
-        _this.checkEnd(playerTab);
-      });
-      buttonD1.addEventListener("click", function () {
-        var attackerDamage = Number(weapon.getWeaponDamage(playerTab[1].weapon) / 2);
-        buttonsj2.setAttribute('data-damage', String(attackerDamage));
-        buttonsj2.classList.remove('disable');
-        buttonsj1.setAttribute('class', 'disable');
+            playerTab[1].life -= attackerDamage;
+            document.getElementById("lifej2").innerHTML = playerTab[1].life; //Réinitialiser le dataset des points de dégâts en cas de défense
 
-        _this.allowMove(playerTab);
+            buttonsj1.setAttribute("data-damage", 0); //Masquer les boutons du joueur dont ce n'est pas le tour
 
-        _this.checkEnd(playerTab);
-      });
-      buttonA2.addEventListener("click", function () {
-        if (buttonsj2.dataset.damage > 0) {
-          var attackerDamage = Number(buttonsj2.dataset.damage);
-          playerTab[0].life -= attackerDamage;
-          document.getElementById('lifej1').innerHTML = playerTab[0].life;
-          buttonsj2.setAttribute('data-damage', 0);
-        } else {
-          var _attackerDamage2 = weapon.getWeaponDamage(playerTab[1].weapon);
+            buttonsj2.classList.remove("disable");
+            buttonsj1.setAttribute("class", "disable");
+          } else if (buttonsAttack[i].classList.contains("btnj2")) {
+            if (buttonsj2.dataset.damage > 0) {
+              attackerDamage = Number(buttonsj2.dataset.damage);
+            } else {
+              attackerDamage = weapon.getWeaponDamage(playerTab[1].weapon);
+            }
 
-          playerTab[0].life -= _attackerDamage2;
-          document.getElementById('lifej1').innerHTML = playerTab[0].life;
-        }
+            playerTab[0].life -= attackerDamage;
+            document.getElementById("lifej1").innerHTML = playerTab[0].life;
+            buttonsj2.setAttribute("data-damage", 0);
+            buttonsj1.classList.remove("disable");
+            buttonsj2.setAttribute("class", "disable");
+          }
 
-        buttonsj1.classList.remove('disable');
-        buttonsj2.setAttribute('class', 'disable');
+          _this.allowMove(playerTab);
 
-        _this.allowMove(playerTab);
+          _this.checkEnd(playerTab);
+        });
+      };
 
-        _this.checkEnd(playerTab);
-      });
-      buttonD2.addEventListener("click", function () {
-        var attackerDamage = Number(weapon.getWeaponDamage(playerTab[0].weapon) / 2);
-        buttonsj1.setAttribute('data-damage', String(attackerDamage));
-        buttonsj1.classList.remove('disable');
-        buttonsj2.setAttribute('class', 'disable');
+      for (var i = 0; i < buttonsAttack.length; i++) {
+        _loop(i);
+      }
 
-        _this.allowMove(playerTab);
+      var _loop2 = function _loop2(j) {
+        buttonsDefense[j].addEventListener("click", function () {
+          if (buttonsDefense[j].classList.contains("btnj1")) {
+            var attackerDamage = Number(weapon.getWeaponDamage(playerTab[1].weapon) / 2);
+            buttonsj2.setAttribute("data-damage", String(attackerDamage));
+            buttonsj2.classList.remove("disable");
+            buttonsj1.setAttribute("class", "disable");
+          } else if (buttonsDefense[j].classList.contains("btnj2")) {
+            var _attackerDamage = Number(weapon.getWeaponDamage(playerTab[0].weapon) / 2);
 
-        _this.checkEnd(playerTab);
-      });
+            buttonsj1.setAttribute("data-damage", String(_attackerDamage));
+            buttonsj1.classList.remove("disable");
+            buttonsj2.setAttribute("class", "disable");
+          }
+
+          _this.allowMove(playerTab);
+
+          _this.checkEnd(playerTab);
+        });
+      };
+
+      for (var j = 0; j < buttonsDefense.length; j++) {
+        _loop2(j);
+      }
     }
   }, {
     key: "checkEnd",
     value: function checkEnd(playerTab) {
-      var box = document.getElementById('finish');
-      var div = document.createElement('div');
-      var text = document.createElement('h2');
-      var btnPlayAgain = document.createElement('button');
+      var box = document.getElementById("finish");
+      var div = document.createElement("div");
+      var text = document.createElement("h2");
+      var btnPlayAgain = document.createElement("button");
 
       for (var loser = 0; loser < playerTab.length; loser++) {
         if (playerTab[loser].life < 1) {
@@ -587,15 +599,15 @@ function () {
             playerName = _index__WEBPACK_IMPORTED_MODULE_0__["nameJ2"];
           }
 
-          document.getElementById('buttonsj1').setAttribute('class', 'disable');
-          document.getElementById('buttonsj2').setAttribute('class', 'disable');
+          document.getElementById("buttonsj1").setAttribute("class", "disable");
+          document.getElementById('buttonsj2').setAttribute("class", "disable");
           playerTab[loser].life = 0;
-          document.getElementById('lifej1').innerHTML = playerTab[0].life;
-          document.getElementById('lifej2').innerHTML = playerTab[1].life;
+          document.getElementById("lifej1").innerHTML = playerTab[0].life;
+          document.getElementById("lifej2").innerHTML = playerTab[1].life;
           box.style.display = "block";
-          box.appendChild(div).setAttribute('class', 'modal-content');
+          box.appendChild(div).setAttribute("class", "modal-content");
           div.appendChild(text).innerHTML = playerName + " a gagné !";
-          div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
+          div.appendChild(btnPlayAgain).setAttribute("id", "playAgain");
           btnPlayAgain.innerHTML = "Rejouer";
           btnPlayAgain.addEventListener("click", function () {
             location.reload();
@@ -651,7 +663,7 @@ function () {
           var availablePos = null;
           var availableCell = null;
           var playerCell = document.getElementById(playerTab[i].position);
-          var playerId = playerCell.id.split('-')[1];
+          var playerId = playerCell.id.split("-")[1];
           var noGoCell = null;
 
           for (availableId = Number(playerId) - 1; availableId >= playerId - 3; availableId--) {
@@ -826,12 +838,7 @@ function () {
     value: function checkIfFight(playerTab) {
       var player1Position = document.getElementById(playerTab[0].position);
       var player2Position = document.getElementById(playerTab[1].position);
-
-      if (player1Position.dataset.y === player2Position.dataset.y && (Number(player1Position.dataset.x) === Number(player2Position.dataset.x) + 1 || Number(player1Position.dataset.x) === Number(player2Position.dataset.x) - 1) || player1Position.dataset.x === player2Position.dataset.x && (Number(player1Position.dataset.y) === Number(player2Position.dataset.y) + 1 || Number(player1Position.dataset.y) === Number(player2Position.dataset.y) - 1)) {
-        return true;
-      } else {
-        return false;
-      }
+      return player1Position.dataset.y === player2Position.dataset.y && (Number(player1Position.dataset.x) === Number(player2Position.dataset.x) + 1 || Number(player1Position.dataset.x) === Number(player2Position.dataset.x) - 1) || player1Position.dataset.x === player2Position.dataset.x && (Number(player1Position.dataset.y) === Number(player2Position.dataset.y) + 1 || Number(player1Position.dataset.y) === Number(player2Position.dataset.y) - 1);
     }
   }]);
 

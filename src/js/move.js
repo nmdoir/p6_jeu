@@ -233,8 +233,7 @@ class Move {
         let player1Position = document.getElementById(playerTab[0].position);
         let player2Position = document.getElementById(playerTab[1].position);
 
-        if (
-            (
+        return (
                 player1Position.dataset.y === player2Position.dataset.y &&
                 (
                     Number(player1Position.dataset.x) === (Number(player2Position.dataset.x) + 1) ||
@@ -248,13 +247,7 @@ class Move {
                     Number(player1Position.dataset.y) === (Number(player2Position.dataset.y) + 1) ||
                     Number(player1Position.dataset.y) === (Number(player2Position.dataset.y) - 1)
                 )
-            )
-        ) {
-            return true;
-        }
-        else {
-            return false;
-        }
+            );
     }
 
 
