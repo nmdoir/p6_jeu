@@ -140,13 +140,39 @@ class Player {
         let div = document.createElement('div');
         let text = document.createElement('h2');
         let btnPlayAgain = document.createElement('button');
-        if (playerTab[0].life < 1) {
+
+        for (let loser = 0; loser < playerTab.length; loser++) {
+            if (playerTab[loser].life < 1) {
+                let playerName = null;
+                if (loser === 0) {
+                    playerName = nameJ1;
+                }
+                else {
+                    playerName = nameJ2;
+                }
+                document.getElementById('buttonsj1').setAttribute('class', 'disable');
+                document.getElementById('buttonsj2').setAttribute('class', 'disable');
+                playerTab[loser].life = 0;
+                document.getElementById('lifej1').innerHTML = playerTab[0].life;
+                document.getElementById('lifej2').innerHTML = playerTab[1].life;
+                box.style.display = "block";
+                box.appendChild(div).setAttribute('class','modal-content');
+                div.appendChild(text).innerHTML = playerName + " a gagné !";
+                div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
+                btnPlayAgain.innerHTML = "Rejouer";
+                btnPlayAgain.addEventListener("click", () => {
+                    location.reload();
+                });
+            }
+        }
+
+        /*if (playerTab[0].life < 1) {
             document.getElementById('buttonsj1').setAttribute('class', 'disable');
             document.getElementById('buttonsj2').setAttribute('class', 'disable');
             document.getElementById('lifej1').innerHTML = "0";
             box.style.display = "block";
             box.appendChild(div).setAttribute('class','modal-content');
-            div.appendChild(text).innerHTML = name_j2 + " a gagné !";
+            div.appendChild(text).innerHTML = nameJ2 + " a gagné !";
             div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
             btnPlayAgain.innerHTML = "Rejouer";
             btnPlayAgain.addEventListener("click", () => {
@@ -159,13 +185,13 @@ class Player {
             document.getElementById('lifej2').innerHTML = "0";
             box.style.display = "block";
             box.appendChild(div).setAttribute('class','modal-content');
-            div.appendChild(text).innerHTML = name_j1 + " a gagné !";
+            div.appendChild(text).innerHTML = nameJ1 + " a gagné !";
             div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
             btnPlayAgain.innerHTML = "Rejouer";
             btnPlayAgain.addEventListener("click", () => {
                 location.reload();
             });
-        }
+        }*/
     }
 }
 

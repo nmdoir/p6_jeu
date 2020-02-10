@@ -95,8 +95,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_genGrid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
  //Demander le nom des joueurs
 
-var nameJ1 = prompt("Entrez le nom du joueur 1 : ");
-var nameJ2 = prompt("Entrez le nom du joueur 2 : "); //Leur donner un nom par défaut au cas où l'utilisateur n'entre rien
+var nameJ1 = ""; //prompt("Entrez le nom du joueur 1 : ");
+
+var nameJ2 = ""; //prompt("Entrez le nom du joueur 2 : ");
+//Leur donner un nom par défaut au cas où l'utilisateur n'entre rien
 
 if (!nameJ1 || nameJ1 === "") {
   nameJ1 = "Joueur 1";
@@ -576,31 +578,58 @@ function () {
       var text = document.createElement('h2');
       var btnPlayAgain = document.createElement('button');
 
-      if (playerTab[0].life < 1) {
-        document.getElementById('buttonsj1').setAttribute('class', 'disable');
-        document.getElementById('buttonsj2').setAttribute('class', 'disable');
-        document.getElementById('lifej1').innerHTML = "0";
-        box.style.display = "block";
-        box.appendChild(div).setAttribute('class', 'modal-content');
-        div.appendChild(text).innerHTML = name_j2 + " a gagné !";
-        div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
-        btnPlayAgain.innerHTML = "Rejouer";
-        btnPlayAgain.addEventListener("click", function () {
-          location.reload();
-        });
-      } else if (playerTab[1].life < 1) {
-        document.getElementById('buttonsj1').setAttribute('class', 'disable');
-        document.getElementById('buttonsj2').setAttribute('class', 'disable');
-        document.getElementById('lifej2').innerHTML = "0";
-        box.style.display = "block";
-        box.appendChild(div).setAttribute('class', 'modal-content');
-        div.appendChild(text).innerHTML = name_j1 + " a gagné !";
-        div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
-        btnPlayAgain.innerHTML = "Rejouer";
-        btnPlayAgain.addEventListener("click", function () {
-          location.reload();
-        });
+      for (var loser = 0; loser < playerTab.length; loser++) {
+        if (playerTab[loser].life < 1) {
+          var playerName = null;
+
+          if (loser === 0) {
+            playerName = _index__WEBPACK_IMPORTED_MODULE_0__["nameJ1"];
+          } else {
+            playerName = _index__WEBPACK_IMPORTED_MODULE_0__["nameJ2"];
+          }
+
+          document.getElementById('buttonsj1').setAttribute('class', 'disable');
+          document.getElementById('buttonsj2').setAttribute('class', 'disable');
+          playerTab[loser].life = 0;
+          document.getElementById('lifej1').innerHTML = playerTab[0].life;
+          document.getElementById('lifej2').innerHTML = playerTab[1].life;
+          box.style.display = "block";
+          box.appendChild(div).setAttribute('class', 'modal-content');
+          div.appendChild(text).innerHTML = playerName + " a gagné !";
+          div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
+          btnPlayAgain.innerHTML = "Rejouer";
+          btnPlayAgain.addEventListener("click", function () {
+            location.reload();
+          });
+        }
       }
+      /*if (playerTab[0].life < 1) {
+          document.getElementById('buttonsj1').setAttribute('class', 'disable');
+          document.getElementById('buttonsj2').setAttribute('class', 'disable');
+          document.getElementById('lifej1').innerHTML = "0";
+          box.style.display = "block";
+          box.appendChild(div).setAttribute('class','modal-content');
+          div.appendChild(text).innerHTML = nameJ2 + " a gagné !";
+          div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
+          btnPlayAgain.innerHTML = "Rejouer";
+          btnPlayAgain.addEventListener("click", () => {
+              location.reload();
+          });
+      }
+      else if (playerTab[1].life < 1) {
+          document.getElementById('buttonsj1').setAttribute('class', 'disable');
+          document.getElementById('buttonsj2').setAttribute('class', 'disable');
+          document.getElementById('lifej2').innerHTML = "0";
+          box.style.display = "block";
+          box.appendChild(div).setAttribute('class','modal-content');
+          div.appendChild(text).innerHTML = nameJ1 + " a gagné !";
+          div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
+          btnPlayAgain.innerHTML = "Rejouer";
+          btnPlayAgain.addEventListener("click", () => {
+              location.reload();
+          });
+      }*/
+
     }
   }]);
 
@@ -634,18 +663,12 @@ function () {
 
   _createClass(Move, [{
     key: "availableMove",
-    //TODO: no access after obstacles
     value: function availableMove(playerTab) {
       var td = null;
 
       for (var browseCells = 0; browseCells < 100; browseCells++) {
-        if (browseCells < 10) {
-          td = 'td-0';
-        } else {
-          td = 'td-';
-        }
-
-        document.getElementById(td + browseCells).removeAttribute('data-playeraccess');
+        td = this.checkTd(browseCells)[0];
+        document.getElementById(td + browseCells).removeAttribute("data-playeraccess");
       }
 
       var player = new _js_player__WEBPACK_IMPORTED_MODULE_0__["Player"]();
@@ -660,112 +683,121 @@ function () {
           var noGoCell = null;
 
           for (availableId = Number(playerId) - 1; availableId >= playerId - 3; availableId--) {
-            if (availableId < 10) {
-              td = 'td-0';
-            } else {
-              td = 'td-';
-            }
-
+            td = this.checkTd(availableId)[0];
             availablePos = td + availableId;
             availableCell = document.getElementById(availablePos);
 
             if (availableId >= 0 && availableId < 100) {
-              if (playerTab[i].move === true && availableCell.dataset.y === playerCell.dataset.y && !availableCell.hasAttribute('data-access') && !availableCell.hasAttribute('data-player') && !availableCell.hasAttribute('data-playeraccess')) {
-                availableCell.setAttribute('data-playeraccess', 1);
-              } else if (playerTab[i].move === true && availableCell.dataset.y === playerCell.dataset.y && availableId >= 1 && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player') || availableCell.hasAttribute('data-playeraccess'))) {
+              if (availableCell.dataset.y === playerCell.dataset.y && this.checkAvailableCells(playerTab, availableId, availableCell, i) === true) {
+                availableCell.setAttribute("data-playeraccess", 1);
+              } else if (availableCell.dataset.y === playerCell.dataset.y && availableId >= 1 && this.checkAvailableCells(playerTab, availableId, availableCell, i) === false) {
                 noGoCell = document.getElementById(td + (Number(availableId) - 1));
 
                 if (noGoCell !== null) {
-                  noGoCell.setAttribute('data-playeraccess', 0);
+                  noGoCell.setAttribute("data-playeraccess", 0);
                 }
               }
             }
           }
 
           for (availableId = Number(playerId) + 1; availableId <= Number(playerId) + 3; availableId++) {
-            if (availableId < 10) {
-              td = 'td-0';
-            } else {
-              td = 'td-';
-            }
-
+            td = this.checkTd(availableId)[0];
             availablePos = td + availableId;
             availableCell = document.getElementById(availablePos);
 
             if (availableId >= 0 && availableId < 100) {
-              if (playerTab[i].move === true && availableCell.dataset.y === playerCell.dataset.y && !availableCell.hasAttribute('data-access') && !availableCell.hasAttribute('data-player') && !availableCell.hasAttribute('data-playeraccess')) {
-                availableCell.setAttribute('data-playeraccess', 1);
-              } else if (playerTab[i].move === true && availableCell.dataset.y === playerCell.dataset.y && availableId < 99 && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player') || availableCell.hasAttribute('data-playeraccess'))) {
+              if (this.checkAvailableCells(playerTab, availableId, availableCell, i) === true) {
+                availableCell.setAttribute("data-playeraccess", 1);
+              } else if (availableCell.dataset.y === playerCell.dataset.y && availableId < 99 && this.checkAvailableCells(playerTab, availableId, availableCell, i) === false) {
                 noGoCell = document.getElementById(td + (Number(availableId) + 1));
 
                 if (noGoCell !== null) {
-                  noGoCell.setAttribute('data-playeraccess', 0);
+                  noGoCell.setAttribute("data-playeraccess", 0);
                 }
               }
             }
-          }
+          } //Pour la gestion des déplacements haut/bas, on crée un array
 
-          var verticals = [10, 20, 30];
-          var tdnogo = null; //Cases autorisées vers le haut
+
+          var verticals = [10, 20, 30]; //Cases autorisées vers le haut
 
           for (var _i = 0, _verticals = verticals; _i < _verticals.length; _i++) {
             var jump = _verticals[_i];
             availableId = Number(playerId) - Number(jump);
-
-            if (availableId < 10) {
-              td = 'td-0';
-            } else if (availableId >= 10 && availableId < 20) {
-              td = 'td-';
-              tdnogo = 'td-0';
-            } else {
-              td = 'td-';
-              tdnogo = 'td-';
-            }
-
+            td = this.checkTd(availableId)[0];
             availablePos = td + availableId;
             availableCell = document.getElementById(availablePos);
 
             if (availableId >= 0 && availableId < 100) {
-              if (playerTab[i].move === true && availableCell.dataset.x === playerCell.dataset.x && !availableCell.hasAttribute('data-access') && !availableCell.hasAttribute('data-player') && !availableCell.hasAttribute('data-playeraccess')) {
-                availableCell.setAttribute('data-playeraccess', 1);
-              } else if (playerTab[i].move === true && availableCell.dataset.x === playerCell.dataset.x && availableId >= 10 && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player') || availableCell.hasAttribute('data-playeraccess'))) {
-                noGoCell = document.getElementById(tdnogo + (Number(availableId) - 10));
-                noGoCell.setAttribute('data-playeraccess', 0);
+              if (availableCell.dataset.x === playerCell.dataset.x && this.checkAvailableCells(playerTab, availableId, availableCell, i) === true) {
+                availableCell.setAttribute("data-playeraccess", 1);
+              } else if (availableCell.dataset.x === playerCell.dataset.x && availableId >= 10 && this.checkAvailableCells(playerTab, availableId, availableCell, i) === false) {
+                noGoCell = document.getElementById(td + (Number(availableId) - 10));
+
+                if (noGoCell !== null) {
+                  noGoCell.setAttribute("data-playeraccess", 0);
+                }
               }
             }
-          } //TODO: td répétitif -> fonction
-          //Cases autorisées vers le bas
+          } //Cases autorisées vers le bas
 
 
           for (var _i2 = 0, _verticals2 = verticals; _i2 < _verticals2.length; _i2++) {
             var _jump = _verticals2[_i2];
             availableId = Number(playerId) + Number(_jump);
-
-            if (availableId < 10) {
-              td = 'td-0';
-            } else if (availableId >= 10 && availableId < 20) {
-              td = 'td-';
-              tdnogo = 'td-0';
-            } else {
-              td = 'td-';
-              tdnogo = 'td-';
-            }
-
+            td = this.checkTd(availableId)[0];
             availablePos = td + availableId;
             availableCell = document.getElementById(availablePos);
+            console.log(availableId);
+            console.log(td);
+            console.log(availablePos);
+            console.log(availableCell);
 
             if (availableId >= 0 && availableId < 100) {
-              if (playerTab[i].move === true && availableCell.dataset.x === playerCell.dataset.x && !availableCell.hasAttribute('data-access') && !availableCell.hasAttribute('data-player') && !availableCell.hasAttribute('data-playeraccess')) {
-                availableCell.setAttribute('data-playeraccess', 1);
-              } else if (availableId < 90 && playerTab[i].move === true && availableCell.dataset.x === playerCell.dataset.x && (availableCell.hasAttribute('data-access') || availableCell.hasAttribute('data-player') || availableCell.hasAttribute('data-playeraccess'))) {
-                noGoCell = document.getElementById(tdnogo + (Number(availableId) + 10));
-                noGoCell.setAttribute('data-playeraccess', 0);
+              if (availableCell.dataset.x === playerCell.dataset.x && this.checkAvailableCells(playerTab, availableId, availableCell, i) === true) {
+                availableCell.setAttribute("data-playeraccess", 1);
+              } else if (availableCell.dataset.x === playerCell.dataset.x && availableId < 90 && this.checkAvailableCells(playerTab, availableId, availableCell, i) === false) {
+                noGoCell = document.getElementById(td + (Number(availableId) + 10));
+
+                if (noGoCell !== null) {
+                  noGoCell.setAttribute("data-playeraccess", 0);
+                }
               }
             }
           }
         }
       } else {
         player.allowFight(playerTab);
+      }
+    }
+  }, {
+    key: "checkTd",
+    value: function checkTd(availableId) {
+      var tdTab = [];
+
+      if (availableId >= 0 && availableId < 100) {
+        if (availableId < 10) {
+          tdTab[0] = "td-0";
+        } else if (availableId >= 10 && availableId < 20) {
+          tdTab[0] = "td-";
+          tdTab[1] = "td-0";
+        } else {
+          tdTab[0] = "td-";
+          tdTab[1] = "td-";
+        }
+      }
+
+      return tdTab;
+    }
+  }, {
+    key: "checkAvailableCells",
+    value: function checkAvailableCells(playerTab, availableId, availableCell, i) {
+      if (availableId >= 0 && availableId < 100 && playerTab[i].move === true) {
+        if (!availableCell.hasAttribute("data-access") && !availableCell.hasAttribute("data-player") && !availableCell.hasAttribute("data-playeraccess")) {
+          return true;
+        } else if (availableCell.hasAttribute("data-access") || availableCell.hasAttribute("data-player") || availableCell.hasAttribute("data-playeraccess")) {
+          return false;
+        }
       }
     }
   }, {
@@ -792,13 +824,13 @@ function () {
 
       if (nextCell.dataset.playeraccess === "1" && nextCell.id !== currentCell.id) {
         //Update player position
-        nextCell.setAttribute('data-player', player.id);
+        nextCell.setAttribute("data-player", player.id);
         player.position = nextCell.id; //Update player weapon and weapon shown in the cell
 
-        if (nextCell.hasAttribute('data-weapon')) {
+        if (nextCell.hasAttribute("data-weapon")) {
           if (oldWeapon === null) {
             player.weapon = nextCell.dataset.weapon;
-            nextCell.removeAttribute('data-weapon');
+            nextCell.removeAttribute("data-weapon");
           } else {
             player.weapon = nextCell.dataset.weapon;
             nextCell.dataset.weapon = oldWeapon;
@@ -806,7 +838,7 @@ function () {
         } //Remove last position
 
 
-        currentCell.removeAttribute('data-player'); //this.getPlayerWeapon(player);
+        currentCell.removeAttribute("data-player"); //this.getPlayerWeapon(player);
 
         newPlayer.allowMove(playerTab);
         this.getPlayer(player);
