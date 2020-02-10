@@ -568,8 +568,7 @@ function () {
 
         _this.checkEnd(playerTab);
       });
-    } //TODO: améliorer la fonction, factoriser
-
+    }
   }, {
     key: "checkEnd",
     value: function checkEnd(playerTab) {
@@ -603,33 +602,6 @@ function () {
           });
         }
       }
-      /*if (playerTab[0].life < 1) {
-          document.getElementById('buttonsj1').setAttribute('class', 'disable');
-          document.getElementById('buttonsj2').setAttribute('class', 'disable');
-          document.getElementById('lifej1').innerHTML = "0";
-          box.style.display = "block";
-          box.appendChild(div).setAttribute('class','modal-content');
-          div.appendChild(text).innerHTML = nameJ2 + " a gagné !";
-          div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
-          btnPlayAgain.innerHTML = "Rejouer";
-          btnPlayAgain.addEventListener("click", () => {
-              location.reload();
-          });
-      }
-      else if (playerTab[1].life < 1) {
-          document.getElementById('buttonsj1').setAttribute('class', 'disable');
-          document.getElementById('buttonsj2').setAttribute('class', 'disable');
-          document.getElementById('lifej2').innerHTML = "0";
-          box.style.display = "block";
-          box.appendChild(div).setAttribute('class','modal-content');
-          div.appendChild(text).innerHTML = nameJ1 + " a gagné !";
-          div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
-          btnPlayAgain.innerHTML = "Rejouer";
-          btnPlayAgain.addEventListener("click", () => {
-              location.reload();
-          });
-      }*/
-
     }
   }]);
 
@@ -748,10 +720,6 @@ function () {
             td = this.checkTd(availableId)[0];
             availablePos = td + availableId;
             availableCell = document.getElementById(availablePos);
-            console.log(availableId);
-            console.log(td);
-            console.log(availablePos);
-            console.log(availableCell);
 
             if (availableId >= 0 && availableId < 100) {
               if (availableCell.dataset.x === playerCell.dataset.x && this.checkAvailableCells(playerTab, availableId, availableCell, i) === true) {

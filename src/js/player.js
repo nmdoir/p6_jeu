@@ -134,7 +134,6 @@ class Player {
         });
     }
 
-    //TODO: améliorer la fonction, factoriser
     checkEnd(playerTab) {
         let box = document.getElementById('finish');
         let div = document.createElement('div');
@@ -165,33 +164,6 @@ class Player {
                 });
             }
         }
-
-        /*if (playerTab[0].life < 1) {
-            document.getElementById('buttonsj1').setAttribute('class', 'disable');
-            document.getElementById('buttonsj2').setAttribute('class', 'disable');
-            document.getElementById('lifej1').innerHTML = "0";
-            box.style.display = "block";
-            box.appendChild(div).setAttribute('class','modal-content');
-            div.appendChild(text).innerHTML = nameJ2 + " a gagné !";
-            div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
-            btnPlayAgain.innerHTML = "Rejouer";
-            btnPlayAgain.addEventListener("click", () => {
-                location.reload();
-            });
-        }
-        else if (playerTab[1].life < 1) {
-            document.getElementById('buttonsj1').setAttribute('class', 'disable');
-            document.getElementById('buttonsj2').setAttribute('class', 'disable');
-            document.getElementById('lifej2').innerHTML = "0";
-            box.style.display = "block";
-            box.appendChild(div).setAttribute('class','modal-content');
-            div.appendChild(text).innerHTML = nameJ1 + " a gagné !";
-            div.appendChild(btnPlayAgain).setAttribute('id', 'playAgain');
-            btnPlayAgain.innerHTML = "Rejouer";
-            btnPlayAgain.addEventListener("click", () => {
-                location.reload();
-            });
-        }*/
     }
 }
 

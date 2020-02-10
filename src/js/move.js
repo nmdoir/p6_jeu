@@ -17,7 +17,7 @@ class Move {
                 let availablePos = null;
                 let availableCell = null;
                 let playerCell = document.getElementById(playerTab[i].position);
-                let playerId = playerCell.id.split('-')[1];
+                let playerId = playerCell.id.split("-")[1];
                 let noGoCell = null;
 
                 for (availableId = Number(playerId) - 1; availableId >= playerId - 3; availableId--) {
@@ -104,10 +104,6 @@ class Move {
                     td = this.checkTd(availableId)[0];
                     availablePos = td + availableId;
                     availableCell = document.getElementById(availablePos);
-                    console.log(availableId);
-                    console.log(td);
-                    console.log(availablePos);
-                    console.log(availableCell);
 
                     if (availableId >= 0 && availableId < 100) {
                         if (
