@@ -27,15 +27,15 @@ class Player {
                 "position": this.position,
                 "move": this.move,
             }
-        ]
+        ];
     }
 
     getPlayerTab() {
-        return this.playerTab
+        return this.playerTab;
     }
 
     allowMove(playerTab) {
-        if(playerTab[0].move === true){
+        if(playerTab[0].move === true) {
             playerTab[0].move = false;
             playerTab[1].move = true;
         }
@@ -71,10 +71,10 @@ class Player {
 
         //Masquer les boutons du joueur dont ce n'est pas le tour
         if (playerTab[0].move === true) {
-            buttonsj2.setAttribute('class', 'disable');
+            buttonsj2.setAttribute("class", "disable");
         }
         else if (playerTab[1].move === true) {
-            buttonsj1.setAttribute('class', 'disable');
+            buttonsj1.setAttribute("class", "disable");
         }
 
         let weapon = new Weapon();

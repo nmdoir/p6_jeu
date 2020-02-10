@@ -11,8 +11,8 @@ class GenGrid {
     }
 
     createGrid() {
-        let table = document.createElement('table');
-        let tbody = document.createElement('tbody');
+        let table = document.createElement("table");
+        let tbody = document.createElement("tbody");
         let move = new Move();
         let player = new Player;
         this.playerTab = player.getPlayerTab();
@@ -21,12 +21,12 @@ class GenGrid {
         table.appendChild(tbody);
 
         for (let i = 0; i < this.row; i++) {
-            let tr = document.createElement('tr');
+            let tr = document.createElement("tr");
             tr.setAttribute("class", "tdstyle");
             tbody.appendChild(tr);
 
             for (let j = 0; j < this.column; j++) {
-                let td = document.createElement('td');
+                let td = document.createElement("td");
                 td.setAttribute("class", "tdstyle");
                 td.setAttribute("data-x", j);
                 td.setAttribute("data-y", i);
@@ -78,7 +78,7 @@ class GenGrid {
             id = "td-";
         }
         return id;
-    };
+    }
 
     createNoAccess() {
         let idNoAccess = null;
