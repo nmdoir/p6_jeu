@@ -52,6 +52,7 @@ class Player {
         buttonsj1.setAttribute("data-damage", 0);
         let buttonsj2 = document.getElementById("buttonsj2");
         buttonsj2.setAttribute("data-damage", 0);
+
         //Créer les 4 boutons
         let buttonAttackJ1 = document.createElement("button");
         let buttonDefenseJ1 = document.createElement("button");
@@ -162,7 +163,7 @@ class Player {
                     playerName = nameJ2;
                 }
                 document.getElementById("buttonsj1").setAttribute("class", "disable");
-                document.getElementById('buttonsj2').setAttribute("class", "disable");
+                document.getElementById("buttonsj2").setAttribute("class", "disable");
                 playerTab[loser].life = 0;
                 document.getElementById("lifej1").innerHTML = playerTab[0].life;
                 document.getElementById("lifej2").innerHTML = playerTab[1].life;

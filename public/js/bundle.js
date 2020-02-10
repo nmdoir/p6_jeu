@@ -192,7 +192,7 @@ function () {
           td.setAttribute("data-x", j);
           td.setAttribute("data-y", i);
           td.id = "td-" + i + j;
-          td.addEventListener('click', function () {
+          td.addEventListener("click", function () {
             if (td.dataset.playeraccess === "1") {
               _this.playerTab = move.move(td.id, _this.playerTab);
               move.availableMove(_this.playerTab);
@@ -220,34 +220,35 @@ function () {
     key: "getRandomCell",
     value: function getRandomCell() {
       var randomInt = 0;
-      var id = null;
+      var td = null;
       var cell = null;
 
       for (var i = 0; i < this.gridLength; i++) {
         randomInt = Math.floor(Math.random() * this.gridLength);
-
-        if (randomInt < 10) {
-          id = 'td-0';
-        } else {
-          id = 'td-';
-        }
-
-        cell = document.getElementById(id + randomInt);
+        td = this.getTd(randomInt);
+        cell = document.getElementById(td + randomInt);
 
         while (cell.hasAttribute("data-access") || cell.hasAttribute("data-weapon") || cell.hasAttribute("data-player")) {
           randomInt = Math.floor(Math.random() * this.gridLength);
-
-          if (randomInt < 10) {
-            id = 'td-0';
-          } else {
-            id = 'td-';
-          }
-
-          cell = document.getElementById(id + randomInt);
+          td = this.getTd(randomInt);
+          cell = document.getElementById(td + randomInt);
         }
       }
 
       return cell;
+    }
+  }, {
+    key: "getTd",
+    value: function getTd(randomInt) {
+      var id;
+
+      if (randomInt < 10) {
+        id = "td-0";
+      } else {
+        id = "td-";
+      }
+
+      return id;
     }
   }, {
     key: "createNoAccess",
@@ -269,30 +270,28 @@ function () {
           idNoAccess = this.getRandomCell();
         }
 
-        idNoAccess.style.backgroundColor = 'black';
-        idNoAccess.setAttribute('data-access', 0);
+        idNoAccess.style.backgroundColor = "black";
+        idNoAccess.setAttribute("data-access", 0);
       }
     }
   }, {
     key: "createWeapon",
     value: function createWeapon() {
       var cellWeapon = null;
-      var weapon = new _js_weapon__WEBPACK_IMPORTED_MODULE_0__["Weapon"](); //let weapon = new Weapon();
-      //let Cell = new Cell('data-access', null, null);
+      var weapon = new _js_weapon__WEBPACK_IMPORTED_MODULE_0__["Weapon"]();
 
       for (var i = 0; i < 8; i++) {
         var randomWeapon = weapon.getRandomWeapon();
         cellWeapon = this.getRandomCell();
-        cellWeapon.setAttribute('data-weapon', randomWeapon);
+        cellWeapon.setAttribute("data-weapon", randomWeapon);
       }
-    } //TODO: function can be improved?
-
+    }
   }, {
     key: "createPlayer",
     value: function createPlayer() {
       var cellPlayer0 = this.getRandomCell();
       this.playerTab[0].position = cellPlayer0.id;
-      cellPlayer0.setAttribute('data-player', this.playerTab[0].id);
+      cellPlayer0.setAttribute("data-player", this.playerTab[0].id);
       var cellPlayer1 = this.getRandomCell(); //Avoid 2 players next to each other when initializing the grid
 
       while (Number(cellPlayer1.id.slice(3)) > Number(cellPlayer0.id.slice(3) - 12) && Number(cellPlayer1.id.slice(3)) < Number(cellPlayer0.id.slice(3) + 12)) {
@@ -300,7 +299,7 @@ function () {
       }
 
       this.playerTab[1].position = cellPlayer1.id;
-      cellPlayer1.setAttribute('data-player', this.playerTab[1].id);
+      cellPlayer1.setAttribute("data-player", this.playerTab[1].id);
       return this.playerTab;
     }
   }, {
@@ -315,21 +314,21 @@ function () {
     value: function getPlayerInfo(playerTab) {
       var weapon = new _js_weapon__WEBPACK_IMPORTED_MODULE_0__["Weapon"](); //Life
 
-      document.getElementById('lifej1').innerHTML = playerTab[0].life;
-      document.getElementById('lifej2').innerHTML = playerTab[1].life; //Weapon
+      document.getElementById("lifej1").innerHTML = playerTab[0].life;
+      document.getElementById("lifej2").innerHTML = playerTab[1].life; //Weapon
 
-      document.getElementById('weaponj1').innerHTML = weapon.getFrenchWeaponName(playerTab[0].weapon);
-      document.getElementById('weaponj2').innerHTML = weapon.getFrenchWeaponName(playerTab[1].weapon); //Damage
+      document.getElementById("weaponj1").innerHTML = weapon.getFrenchWeaponName(playerTab[0].weapon);
+      document.getElementById("weaponj2").innerHTML = weapon.getFrenchWeaponName(playerTab[1].weapon); //Damage
 
-      document.getElementById('damagej1').innerHTML = weapon.getWeaponDamage(playerTab[0].weapon);
-      document.getElementById('damagej2').innerHTML = weapon.getWeaponDamage(playerTab[1].weapon);
+      document.getElementById("damagej1").innerHTML = weapon.getWeaponDamage(playerTab[0].weapon);
+      document.getElementById("damagej2").innerHTML = weapon.getWeaponDamage(playerTab[1].weapon);
     } //Afin que les blocs ne s'affichent pas en même temps que les prompts au moment du chargement de la page
 
   }, {
     key: "displayPlayerInfo",
     value: function displayPlayerInfo() {
-      var div = document.getElementById('playerinfo');
-      div.classList.remove('disable');
+      var div = document.getElementById("playerinfo");
+      div.classList.remove("disable");
     }
   }]);
 
@@ -475,8 +474,7 @@ function () {
       }
 
       return playerTab;
-    } //TODO: factoriser les addeventlisteners
-    //Générer les boutons d'attaque et de défense pour démarrer le combat, en fonction du joueur dont c'est le tour
+    } //Générer les boutons d'attaque et de défense pour démarrer le combat, en fonction du joueur dont c'est le tour
 
   }, {
     key: "allowFight",
@@ -600,7 +598,7 @@ function () {
           }
 
           document.getElementById("buttonsj1").setAttribute("class", "disable");
-          document.getElementById('buttonsj2').setAttribute("class", "disable");
+          document.getElementById("buttonsj2").setAttribute("class", "disable");
           playerTab[loser].life = 0;
           document.getElementById("lifej1").innerHTML = playerTab[0].life;
           document.getElementById("lifej2").innerHTML = playerTab[1].life;
