@@ -113,11 +113,10 @@ document.getElementById("namej1").innerHTML = nameJ1;
 document.getElementById("namej2").innerHTML = nameJ2; //Box règles du jeu
 
 var modal = document.getElementById("rulesModal");
-var btn = document.getElementById("rulesBtn");
-btn.addEventListener("click", function () {
+$('#rulesBtn').click(function () {
   modal.style.display = "block";
 });
-window.addEventListener("click", function (event) {
+$(window).click(function () {
   if (event.target === modal) {
     modal.style.display = "none";
   }
@@ -126,14 +125,10 @@ window.addEventListener("click", function (event) {
 
  //Insérer la grille dans le HTML
 
-/*$(document).ready(function() {
-    let grid = new GenGrid(10, 10);
-    grid.createGrid();
-}
-);*/
-
-var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_0__["GenGrid"](10, 10);
-grid.createGrid();
+$(document).ready(function () {
+  var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_0__["GenGrid"](10, 10);
+  grid.createGrid();
+});
 
 /***/ }),
 /* 1 */
@@ -172,8 +167,8 @@ function () {
     value: function createGrid() {
       var _this = this;
 
-      var table = document.createElement('table');
-      var tbody = document.createElement('tbody');
+      var table = document.createElement("table");
+      var tbody = document.createElement("tbody");
       var move = new _js_move__WEBPACK_IMPORTED_MODULE_2__["Move"]();
       var player = new _js_player__WEBPACK_IMPORTED_MODULE_1__["Player"]();
       this.playerTab = player.getPlayerTab();
@@ -182,12 +177,12 @@ function () {
       table.appendChild(tbody);
 
       for (var i = 0; i < this.row; i++) {
-        var tr = document.createElement('tr');
+        var tr = document.createElement("tr");
         tr.setAttribute("class", "tdstyle");
         tbody.appendChild(tr);
 
         var _loop = function _loop(j) {
-          var td = document.createElement('td');
+          var td = document.createElement("td");
           td.setAttribute("class", "tdstyle");
           td.setAttribute("data-x", j);
           td.setAttribute("data-y", i);
@@ -501,9 +496,9 @@ function () {
       buttonsj2.appendChild(buttonDefenseJ2).setAttribute("class", "fightbtn defense btnj2"); //Masquer les boutons du joueur dont ce n'est pas le tour
 
       if (playerTab[0].move === true) {
-        buttonsj2.setAttribute('class', 'disable');
+        buttonsj2.setAttribute("class", "disable");
       } else if (playerTab[1].move === true) {
-        buttonsj1.setAttribute('class', 'disable');
+        buttonsj1.setAttribute("class", "disable");
       }
 
       var weapon = new _weapon__WEBPACK_IMPORTED_MODULE_1__["Weapon"]();

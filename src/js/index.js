@@ -19,13 +19,12 @@ document.getElementById("namej2").innerHTML = nameJ2;
 
 //Box règles du jeu
 let modal = document.getElementById("rulesModal");
-let btn = document.getElementById("rulesBtn");
 
-btn.addEventListener("click", () => {
+$('#rulesBtn').click(function() {
     modal.style.display = "block";
-});
+    });
 
-window.addEventListener("click", (event) => {
+$(window).click(function () {
     if (event.target === modal) {
         modal.style.display = "none";
     }
@@ -35,15 +34,9 @@ window.addEventListener("click", (event) => {
 export { nameJ1 };
 export { nameJ2 };
 
-
 //Insérer la grille dans le HTML
-/*$(document).ready(function() {
+$(document).ready(function() {
     let grid = new GenGrid(10, 10);
     grid.createGrid();
 }
-);*/
-
-let grid = new GenGrid(10, 10);
-grid.createGrid();
-
-
+);
