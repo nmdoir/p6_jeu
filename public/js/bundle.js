@@ -158,7 +158,8 @@ function () {
 
     this.row = row;
     this.column = column;
-    this.board = document.getElementById("board");
+    this.board = $('#board'); //document.getElementById("board");
+
     this.gridLength = this.row * this.column;
   }
 
@@ -173,19 +174,16 @@ function () {
       var player = new _js_player__WEBPACK_IMPORTED_MODULE_1__["Player"]();
       this.playerTab = player.getPlayerTab();
       this.playerTab[0].move = true;
-      table.setAttribute("class", "center");
-      table.appendChild(tbody);
+      $(table).attr("class", "center");
+      $(tbody).appendTo(table);
 
       for (var i = 0; i < this.row; i++) {
         var tr = document.createElement("tr");
-        tr.setAttribute("class", "tdstyle");
-        tbody.appendChild(tr);
+        $(tr).attr("class", "tdstyle").appendTo(tbody);
 
         var _loop = function _loop(j) {
           var td = document.createElement("td");
-          td.setAttribute("class", "tdstyle");
-          td.setAttribute("data-x", j);
-          td.setAttribute("data-y", i);
+          $(td).attr("class", "tdstyle").attr("data-x", j).attr("data-y", i);
           td.id = "td-" + i + j;
           td.addEventListener("click", function () {
             if (td.dataset.playeraccess === "1") {
@@ -195,7 +193,7 @@ function () {
               _this.getPlayerInfo(_this.playerTab);
             }
           });
-          tr.appendChild(td);
+          $(td).appendTo(tr);
         };
 
         for (var j = 0; j < this.column; j++) {
@@ -204,7 +202,7 @@ function () {
       }
 
       this.displayPlayerInfo();
-      this.board.appendChild(table);
+      $(table).appendTo(this.board);
       this.createMovement();
       this.createNoAccess();
       this.createWeapon();
@@ -223,7 +221,7 @@ function () {
         td = this.getTd(randomInt);
         cell = document.getElementById(td + randomInt);
 
-        while (cell.hasAttribute("data-access") || cell.hasAttribute("data-weapon") || cell.hasAttribute("data-player")) {
+        while ($(cell).attr("data-access") || $(cell).attr("data-weapon") || $(cell).attr("data-player")) {
           randomInt = Math.floor(Math.random() * this.gridLength);
           td = this.getTd(randomInt);
           cell = document.getElementById(td + randomInt);
@@ -265,8 +263,8 @@ function () {
           idNoAccess = this.getRandomCell();
         }
 
-        idNoAccess.style.backgroundColor = "black";
-        idNoAccess.setAttribute("data-access", 0);
+        $(idNoAccess).css("background", "black");
+        $(idNoAccess).attr("data-access", 0);
       }
     }
   }, {
@@ -278,7 +276,7 @@ function () {
       for (var i = 0; i < 8; i++) {
         var randomWeapon = weapon.getRandomWeapon();
         cellWeapon = this.getRandomCell();
-        cellWeapon.setAttribute("data-weapon", randomWeapon);
+        $(cellWeapon).attr("data-weapon", randomWeapon);
       }
     }
   }, {
@@ -286,7 +284,7 @@ function () {
     value: function createPlayer() {
       var cellPlayer0 = this.getRandomCell();
       this.playerTab[0].position = cellPlayer0.id;
-      cellPlayer0.setAttribute("data-player", this.playerTab[0].id);
+      $(cellPlayer0).attr("data-player", this.playerTab[0].id);
       var cellPlayer1 = this.getRandomCell(); //Avoid 2 players next to each other when initializing the grid
 
       while (Number(cellPlayer1.id.slice(3)) > Number(cellPlayer0.id.slice(3) - 12) && Number(cellPlayer1.id.slice(3)) < Number(cellPlayer0.id.slice(3) + 12)) {
@@ -294,7 +292,7 @@ function () {
       }
 
       this.playerTab[1].position = cellPlayer1.id;
-      cellPlayer1.setAttribute("data-player", this.playerTab[1].id);
+      $(cellPlayer1).attr("data-player", this.playerTab[1].id);
       return this.playerTab;
     }
   }, {
@@ -309,21 +307,20 @@ function () {
     value: function getPlayerInfo(playerTab) {
       var weapon = new _js_weapon__WEBPACK_IMPORTED_MODULE_0__["Weapon"](); //Life
 
-      document.getElementById("lifej1").innerHTML = playerTab[0].life;
-      document.getElementById("lifej2").innerHTML = playerTab[1].life; //Weapon
+      $("#lifej1").text(playerTab[0].life);
+      $("#lifej2").text(playerTab[1].life); //Weapon
 
-      document.getElementById("weaponj1").innerHTML = weapon.getFrenchWeaponName(playerTab[0].weapon);
-      document.getElementById("weaponj2").innerHTML = weapon.getFrenchWeaponName(playerTab[1].weapon); //Damage
+      $("#weaponj1").text(weapon.getFrenchWeaponName(playerTab[0].weapon));
+      $("#weaponj2").text(weapon.getFrenchWeaponName(playerTab[1].weapon)); //Damage
 
-      document.getElementById("damagej1").innerHTML = weapon.getWeaponDamage(playerTab[0].weapon);
-      document.getElementById("damagej2").innerHTML = weapon.getWeaponDamage(playerTab[1].weapon);
+      $("#damagej1").text(weapon.getWeaponDamage(playerTab[0].weapon));
+      $("#damagej2").text(weapon.getWeaponDamage(playerTab[1].weapon));
     } //Afin que les blocs ne s'affichent pas en même temps que les prompts au moment du chargement de la page
 
   }, {
     key: "displayPlayerInfo",
     value: function displayPlayerInfo() {
-      var div = document.getElementById("playerinfo");
-      div.classList.remove("disable");
+      $("#playerinfo").removeClass("disable");
     }
   }]);
 
@@ -666,12 +663,12 @@ function () {
 
             if (availableId >= 0 && availableId < 100) {
               if (availableCell.dataset.y === playerCell.dataset.y && this.checkAvailableCells(playerTab, availableId, availableCell, i) === true) {
-                availableCell.setAttribute("data-playeraccess", 1);
+                $(availableCell).attr("data-playeraccess", 1);
               } else if (availableCell.dataset.y === playerCell.dataset.y && availableId >= 1 && this.checkAvailableCells(playerTab, availableId, availableCell, i) === false) {
                 noGoCell = document.getElementById(td + (Number(availableId) - 1));
 
                 if (noGoCell !== null) {
-                  noGoCell.setAttribute("data-playeraccess", 0);
+                  $(noGoCell).attr("data-playeraccess", 0);
                 }
               }
             }
@@ -683,13 +680,13 @@ function () {
             availableCell = document.getElementById(availablePos);
 
             if (availableId >= 0 && availableId < 100) {
-              if (this.checkAvailableCells(playerTab, availableId, availableCell, i) === true) {
-                availableCell.setAttribute("data-playeraccess", 1);
+              if (availableCell.dataset.y === playerCell.dataset.y && this.checkAvailableCells(playerTab, availableId, availableCell, i) === true) {
+                $(availableCell).attr("data-playeraccess", 1);
               } else if (availableCell.dataset.y === playerCell.dataset.y && availableId < 99 && this.checkAvailableCells(playerTab, availableId, availableCell, i) === false) {
                 noGoCell = document.getElementById(td + (Number(availableId) + 1));
 
                 if (noGoCell !== null) {
-                  noGoCell.setAttribute("data-playeraccess", 0);
+                  $(noGoCell).attr("data-playeraccess", 0);
                 }
               }
             }
@@ -707,12 +704,12 @@ function () {
 
             if (availableId >= 0 && availableId < 100) {
               if (availableCell.dataset.x === playerCell.dataset.x && this.checkAvailableCells(playerTab, availableId, availableCell, i) === true) {
-                availableCell.setAttribute("data-playeraccess", 1);
+                $(availableCell).attr("data-playeraccess", 1);
               } else if (availableCell.dataset.x === playerCell.dataset.x && availableId >= 10 && this.checkAvailableCells(playerTab, availableId, availableCell, i) === false) {
                 noGoCell = document.getElementById(td + (Number(availableId) - 10));
 
                 if (noGoCell !== null) {
-                  noGoCell.setAttribute("data-playeraccess", 0);
+                  $(noGoCell).attr("data-playeraccess", 0);
                 }
               }
             }
@@ -728,12 +725,12 @@ function () {
 
             if (availableId >= 0 && availableId < 100) {
               if (availableCell.dataset.x === playerCell.dataset.x && this.checkAvailableCells(playerTab, availableId, availableCell, i) === true) {
-                availableCell.setAttribute("data-playeraccess", 1);
+                $(availableCell).attr("data-playeraccess", 1);
               } else if (availableCell.dataset.x === playerCell.dataset.x && availableId < 90 && this.checkAvailableCells(playerTab, availableId, availableCell, i) === false) {
                 noGoCell = document.getElementById(td + (Number(availableId) + 10));
 
                 if (noGoCell !== null) {
-                  noGoCell.setAttribute("data-playeraccess", 0);
+                  $(noGoCell).attr("data-playeraccess", 0);
                 }
               }
             }

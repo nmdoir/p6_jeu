@@ -30,7 +30,7 @@ class Move {
                             availableCell.dataset.y === playerCell.dataset.y &&
                             this.checkAvailableCells(playerTab, availableId, availableCell, i) === true
                         ) {
-                            availableCell.setAttribute("data-playeraccess", 1);
+                            $(availableCell).attr("data-playeraccess", 1);
                         } else if (
                             availableCell.dataset.y === playerCell.dataset.y &&
                             availableId >= 1 &&
@@ -38,7 +38,7 @@ class Move {
                         ) {
                             noGoCell = document.getElementById(td + (Number(availableId) - 1));
                             if (noGoCell !== null) {
-                                noGoCell.setAttribute("data-playeraccess", 0);
+                                $(noGoCell).attr("data-playeraccess", 0);
                             }
                         }
                     }
@@ -52,10 +52,10 @@ class Move {
 
                     if (availableId >= 0 && availableId < 100) {
                         if (
-
+                            availableCell.dataset.y === playerCell.dataset.y &&
                             this.checkAvailableCells(playerTab, availableId, availableCell, i) === true
                         ) {
-                            availableCell.setAttribute("data-playeraccess", 1);
+                            $(availableCell).attr("data-playeraccess", 1);
                         } else if (
                             availableCell.dataset.y === playerCell.dataset.y &&
                             availableId < 99 &&
@@ -63,7 +63,7 @@ class Move {
                         ) {
                             noGoCell = document.getElementById(td + (Number(availableId) + 1));
                             if (noGoCell !== null) {
-                                noGoCell.setAttribute("data-playeraccess", 0);
+                                $(noGoCell).attr("data-playeraccess", 0);
                             }
                         }
                     }
@@ -84,7 +84,7 @@ class Move {
                             availableCell.dataset.x === playerCell.dataset.x &&
                             this.checkAvailableCells(playerTab, availableId, availableCell, i) === true
                         ) {
-                            availableCell.setAttribute("data-playeraccess", 1);
+                            $(availableCell).attr("data-playeraccess", 1);
                         } else if (
                             availableCell.dataset.x === playerCell.dataset.x &&
                             availableId >= 10 &&
@@ -92,7 +92,7 @@ class Move {
                         ) {
                             noGoCell = document.getElementById(td + (Number(availableId) - 10));
                             if (noGoCell !== null) {
-                                noGoCell.setAttribute("data-playeraccess", 0);
+                                $(noGoCell).attr("data-playeraccess", 0);
                             }
                         }
                     }
@@ -110,7 +110,7 @@ class Move {
                             availableCell.dataset.x === playerCell.dataset.x &&
                             this.checkAvailableCells(playerTab, availableId, availableCell, i) === true
                         ) {
-                            availableCell.setAttribute("data-playeraccess", 1);
+                            $(availableCell).attr("data-playeraccess", 1);
                         } else if (
                             availableCell.dataset.x === playerCell.dataset.x &&
                             availableId < 90 &&
@@ -118,7 +118,7 @@ class Move {
                         ) {
                             noGoCell = document.getElementById(td + (Number(availableId) + 10));
                             if (noGoCell !== null) {
-                                noGoCell.setAttribute("data-playeraccess", 0);
+                                $(noGoCell).attr("data-playeraccess", 0);
                             }
                         }
                     }

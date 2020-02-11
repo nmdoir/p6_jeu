@@ -6,7 +6,7 @@ class GenGrid {
     constructor(row, column) {
         this.row = row;
         this.column = column;
-        this.board = document.getElementById("board");
+        this.board = $('#board'); //document.getElementById("board");
         this.gridLength = this.row * this.column;
     }
 
@@ -17,19 +17,16 @@ class GenGrid {
         let player = new Player;
         this.playerTab = player.getPlayerTab();
         this.playerTab[0].move = true;
-        table.setAttribute("class", "center");
-        table.appendChild(tbody);
+        $(table).attr("class", "center");
+        $(tbody).appendTo(table);
 
         for (let i = 0; i < this.row; i++) {
             let tr = document.createElement("tr");
-            tr.setAttribute("class", "tdstyle");
-            tbody.appendChild(tr);
+            $(tr).attr("class", "tdstyle").appendTo(tbody);
 
             for (let j = 0; j < this.column; j++) {
                 let td = document.createElement("td");
-                td.setAttribute("class", "tdstyle");
-                td.setAttribute("data-x", j);
-                td.setAttribute("data-y", i);
+                $(td).attr("class", "tdstyle").attr("data-x", j).attr("data-y", i);
                 td.id = "td-" + i + j;
                 td.addEventListener("click", () => {
                     if (td.dataset.playeraccess === "1") {
@@ -38,12 +35,12 @@ class GenGrid {
                         this.getPlayerInfo(this.playerTab);
                     }
                 });
-                tr.appendChild(td);
+                $(td).appendTo(tr);
             }
         }
 
         this.displayPlayerInfo();
-        this.board.appendChild(table);
+        $(table).appendTo(this.board);
         this.createMovement();
         this.createNoAccess();
         this.createWeapon();
@@ -61,7 +58,7 @@ class GenGrid {
             td = this.getTd(randomInt);
             cell = document.getElementById(td + randomInt);
 
-            while (cell.hasAttribute("data-access") || cell.hasAttribute("data-weapon") || cell.hasAttribute("data-player")) {
+            while ($(cell).attr("data-access") || $(cell).attr("data-weapon") || $(cell).attr("data-player")) {
                 randomInt = Math.floor(Math.random() * this.gridLength);
                 td = this.getTd(randomInt);
                 cell = document.getElementById(td + randomInt);
@@ -96,8 +93,8 @@ class GenGrid {
             while (idNoAccess.dataset.x === cellPlayer[0].dataset.x || idNoAccess.dataset.x === cellPlayer[1].dataset.x || idNoAccess.dataset.y === cellPlayer[0].dataset.y || idNoAccess.dataset.y === cellPlayer[1].dataset.y) {
                 idNoAccess = this.getRandomCell();
             }
-            idNoAccess.style.backgroundColor = "black";
-            idNoAccess.setAttribute("data-access", 0);
+            $(idNoAccess).css("background", "black");
+            $(idNoAccess).attr("data-access", 0);
         }
     }
 
@@ -108,14 +105,14 @@ class GenGrid {
         for (let i = 0; i < 8; i++) {
             let randomWeapon = weapon.getRandomWeapon();
             cellWeapon = this.getRandomCell();
-            cellWeapon.setAttribute("data-weapon", randomWeapon);
+            $(cellWeapon).attr("data-weapon", randomWeapon);
         }
     }
 
     createPlayer() {
         let cellPlayer0 = this.getRandomCell();
         this.playerTab[0].position = cellPlayer0.id;
-        cellPlayer0.setAttribute("data-player", this.playerTab[0].id);
+        $(cellPlayer0).attr("data-player", this.playerTab[0].id);
 
         let cellPlayer1 = this.getRandomCell();
 
@@ -124,7 +121,7 @@ class GenGrid {
             cellPlayer1 = this.getRandomCell();
         }
         this.playerTab[1].position = cellPlayer1.id;
-        cellPlayer1.setAttribute("data-player", this.playerTab[1].id);
+        $(cellPlayer1).attr("data-player", this.playerTab[1].id);
 
         return this.playerTab;
     }
@@ -138,20 +135,21 @@ class GenGrid {
     getPlayerInfo(playerTab) {
         let weapon = new Weapon;
         //Life
-        document.getElementById("lifej1").innerHTML = playerTab[0].life;
-        document.getElementById("lifej2").innerHTML = playerTab[1].life;
+        $("#lifej1").text(playerTab[0].life);
+        $("#lifej2").text(playerTab[1].life);
+
         //Weapon
-        document.getElementById("weaponj1").innerHTML = weapon.getFrenchWeaponName(playerTab[0].weapon);
-        document.getElementById("weaponj2").innerHTML = weapon.getFrenchWeaponName(playerTab[1].weapon);
+        $("#weaponj1").text(weapon.getFrenchWeaponName(playerTab[0].weapon));
+        $("#weaponj2").text(weapon.getFrenchWeaponName(playerTab[1].weapon));
+
         //Damage
-        document.getElementById("damagej1").innerHTML = weapon.getWeaponDamage(playerTab[0].weapon);
-        document.getElementById("damagej2").innerHTML = weapon.getWeaponDamage(playerTab[1].weapon);
+        $("#damagej1").text(weapon.getWeaponDamage(playerTab[0].weapon));
+        $("#damagej2").text(weapon.getWeaponDamage(playerTab[1].weapon));
     }
 
     //Afin que les blocs ne s'affichent pas en même temps que les prompts au moment du chargement de la page
     displayPlayerInfo() {
-        let div = document.getElementById("playerinfo");
-        div.classList.remove("disable");
+        $("#playerinfo").removeClass("disable");
     }
 
 }
