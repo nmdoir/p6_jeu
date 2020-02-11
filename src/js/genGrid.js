@@ -6,7 +6,7 @@ class GenGrid {
     constructor(row, column) {
         this.row = row;
         this.column = column;
-        this.board = $('#board'); //document.getElementById("board");
+        this.board = $("#board");
         this.gridLength = this.row * this.column;
     }
 

@@ -20,7 +20,7 @@ document.getElementById("namej2").innerHTML = nameJ2;
 //Box règles du jeu
 let modal = document.getElementById("rulesModal");
 
-$('#rulesBtn').click(function() {
+$("#rulesBtn").click(function() {
     modal.style.display = "block";
     });
 

@@ -113,7 +113,7 @@ document.getElementById("namej1").innerHTML = nameJ1;
 document.getElementById("namej2").innerHTML = nameJ2; //Box règles du jeu
 
 var modal = document.getElementById("rulesModal");
-$('#rulesBtn').click(function () {
+$("#rulesBtn").click(function () {
   modal.style.display = "block";
 });
 $(window).click(function () {
@@ -158,8 +158,7 @@ function () {
 
     this.row = row;
     this.column = column;
-    this.board = $('#board'); //document.getElementById("board");
-
+    this.board = $("#board");
     this.gridLength = this.row * this.column;
   }
 
