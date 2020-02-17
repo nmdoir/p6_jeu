@@ -14,59 +14,21 @@ class Move {
 
             for (let i = 0; i < 2; i++) {
                 let availableId = null;
-                let availablePos = null;
-                let availableCell = null;
                 let playerCell = document.getElementById(playerTab[i].position);
                 let playerId = playerCell.id.split("-")[1];
-                let noGoCell = null;
+                let direction = null;
+                let noGoCellId = null;
 
+                //Cases autorisées à gauche
                 for (availableId = Number(playerId) - 1; availableId >= playerId - 3; availableId--) {
-                    td = this.checkTd(availableId)[0];
-                    availablePos = td + availableId;
-                    availableCell = document.getElementById(availablePos);
-
-                    if (availableId >= 0 && availableId < 100) {
-                        if (
-                            availableCell.dataset.y === playerCell.dataset.y &&
-                            this.checkAvailableCells(playerTab, availableId, availableCell, i) === true
-                        ) {
-                            $(availableCell).attr("data-playeraccess", 1);
-                        } else if (
-                            availableCell.dataset.y === playerCell.dataset.y &&
-                            availableId >= 1 &&
-                            this.checkAvailableCells(playerTab, availableId, availableCell, i) === false
-                        ) {
-                            noGoCell = document.getElementById(td + (Number(availableId) - 1));
-                            if (noGoCell !== null) {
-                                $(noGoCell).attr("data-playeraccess", 0);
-                            }
-                        }
-                    }
+                    noGoCellId = Number(availableId) - 1;
+                    this.checkCellsAround(playerTab, i, td, availableId, "y", playerCell, "left", 1, noGoCellId);
                 }
 
-
+                //Cases autorisées à droite
                 for (availableId = Number(playerId) + 1; availableId <= Number(playerId) + 3; availableId++) {
-                    td = this.checkTd(availableId)[0];
-                    availablePos = td + availableId;
-                    availableCell = document.getElementById(availablePos);
-
-                    if (availableId >= 0 && availableId < 100) {
-                        if (
-                            availableCell.dataset.y === playerCell.dataset.y &&
-                            this.checkAvailableCells(playerTab, availableId, availableCell, i) === true
-                        ) {
-                            $(availableCell).attr("data-playeraccess", 1);
-                        } else if (
-                            availableCell.dataset.y === playerCell.dataset.y &&
-                            availableId < 99 &&
-                            this.checkAvailableCells(playerTab, availableId, availableCell, i) === false
-                        ) {
-                            noGoCell = document.getElementById(td + (Number(availableId) + 1));
-                            if (noGoCell !== null) {
-                                $(noGoCell).attr("data-playeraccess", 0);
-                            }
-                        }
-                    }
+                    noGoCellId = Number(availableId) + 1;
+                    this.checkCellsAround(playerTab, i, td, availableId, "y", playerCell, "right", 99, noGoCellId);
                 }
 
                 //Pour la gestion des déplacements haut/bas, on crée un array
@@ -75,57 +37,19 @@ class Move {
                 //Cases autorisées vers le haut
                 for (let jump of verticals) {
                     availableId = Number(playerId) - Number(jump);
-                    td = this.checkTd(availableId)[0];
-                    availablePos = td + availableId;
-                    availableCell = document.getElementById(availablePos);
-
-                    if (availableId >= 0 && availableId < 100) {
-                        if (
-                            availableCell.dataset.x === playerCell.dataset.x &&
-                            this.checkAvailableCells(playerTab, availableId, availableCell, i) === true
-                        ) {
-                            $(availableCell).attr("data-playeraccess", 1);
-                        } else if (
-                            availableCell.dataset.x === playerCell.dataset.x &&
-                            availableId >= 10 &&
-                            this.checkAvailableCells(playerTab, availableId, availableCell, i) === false
-                        ) {
-                            noGoCell = document.getElementById(td + (Number(availableId) - 10));
-                            if (noGoCell !== null) {
-                                $(noGoCell).attr("data-playeraccess", 0);
-                            }
-                        }
-                    }
+                    noGoCellId = Number(availableId) - 10;
+                    this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "up", 10, noGoCellId);
                 }
 
                 //Cases autorisées vers le bas
                 for (let jump of verticals) {
                     availableId = Number(playerId) + Number(jump);
-                    td = this.checkTd(availableId)[0];
-                    availablePos = td + availableId;
-                    availableCell = document.getElementById(availablePos);
-
-                    if (availableId >= 0 && availableId < 100) {
-                        if (
-                            availableCell.dataset.x === playerCell.dataset.x &&
-                            this.checkAvailableCells(playerTab, availableId, availableCell, i) === true
-                        ) {
-                            $(availableCell).attr("data-playeraccess", 1);
-                        } else if (
-                            availableCell.dataset.x === playerCell.dataset.x &&
-                            availableId < 90 &&
-                            this.checkAvailableCells(playerTab, availableId, availableCell, i) === false
-                        ) {
-                            noGoCell = document.getElementById(td + (Number(availableId) + 10));
-                            if (noGoCell !== null) {
-                                $(noGoCell).attr("data-playeraccess", 0);
-                            }
-                        }
-                    }
+                    noGoCellId = Number(availableId) + 10;
+                    this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "down", 90, noGoCellId);
                 }
             }
-
         }
+
 
         else {
             player.allowFight(playerTab);
@@ -151,24 +75,51 @@ class Move {
         return tdTab;
     }
 
-    checkAvailableCells(playerTab, availableId, availableCell, i) {
-        if (
-            availableId >= 0 && availableId < 100 &&
-            playerTab[i].move === true
-        ) {
+    checkCellsAround(playerTab, i, td, availableId, axis, playerCell, direction, cellNb, noGoCellId) {
+        td = this.checkTd(availableId)[0];
+        let availablePos = td + availableId;
+        let availableCell = document.getElementById(availablePos);
+        let noGoCell = null;
+
+        if (availableId >= 0 && availableId < 100) {
             if (
+                playerTab[i].move === true &&
+                availableCell.dataset.axis === playerCell.dataset.axis &&
                 !availableCell.hasAttribute("data-access") &&
                 !availableCell.hasAttribute("data-player") &&
                 !availableCell.hasAttribute("data-playeraccess")
             ) {
+                availableCell.setAttribute("data-playeraccess", 1);
+            } else if (
+                playerTab[i].move === true &&
+                availableCell.dataset.axis === playerCell.dataset.axis &&
+                this.checkNoGoCell(availableId, direction, cellNb) === true &&
+                (
+                    availableCell.hasAttribute("data-access") ||
+                    availableCell.hasAttribute("data-player") ||
+                    availableCell.hasAttribute("data-playeraccess")
+                )
+            ) {
+                if (direction === "up" || direction === "down") {
+                    td = this.checkTd(availableId)[1];
+                }
+                noGoCell = document.getElementById(td + noGoCellId);
+                if (noGoCell !== null) {
+                    noGoCell.setAttribute("data-playeraccess", 0);
+                }
+            }
+        }
+    }
+
+    checkNoGoCell(availableId, direction, cellNb)
+    {
+        if (direction === "left" || "up") {
+            if (availableId >= cellNb) {
                 return true;
             }
-            else if (
-                availableCell.hasAttribute("data-access") ||
-                availableCell.hasAttribute("data-player") ||
-                availableCell.hasAttribute("data-playeraccess")
-            ) {
-                return false;
+        } else if (direction === "right" || "down") {
+            if (availableId < cellNb) {
+                return true;
             }
         }
     }

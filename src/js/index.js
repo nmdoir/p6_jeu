@@ -1,8 +1,8 @@
 import {GenGrid} from "../js/genGrid";
 
 //Demander le nom des joueurs
-let nameJ1 = ""; //prompt("Entrez le nom du joueur 1 : ");
-let nameJ2 = ""; //prompt("Entrez le nom du joueur 2 : ");
+let nameJ1 = prompt("Entrez le nom du joueur 1 : ");
+let nameJ2 = prompt("Entrez le nom du joueur 2 : ");
 
 //Leur donner un nom par défaut au cas où l'utilisateur n'entre rien
 if (!nameJ1 || nameJ1 === "") {
@@ -30,13 +30,12 @@ $(window).click(function () {
     }
 });
 
-//On exporte les 2 variables noms des joueurs afin de les utiliser dans la classe Player
-export { nameJ1 };
-export { nameJ2 };
-
 //Insérer la grille dans le HTML
 $(document).ready(function() {
     let grid = new GenGrid(10, 10);
     grid.createGrid();
 }
 );
+
+//On exporte les 2 variables noms des joueurs afin de les utiliser dans la classe Player
+export { nameJ1, nameJ2 };
