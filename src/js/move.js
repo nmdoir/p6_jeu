@@ -84,7 +84,7 @@ class Move {
         if (availableId >= 0 && availableId < 100) {
             if (
                 playerTab[i].move === true &&
-                availableCell.dataset.axis === playerCell.dataset.axis &&
+                this.checkAxis(availableCell, playerCell, direction) === true &&
                 !availableCell.hasAttribute("data-access") &&
                 !availableCell.hasAttribute("data-player") &&
                 !availableCell.hasAttribute("data-playeraccess")
@@ -92,7 +92,7 @@ class Move {
                 availableCell.setAttribute("data-playeraccess", 1);
             } else if (
                 playerTab[i].move === true &&
-                availableCell.dataset.axis === playerCell.dataset.axis &&
+                this.checkAxis(availableCell, playerCell, direction) === true &&
                 this.checkNoGoCell(availableId, direction, cellNb) === true &&
                 (
                     availableCell.hasAttribute("data-access") ||
@@ -111,8 +111,15 @@ class Move {
         }
     }
 
-    checkNoGoCell(availableId, direction, cellNb)
-    {
+    checkAxis(availableCell, playerCell, direction) {
+        if (direction === "left" || direction === "right" && (availableCell.dataset.y === playerCell.dataset.y)) {
+        return true;
+    }
+        else if (direction === "up" || direction === "down" && (availableCell.dataset.x === playerCell.dataset.x)) {
+        return true;}
+    }
+
+    checkNoGoCell(availableId, direction, cellNb) {
         if (direction === "left" || "up") {
             if (availableId >= cellNb) {
                 return true;

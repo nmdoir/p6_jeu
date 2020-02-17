@@ -712,9 +712,9 @@ function () {
       var noGoCell = null;
 
       if (availableId >= 0 && availableId < 100) {
-        if (playerTab[i].move === true && availableCell.dataset.axis === playerCell.dataset.axis && !availableCell.hasAttribute("data-access") && !availableCell.hasAttribute("data-player") && !availableCell.hasAttribute("data-playeraccess")) {
+        if (playerTab[i].move === true && this.checkAxis(availableCell, playerCell, direction) === true && !availableCell.hasAttribute("data-access") && !availableCell.hasAttribute("data-player") && !availableCell.hasAttribute("data-playeraccess")) {
           availableCell.setAttribute("data-playeraccess", 1);
-        } else if (playerTab[i].move === true && availableCell.dataset.axis === playerCell.dataset.axis && this.checkNoGoCell(availableId, direction, cellNb) === true && (availableCell.hasAttribute("data-access") || availableCell.hasAttribute("data-player") || availableCell.hasAttribute("data-playeraccess"))) {
+        } else if (playerTab[i].move === true && this.checkAxis(availableCell, playerCell, direction) === true && this.checkNoGoCell(availableId, direction, cellNb) === true && (availableCell.hasAttribute("data-access") || availableCell.hasAttribute("data-player") || availableCell.hasAttribute("data-playeraccess"))) {
           if (direction === "up" || direction === "down") {
             td = this.checkTd(availableId)[1];
           }
@@ -725,6 +725,15 @@ function () {
             noGoCell.setAttribute("data-playeraccess", 0);
           }
         }
+      }
+    }
+  }, {
+    key: "checkAxis",
+    value: function checkAxis(availableCell, playerCell, direction) {
+      if (direction === "left" || direction === "right" && availableCell.dataset.y === playerCell.dataset.y) {
+        return true;
+      } else if (direction === "up" || direction === "down" && availableCell.dataset.x === playerCell.dataset.x) {
+        return true;
       }
     }
   }, {
