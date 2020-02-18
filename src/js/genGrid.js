@@ -39,7 +39,7 @@ class GenGrid {
             }
         }
 
-        this.displayPlayerInfo();
+        this.displayInfo();
         $(table).appendTo(this.board);
         this.createMovement();
         this.createNoAccess();
@@ -148,7 +148,9 @@ class GenGrid {
     }
 
     //Afin que les blocs ne s'affichent pas en même temps que les prompts au moment du chargement de la page
-    displayPlayerInfo() {
+    displayInfo() {
+        $('h2:first').removeClass("disable");
+        $("#rulesBtn").removeClass("disable");
         $("#playerinfo").removeClass("disable");
     }
 

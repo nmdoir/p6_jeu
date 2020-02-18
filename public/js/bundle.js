@@ -107,8 +107,8 @@ if (!nameJ2 || nameJ2 === "") {
 } //Afficher les noms des joueurs dans les blocs info
 
 
-document.getElementById("namej1").innerHTML = nameJ1;
-document.getElementById("namej2").innerHTML = nameJ2; //Box règles du jeu
+$("#namej1").text(nameJ1);
+$("#namej2").text(nameJ2); //Box règles du jeu
 
 var modal = document.getElementById("rulesModal");
 $("#rulesBtn").click(function () {
@@ -197,7 +197,7 @@ function () {
         }
       }
 
-      this.displayPlayerInfo();
+      this.displayInfo();
       $(table).appendTo(this.board);
       this.createMovement();
       this.createNoAccess();
@@ -314,8 +314,10 @@ function () {
     } //Afin que les blocs ne s'affichent pas en même temps que les prompts au moment du chargement de la page
 
   }, {
-    key: "displayPlayerInfo",
-    value: function displayPlayerInfo() {
+    key: "displayInfo",
+    value: function displayInfo() {
+      $('h2:first').removeClass("disable");
+      $("#rulesBtn").removeClass("disable");
       $("#playerinfo").removeClass("disable");
     }
   }]);

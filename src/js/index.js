@@ -14,8 +14,8 @@ if (!nameJ2 || nameJ2 === "") {
 }
 
 //Afficher les noms des joueurs dans les blocs info
-document.getElementById("namej1").innerHTML = nameJ1;
-document.getElementById("namej2").innerHTML = nameJ2;
+$("#namej1").text(nameJ1);
+$("#namej2").text(nameJ2);
 
 //Box règles du jeu
 let modal = document.getElementById("rulesModal");
