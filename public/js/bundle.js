@@ -588,11 +588,11 @@ function () {
             playerName = _index__WEBPACK_IMPORTED_MODULE_0__["nameJ2"];
           }
 
-          document.getElementById("buttonsj1").setAttribute("class", "disable");
-          document.getElementById("buttonsj2").setAttribute("class", "disable");
+          $("#buttonsj1").attr("class", "disable");
+          $("#buttonsj2").attr("class", "disable");
           playerTab[loser].life = 0;
-          document.getElementById("lifej1").innerHTML = playerTab[0].life;
-          document.getElementById("lifej2").innerHTML = playerTab[1].life;
+          $("#lifej1").text(playerTab[0].life);
+          $("#lifej2").text(playerTab[1].life);
           box.style.display = "block";
           box.appendChild(div).setAttribute("class", "modal-content");
           div.appendChild(text).innerHTML = playerName + " a gagné !";
