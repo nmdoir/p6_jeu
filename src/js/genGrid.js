@@ -132,6 +132,7 @@ class GenGrid {
         move.availableMove(newPlayer);
     }
 
+    //Afficher les infos des joueurs dans les 2 blocs
     getPlayerInfo(playerTab) {
         let weapon = new Weapon;
         //Life
@@ -149,7 +150,7 @@ class GenGrid {
 
     //Afin que les blocs ne s'affichent pas en même temps que les prompts au moment du chargement de la page
     displayInfo() {
-        $('h2:first').removeClass("disable");
+        $("h2:first").removeClass("disable");
         $("#rulesBtn").removeClass("disable");
         $("#playerinfo").removeClass("disable");
     }

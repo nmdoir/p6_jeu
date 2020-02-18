@@ -112,22 +112,34 @@ class Move {
     }
 
     checkAxis(availableCell, playerCell, direction) {
-        if (direction === "left" || direction === "right" && (availableCell.dataset.y === playerCell.dataset.y)) {
+        if (
+            (
+                (direction === "left" || direction === "right") &&
+                availableCell.dataset.y === playerCell.dataset.y
+            )
+            ||
+            (
+                (direction === "up" || direction === "down") &&
+                availableCell.dataset.x === playerCell.dataset.x
+            )
+        ) {
         return true;
-    }
-        else if (direction === "up" || direction === "down" && (availableCell.dataset.x === playerCell.dataset.x)) {
-        return true;}
+        }
     }
 
     checkNoGoCell(availableId, direction, cellNb) {
-        if (direction === "left" || "up") {
-            if (availableId >= cellNb) {
+        if (
+            (
+                (direction === "left" || direction === "up") &&
+                availableId >= cellNb
+            )
+            ||
+            (
+                (direction === "right" || direction === "down") &&
+                availableId < cellNb
+            )
+        ) {
                 return true;
-            }
-        } else if (direction === "right" || "down") {
-            if (availableId < cellNb) {
-                return true;
-            }
         }
     }
 

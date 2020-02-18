@@ -297,7 +297,8 @@ function () {
       var move = new _js_move__WEBPACK_IMPORTED_MODULE_2__["Move"]();
       var newPlayer = this.createPlayer();
       move.availableMove(newPlayer);
-    }
+    } //Afficher les infos des joueurs dans les 2 blocs
+
   }, {
     key: "getPlayerInfo",
     value: function getPlayerInfo(playerTab) {
@@ -316,7 +317,7 @@ function () {
   }, {
     key: "displayInfo",
     value: function displayInfo() {
-      $('h2:first').removeClass("disable");
+      $("h2:first").removeClass("disable");
       $("#rulesBtn").removeClass("disable");
       $("#playerinfo").removeClass("disable");
     }
@@ -732,23 +733,15 @@ function () {
   }, {
     key: "checkAxis",
     value: function checkAxis(availableCell, playerCell, direction) {
-      if (direction === "left" || direction === "right" && availableCell.dataset.y === playerCell.dataset.y) {
-        return true;
-      } else if (direction === "up" || direction === "down" && availableCell.dataset.x === playerCell.dataset.x) {
+      if ((direction === "left" || direction === "right") && availableCell.dataset.y === playerCell.dataset.y || (direction === "up" || direction === "down") && availableCell.dataset.x === playerCell.dataset.x) {
         return true;
       }
     }
   }, {
     key: "checkNoGoCell",
     value: function checkNoGoCell(availableId, direction, cellNb) {
-      if (direction === "left" || "up") {
-        if (availableId >= cellNb) {
-          return true;
-        }
-      } else if (direction === "right" || "down") {
-        if (availableId < cellNb) {
-          return true;
-        }
+      if ((direction === "left" || direction === "up") && availableId >= cellNb || (direction === "right" || direction === "down") && availableId < cellNb) {
+        return true;
       }
     }
   }, {
