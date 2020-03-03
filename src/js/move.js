@@ -10,13 +10,13 @@ class Move {
         }
 
         let player = new Player();
+        //On vérifie que les 2 joueurs ne sont pas à côté (combat)
         if (this.checkIfFight(playerTab) === false) {
 
             for (let i = 0; i < 2; i++) {
                 let availableId = null;
                 let playerCell = document.getElementById(playerTab[i].position);
                 let playerId = playerCell.id.split("-")[1];
-                let direction = null;
                 let noGoCellId = null;
 
                 //Cases autorisées à gauche
@@ -28,7 +28,8 @@ class Move {
                 //Cases autorisées à droite
                 for (availableId = Number(playerId) + 1; availableId <= Number(playerId) + 3; availableId++) {
                     noGoCellId = Number(availableId) + 1;
-                    this.checkCellsAround(playerTab, i, td, availableId, "y", playerCell, "right", 99, noGoCellId);
+                    this.checkCellsAround(playerTab, i, td, availableId, "y", playerCell, "right",
+                        99, noGoCellId);
                 }
 
                 //Pour la gestion des déplacements haut/bas, on crée un array
@@ -38,7 +39,8 @@ class Move {
                 for (let jump of verticals) {
                     availableId = Number(playerId) - Number(jump);
                     noGoCellId = Number(availableId) - 10;
-                    this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "up", 10, noGoCellId);
+                    this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "up",
+                        10, noGoCellId);
                 }
 
                 //Cases autorisées vers le bas
@@ -62,6 +64,7 @@ class Move {
             if (availableId < 10) {
                 tdTab[0] = "td-0";
             }
+            //On a besoin de 2 cas de figure pour gérer la variable noGoCellId, qui correspond à la case n+2 (pour empêcher l'accès aux cases se situant après un obstacle, l'obstacle étant la case n+1)
             else if (availableId >= 10 && availableId < 20)
             {
                 tdTab[0] = "td-";
@@ -170,20 +173,13 @@ class Move {
 
             //Update player weapon and weapon shown in the cell
             if (nextCell.hasAttribute("data-weapon")) {
-                if (oldWeapon === null) {
-                    player.weapon = nextCell.dataset.weapon;
-                    nextCell.removeAttribute("data-weapon");
-                }
-                else {
-                    player.weapon = nextCell.dataset.weapon;
-                    nextCell.dataset.weapon = oldWeapon;
-                }
+                player.weapon = nextCell.dataset.weapon;
+                nextCell.dataset.weapon = oldWeapon;
             }
 
             //Remove last position
             currentCell.removeAttribute("data-player");
 
-            //this.getPlayerWeapon(player);
             newPlayer.allowMove(playerTab);
             
             this.getPlayer(player);

@@ -164,6 +164,7 @@ function () {
     value: function createGrid() {
       var _this = this;
 
+      //On crée la grille vierge
       var table = document.createElement("table");
       var tbody = document.createElement("tbody");
       var move = new _js_move__WEBPACK_IMPORTED_MODULE_2__["Move"]();
@@ -175,12 +176,13 @@ function () {
 
       for (var i = 0; i < this.row; i++) {
         var tr = document.createElement("tr");
-        $(tr).attr("class", "tdstyle").appendTo(tbody);
+        $(tr).attr("class", "tdstyle").appendTo(tbody); //On ajoute les coordonnées x/y à chaque case pour pouvoir les identifier ensuite dans nos fonctions de mouvement
 
         var _loop = function _loop(j) {
           var td = document.createElement("td");
           $(td).attr("class", "tdstyle").attr("data-x", j).attr("data-y", i);
-          td.id = "td-" + i + j;
+          td.id = "td-" + i + j; //On écoute les événements de clics sur les cases pour les mouvements
+
           td.addEventListener("click", function () {
             if (td.dataset.playeraccess === "1") {
               _this.playerTab = move.move(td.id, _this.playerTab);
@@ -198,13 +200,17 @@ function () {
       }
 
       this.displayInfo();
-      $(table).appendTo(this.board);
+      $(table).appendTo(this.board); //On affiche les cases cliquables pour le 1er joueur et on dispose aléatoirement les cases non accessibles et les armes
+
       this.createMovement();
       this.createNoAccess();
-      this.createWeapon();
-      this.playerTab[0].move = true;
+      this.createWeapon(); //On désigne le 1er joueur pour commencer le 1er tour
+
+      this.playerTab[0].move = true; //Afficher les infos des joueurs dans les 2 blocs
+
       this.getPlayerInfo(this.playerTab);
-    }
+    } //Obtenir une case aléatoire sur le plateau
+
   }, {
     key: "getRandomCell",
     value: function getRandomCell() {
@@ -215,7 +221,7 @@ function () {
       for (var i = 0; i < this.gridLength; i++) {
         randomInt = Math.floor(Math.random() * this.gridLength);
         td = this.getTd(randomInt);
-        cell = document.getElementById(td + randomInt);
+        cell = document.getElementById(td + randomInt); //Si elle est déjà prise, on continue à générer de nouvelles cases
 
         while ($(cell).attr("data-access") || $(cell).attr("data-weapon") || $(cell).attr("data-player")) {
           randomInt = Math.floor(Math.random() * this.gridLength);
@@ -225,7 +231,8 @@ function () {
       }
 
       return cell;
-    }
+    } //On adapte le format de l'id pour qu'il n'y ait pas d'erreurs : "td-xx"
+
   }, {
     key: "getTd",
     value: function getTd(randomInt) {
@@ -244,16 +251,17 @@ function () {
     value: function createNoAccess() {
       var idNoAccess = null;
       var cellPlayer = [];
-      var cell = document.getElementsByTagName("td"); //Look for the players' positions and add them in a tab
+      var cell = document.getElementsByTagName("td"); //On cherche les positions des joueurs et on les entre dans un tableau
 
       for (var j = 0; j < cell.length; j++) {
         if (cell[j].hasAttribute("data-player")) {
           cellPlayer.push(cell[j]);
         }
-      }
+      } //On génère 25 cases non accessibles
+
 
       for (var i = 0; i < 25; i++) {
-        idNoAccess = this.getRandomCell(); //Avoid no access cells around player so that he's not blocked in a corner
+        idNoAccess = this.getRandomCell(); //Pour éviter qu'un joueur ne se retrouve bloqué dans un coin, on interdit les cases non accessibles sur les axes x et y des 2 joueurs
 
         while (idNoAccess.dataset.x === cellPlayer[0].dataset.x || idNoAccess.dataset.x === cellPlayer[1].dataset.x || idNoAccess.dataset.y === cellPlayer[0].dataset.y || idNoAccess.dataset.y === cellPlayer[1].dataset.y) {
           idNoAccess = this.getRandomCell();
@@ -281,7 +289,7 @@ function () {
       var cellPlayer0 = this.getRandomCell();
       this.playerTab[0].position = cellPlayer0.id;
       $(cellPlayer0).attr("data-player", this.playerTab[0].id);
-      var cellPlayer1 = this.getRandomCell(); //Avoid 2 players next to each other when initializing the grid
+      var cellPlayer1 = this.getRandomCell(); //Eviter que les 2 joueurs se retrouvent à côté à l'initialisation du plateau
 
       while (Number(cellPlayer1.id.slice(3)) > Number(cellPlayer0.id.slice(3) - 12) && Number(cellPlayer1.id.slice(3)) < Number(cellPlayer0.id.slice(3) + 12)) {
         cellPlayer1 = this.getRandomCell();
@@ -644,14 +652,13 @@ function () {
         document.getElementById(td + browseCells).removeAttribute("data-playeraccess");
       }
 
-      var player = new _js_player__WEBPACK_IMPORTED_MODULE_0__["Player"]();
+      var player = new _js_player__WEBPACK_IMPORTED_MODULE_0__["Player"](); //On vérifie que les 2 joueurs ne sont pas à côté (combat)
 
       if (this.checkIfFight(playerTab) === false) {
         for (var i = 0; i < 2; i++) {
           var availableId = null;
           var playerCell = document.getElementById(playerTab[i].position);
           var playerId = playerCell.id.split("-")[1];
-          var direction = null;
           var noGoCellId = null; //Cases autorisées à gauche
 
           for (availableId = Number(playerId) - 1; availableId >= playerId - 3; availableId--) {
@@ -695,13 +702,14 @@ function () {
       if (availableId >= 0 && availableId < 100) {
         if (availableId < 10) {
           tdTab[0] = "td-0";
-        } else if (availableId >= 10 && availableId < 20) {
-          tdTab[0] = "td-";
-          tdTab[1] = "td-0";
-        } else {
-          tdTab[0] = "td-";
-          tdTab[1] = "td-";
-        }
+        } //On a besoin de 2 cas de figure pour gérer la variable noGoCellId, qui correspond à la case n+2 (pour empêcher l'accès aux cases se situant après un obstacle, l'obstacle étant la case n+1)
+        else if (availableId >= 10 && availableId < 20) {
+            tdTab[0] = "td-";
+            tdTab[1] = "td-0";
+          } else {
+            tdTab[0] = "td-";
+            tdTab[1] = "td-";
+          }
       }
 
       return tdTab;
@@ -772,18 +780,12 @@ function () {
         player.position = nextCell.id; //Update player weapon and weapon shown in the cell
 
         if (nextCell.hasAttribute("data-weapon")) {
-          if (oldWeapon === null) {
-            player.weapon = nextCell.dataset.weapon;
-            nextCell.removeAttribute("data-weapon");
-          } else {
-            player.weapon = nextCell.dataset.weapon;
-            nextCell.dataset.weapon = oldWeapon;
-          }
+          player.weapon = nextCell.dataset.weapon;
+          nextCell.dataset.weapon = oldWeapon;
         } //Remove last position
 
 
-        currentCell.removeAttribute("data-player"); //this.getPlayerWeapon(player);
-
+        currentCell.removeAttribute("data-player");
         newPlayer.allowMove(playerTab);
         this.getPlayer(player);
         return true;

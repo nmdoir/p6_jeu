@@ -11,6 +11,7 @@ class GenGrid {
     }
 
     createGrid() {
+        //On crée la grille vierge
         let table = document.createElement("table");
         let tbody = document.createElement("tbody");
         let move = new Move();
@@ -24,10 +25,12 @@ class GenGrid {
             let tr = document.createElement("tr");
             $(tr).attr("class", "tdstyle").appendTo(tbody);
 
+            //On ajoute les coordonnées x/y à chaque case pour pouvoir les identifier ensuite dans nos fonctions de mouvement
             for (let j = 0; j < this.column; j++) {
                 let td = document.createElement("td");
                 $(td).attr("class", "tdstyle").attr("data-x", j).attr("data-y", i);
                 td.id = "td-" + i + j;
+                //On écoute les événements de clics sur les cases pour les mouvements
                 td.addEventListener("click", () => {
                     if (td.dataset.playeraccess === "1") {
                         this.playerTab = move.move(td.id, this.playerTab);
@@ -41,13 +44,17 @@ class GenGrid {
 
         this.displayInfo();
         $(table).appendTo(this.board);
+        //On affiche les cases cliquables pour le 1er joueur et on dispose aléatoirement les cases non accessibles et les armes
         this.createMovement();
         this.createNoAccess();
         this.createWeapon();
+        //On désigne le 1er joueur pour commencer le 1er tour
         this.playerTab[0].move = true;
+        //Afficher les infos des joueurs dans les 2 blocs
         this.getPlayerInfo(this.playerTab);
     }
 
+    //Obtenir une case aléatoire sur le plateau
     getRandomCell() {
         let randomInt = 0;
         let td = null;
@@ -58,6 +65,7 @@ class GenGrid {
             td = this.getTd(randomInt);
             cell = document.getElementById(td + randomInt);
 
+            //Si elle est déjà prise, on continue à générer de nouvelles cases
             while ($(cell).attr("data-access") || $(cell).attr("data-weapon") || $(cell).attr("data-player")) {
                 randomInt = Math.floor(Math.random() * this.gridLength);
                 td = this.getTd(randomInt);
@@ -67,6 +75,7 @@ class GenGrid {
         return cell;
     }
 
+    //On adapte le format de l'id pour qu'il n'y ait pas d'erreurs : "td-xx"
     getTd(randomInt) {
         let id;
         if (randomInt < 10) {
@@ -81,15 +90,16 @@ class GenGrid {
         let idNoAccess = null;
         let cellPlayer = [];
         let cell = document.getElementsByTagName("td");
-        //Look for the players' positions and add them in a tab
+        //On cherche les positions des joueurs et on les entre dans un tableau
         for (let j = 0; j < cell.length; j++) {
             if (cell[j].hasAttribute("data-player")) {
                 cellPlayer.push(cell[j]);
             }
         }
+        //On génère 25 cases non accessibles
         for (let i = 0; i < 25; i++) {
             idNoAccess = this.getRandomCell();
-            //Avoid no access cells around player so that he's not blocked in a corner
+            //Pour éviter qu'un joueur ne se retrouve bloqué dans un coin, on interdit les cases non accessibles sur les axes x et y des 2 joueurs
             while (idNoAccess.dataset.x === cellPlayer[0].dataset.x || idNoAccess.dataset.x === cellPlayer[1].dataset.x || idNoAccess.dataset.y === cellPlayer[0].dataset.y || idNoAccess.dataset.y === cellPlayer[1].dataset.y) {
                 idNoAccess = this.getRandomCell();
             }
@@ -116,7 +126,7 @@ class GenGrid {
 
         let cellPlayer1 = this.getRandomCell();
 
-        //Avoid 2 players next to each other when initializing the grid
+        //Eviter que les 2 joueurs se retrouvent à côté à l'initialisation du plateau
         while (Number(cellPlayer1.id.slice(3)) > Number((cellPlayer0.id.slice(3) - 12)) && Number(cellPlayer1.id.slice(3)) < Number((cellPlayer0.id.slice(3) + 12))) {
             cellPlayer1 = this.getRandomCell();
         }
