@@ -52,7 +52,7 @@ class Move {
             }
         }
 
-
+        //Si les 2 joueurs sont sur des cases adjacentes, on déclenche le combat
         else {
             player.allowFight(playerTab);
         }
@@ -82,21 +82,27 @@ class Move {
         td = this.checkTd(availableId)[0];
         let availablePos = td + availableId;
         let availableCell = document.getElementById(availablePos);
+        //La case n+2/n-2, utilisée pour empêcher l'accès s'il y a un obstacle en n+1/n-1
         let noGoCell = null;
 
         if (availableId >= 0 && availableId < 100) {
             if (
                 playerTab[i].move === true &&
+                //On vérifie que la case étudiée est sur le même axe que la case du joueur
                 this.checkAxis(availableCell, playerCell, direction) === true &&
+                //Et qu'elle n'est pas inaccessible
                 !availableCell.hasAttribute("data-access") &&
                 !availableCell.hasAttribute("data-player") &&
                 !availableCell.hasAttribute("data-playeraccess")
             ) {
                 availableCell.setAttribute("data-playeraccess", 1);
             } else if (
+                //Si elle est inaccessible,
                 playerTab[i].move === true &&
                 this.checkAxis(availableCell, playerCell, direction) === true &&
+                //On vérifie que noGoCellId reste entre 0 et 99 pour éviter les erreurs de sortie de tableau
                 this.checkNoGoCell(availableId, direction, cellNb) === true &&
+                //et qu'il y a bien l'un des 3 obstacles
                 (
                     availableCell.hasAttribute("data-access") ||
                     availableCell.hasAttribute("data-player") ||
@@ -104,9 +110,11 @@ class Move {
                 )
             ) {
                 if (direction === "up" || direction === "down") {
+                    //On utilise le td adapté à noGoCell
                     td = this.checkTd(availableId)[1];
                 }
                 noGoCell = document.getElementById(td + noGoCellId);
+                //On empêche l'accès à la case suivante puisqu'il y a un obstacle en n+1/n-1
                 if (noGoCell !== null) {
                     noGoCell.setAttribute("data-playeraccess", 0);
                 }
@@ -114,6 +122,7 @@ class Move {
         }
     }
 
+    //On vérifie que la case étudiée est bien sur le même x/y que la case du joueur pour éviter les erreurs de bord de tableau (accès à la ligne/colonne suivante/précédente)
     checkAxis(availableCell, playerCell, direction) {
         if (
             (
@@ -146,6 +155,7 @@ class Move {
         }
     }
 
+    //On met à jour les infos des joueurs (playerTab) après le clic avec la nouvelle position
     move(cellId, playerTab) {
         let player = null;
         for (let i = 0; i < playerTab.length; i++) {
@@ -167,34 +177,29 @@ class Move {
         if (nextCell.dataset.playeraccess === "1"
             && nextCell.id !== currentCell.id) {
 
-            //Update player position
+            //On met à jour la position du joueur
             nextCell.setAttribute("data-player", player.id);
             player.position = nextCell.id;
 
-            //Update player weapon and weapon shown in the cell
+            //On met à jour l'arme du joueur et l'arme déposée sur la case
             if (nextCell.hasAttribute("data-weapon")) {
                 player.weapon = nextCell.dataset.weapon;
                 nextCell.dataset.weapon = oldWeapon;
             }
 
-            //Remove last position
+            //On supprime l'ancienne position du joueur sur le plateau
             currentCell.removeAttribute("data-player");
 
+            //On change le joueur qui doit jouer ensuite
             newPlayer.allowMove(playerTab);
-            
-            this.getPlayer(player);
-
 
             return true;
         }
         return false;
     }
 
-    getPlayer(player) {
-        return player;
-    }
 
-    //Vérifie si les 2 joueurs sont côte à côte (renvoie true), pour déclencher le fight
+    //Vérifie si les 2 joueurs sont côte à côte (renvoie true), pour déclencher le combat
     checkIfFight(playerTab) {
         let player1Position = document.getElementById(playerTab[0].position);
         let player2Position = document.getElementById(playerTab[1].position);

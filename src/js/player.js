@@ -48,6 +48,7 @@ class Player {
 
     //Générer les boutons d'attaque et de défense pour démarrer le combat, en fonction du joueur dont c'est le tour
     allowFight(playerTab) {
+        //On crée un attribut data-damage pour stocker le dégât divisé par 2 en cas d'attaque qui fait suite à une défense
         let buttonsj1 = document.getElementById("buttonsj1");
         buttonsj1.setAttribute("data-damage", 0);
         let buttonsj2 = document.getElementById("buttonsj2");
@@ -64,10 +65,10 @@ class Player {
         buttonDefenseJ2.innerHTML = "Défendre";
 
         //Insérer les 4 boutons
-        buttonsj1.appendChild(buttonAttackJ1).setAttribute("class", "fightbtn attack btnj1");
-        buttonsj1.appendChild(buttonDefenseJ1).setAttribute("class", "fightbtn defense btnj1");
-        buttonsj2.appendChild(buttonAttackJ2).setAttribute("class", "fightbtn attack btnj2");
-        buttonsj2.appendChild(buttonDefenseJ2).setAttribute("class", "fightbtn defense btnj2");
+        buttonsj1.appendChild(buttonAttackJ1).setAttribute("class", "attack btnj1");
+        buttonsj1.appendChild(buttonDefenseJ1).setAttribute("class", "defense btnj1");
+        buttonsj2.appendChild(buttonAttackJ2).setAttribute("class", "attack btnj2");
+        buttonsj2.appendChild(buttonDefenseJ2).setAttribute("class", "defense btnj2");
 
         //Masquer les boutons du joueur dont ce n'est pas le tour
         if (playerTab[0].move === true) {
@@ -122,15 +123,19 @@ class Player {
                     buttonsj2.setAttribute("class", "disable");
                 }
 
+                //On change de joueur
                 this.allowMove(playerTab);
+                //On vérifie que les 2 joueurs ont toujours des points de vie disponibles
                 this.checkEnd(playerTab);
             });
         }
 
+        //Ecouter les événements de clic du bouton Défendre
         for (let j = 0; j < buttonsDefense.length; j++) {
             buttonsDefense[j].addEventListener("click", () => {
                 if (buttonsDefense[j].classList.contains("btnj1")) {
                     let attackerDamage = Number(weapon.getWeaponDamage(playerTab[1].weapon) / 2);
+                    //On stocke le dégât divisé par 2 dans l'attribut data-damage de l'autre joueur, pour le récupérer lors de sa prochaine attaque
                     buttonsj2.setAttribute("data-damage", String(attackerDamage));
                     buttonsj2.classList.remove("disable");
                     buttonsj1.setAttribute("class", "disable");
@@ -153,6 +158,7 @@ class Player {
         let text = document.createElement("h2");
         let btnPlayAgain = document.createElement("button");
 
+        //Si l'un des joueurs n'a plus de PV
         for (let loser = 0; loser < playerTab.length; loser++) {
             if (playerTab[loser].life < 1) {
                 let playerName = null;
@@ -162,12 +168,15 @@ class Player {
                 else {
                     playerName = nameJ2;
                 }
+                //On masque tous les boutons d'attaque/défense
                 $("#buttonsj1").attr("class", "disable");
                 $("#buttonsj2").attr("class", "disable");
+                //On force les PV du perdant à 0 (car ils peuvent être à -x)
                 playerTab[loser].life = 0;
                 $("#lifej1").text(playerTab[0].life);
                 $("#lifej2").text(playerTab[1].life);
                 box.style.display = "block";
+                //On affiche un message de fin de jeu avec le nom du gagnant et un bouton pour rejouer
                 box.appendChild(div).setAttribute("class","modal-content");
                 div.appendChild(text).innerHTML = playerName + " a gagné !";
                 div.appendChild(btnPlayAgain).setAttribute("id", "playAgain");

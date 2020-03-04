@@ -368,7 +368,8 @@ function () {
       "name": "dynamite",
       "damage": "40"
     }];
-  }
+  } //Choisir aléatoirement des armes pour les placer ensuite sur le plateau
+
 
   _createClass(Weapon, [{
     key: "getRandomWeapon",
@@ -380,7 +381,8 @@ function () {
       }
 
       return this.weaponTab[randomInt].name;
-    }
+    } //Récupérer le dégât d'une arme
+
   }, {
     key: "getWeaponDamage",
     value: function getWeaponDamage(weapon) {
@@ -389,7 +391,8 @@ function () {
           return this.weaponTab[i].damage;
         }
       }
-    }
+    } //Récupérer la traduction de l'arme pour l'afficher dans les blocs d'infos des joueurs
+
   }, {
     key: "getFrenchWeaponName",
     value: function getFrenchWeaponName(weapon) {
@@ -480,6 +483,7 @@ function () {
     value: function allowFight(playerTab) {
       var _this = this;
 
+      //On crée un attribut data-damage pour stocker le dégât divisé par 2 en cas d'attaque qui fait suite à une défense
       var buttonsj1 = document.getElementById("buttonsj1");
       buttonsj1.setAttribute("data-damage", 0);
       var buttonsj2 = document.getElementById("buttonsj2");
@@ -494,10 +498,10 @@ function () {
       buttonAttackJ2.innerHTML = "Attaquer";
       buttonDefenseJ2.innerHTML = "Défendre"; //Insérer les 4 boutons
 
-      buttonsj1.appendChild(buttonAttackJ1).setAttribute("class", "fightbtn attack btnj1");
-      buttonsj1.appendChild(buttonDefenseJ1).setAttribute("class", "fightbtn defense btnj1");
-      buttonsj2.appendChild(buttonAttackJ2).setAttribute("class", "fightbtn attack btnj2");
-      buttonsj2.appendChild(buttonDefenseJ2).setAttribute("class", "fightbtn defense btnj2"); //Masquer les boutons du joueur dont ce n'est pas le tour
+      buttonsj1.appendChild(buttonAttackJ1).setAttribute("class", "attack btnj1");
+      buttonsj1.appendChild(buttonDefenseJ1).setAttribute("class", "defense btnj1");
+      buttonsj2.appendChild(buttonAttackJ2).setAttribute("class", "attack btnj2");
+      buttonsj2.appendChild(buttonDefenseJ2).setAttribute("class", "defense btnj2"); //Masquer les boutons du joueur dont ce n'est pas le tour
 
       if (playerTab[0].move === true) {
         buttonsj2.setAttribute("class", "disable");
@@ -541,9 +545,11 @@ function () {
             buttonsj2.setAttribute("data-damage", 0);
             buttonsj1.classList.remove("disable");
             buttonsj2.setAttribute("class", "disable");
-          }
+          } //On change de joueur
 
-          _this.allowMove(playerTab);
+
+          _this.allowMove(playerTab); //On vérifie que les 2 joueurs ont toujours des points de vie disponibles
+
 
           _this.checkEnd(playerTab);
         });
@@ -551,12 +557,14 @@ function () {
 
       for (var i = 0; i < buttonsAttack.length; i++) {
         _loop(i);
-      }
+      } //Ecouter les événements de clic du bouton Défendre
+
 
       var _loop2 = function _loop2(j) {
         buttonsDefense[j].addEventListener("click", function () {
           if (buttonsDefense[j].classList.contains("btnj1")) {
-            var attackerDamage = Number(weapon.getWeaponDamage(playerTab[1].weapon) / 2);
+            var attackerDamage = Number(weapon.getWeaponDamage(playerTab[1].weapon) / 2); //On stocke le dégât divisé par 2 dans l'attribut data-damage de l'autre joueur, pour le récupérer lors de sa prochaine attaque
+
             buttonsj2.setAttribute("data-damage", String(attackerDamage));
             buttonsj2.classList.remove("disable");
             buttonsj1.setAttribute("class", "disable");
@@ -584,7 +592,7 @@ function () {
       var box = document.getElementById("finish");
       var div = document.createElement("div");
       var text = document.createElement("h2");
-      var btnPlayAgain = document.createElement("button");
+      var btnPlayAgain = document.createElement("button"); //Si l'un des joueurs n'a plus de PV
 
       for (var loser = 0; loser < playerTab.length; loser++) {
         if (playerTab[loser].life < 1) {
@@ -594,14 +602,17 @@ function () {
             playerName = _index__WEBPACK_IMPORTED_MODULE_0__["nameJ1"];
           } else {
             playerName = _index__WEBPACK_IMPORTED_MODULE_0__["nameJ2"];
-          }
+          } //On masque tous les boutons d'attaque/défense
+
 
           $("#buttonsj1").attr("class", "disable");
-          $("#buttonsj2").attr("class", "disable");
+          $("#buttonsj2").attr("class", "disable"); //On force les PV du perdant à 0 (car ils peuvent être à -x)
+
           playerTab[loser].life = 0;
           $("#lifej1").text(playerTab[0].life);
           $("#lifej2").text(playerTab[1].life);
-          box.style.display = "block";
+          box.style.display = "block"; //On affiche un message de fin de jeu avec le nom du gagnant et un bouton pour rejouer
+
           box.appendChild(div).setAttribute("class", "modal-content");
           div.appendChild(text).innerHTML = playerName + " a gagné !";
           div.appendChild(btnPlayAgain).setAttribute("id", "playAgain");
@@ -690,9 +701,10 @@ function () {
             this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "down", 90, noGoCellId);
           }
         }
-      } else {
-        player.allowFight(playerTab);
-      }
+      } //Si les 2 joueurs sont sur des cases adjacentes, on déclenche le combat
+      else {
+          player.allowFight(playerTab);
+        }
     }
   }, {
     key: "checkTd",
@@ -719,25 +731,33 @@ function () {
     value: function checkCellsAround(playerTab, i, td, availableId, axis, playerCell, direction, cellNb, noGoCellId) {
       td = this.checkTd(availableId)[0];
       var availablePos = td + availableId;
-      var availableCell = document.getElementById(availablePos);
+      var availableCell = document.getElementById(availablePos); //La case n+2/n-2, utilisée pour empêcher l'accès s'il y a un obstacle en n+1/n-1
+
       var noGoCell = null;
 
       if (availableId >= 0 && availableId < 100) {
-        if (playerTab[i].move === true && this.checkAxis(availableCell, playerCell, direction) === true && !availableCell.hasAttribute("data-access") && !availableCell.hasAttribute("data-player") && !availableCell.hasAttribute("data-playeraccess")) {
+        if (playerTab[i].move === true && //On vérifie que la case étudiée est sur le même axe que la case du joueur
+        this.checkAxis(availableCell, playerCell, direction) === true && //Et qu'elle n'est pas inaccessible
+        !availableCell.hasAttribute("data-access") && !availableCell.hasAttribute("data-player") && !availableCell.hasAttribute("data-playeraccess")) {
           availableCell.setAttribute("data-playeraccess", 1);
-        } else if (playerTab[i].move === true && this.checkAxis(availableCell, playerCell, direction) === true && this.checkNoGoCell(availableId, direction, cellNb) === true && (availableCell.hasAttribute("data-access") || availableCell.hasAttribute("data-player") || availableCell.hasAttribute("data-playeraccess"))) {
+        } else if ( //Si elle est inaccessible,
+        playerTab[i].move === true && this.checkAxis(availableCell, playerCell, direction) === true && //On vérifie que noGoCellId reste entre 0 et 99 pour éviter les erreurs de sortie de tableau
+        this.checkNoGoCell(availableId, direction, cellNb) === true && ( //et qu'il y a bien l'un des 3 obstacles
+        availableCell.hasAttribute("data-access") || availableCell.hasAttribute("data-player") || availableCell.hasAttribute("data-playeraccess"))) {
           if (direction === "up" || direction === "down") {
+            //On utilise le td adapté à noGoCell
             td = this.checkTd(availableId)[1];
           }
 
-          noGoCell = document.getElementById(td + noGoCellId);
+          noGoCell = document.getElementById(td + noGoCellId); //On empêche l'accès à la case suivante puisqu'il y a un obstacle en n+1/n-1
 
           if (noGoCell !== null) {
             noGoCell.setAttribute("data-playeraccess", 0);
           }
         }
       }
-    }
+    } //On vérifie que la case étudiée est bien sur le même x/y que la case du joueur pour éviter les erreurs de bord de tableau (accès à la ligne/colonne suivante/précédente)
+
   }, {
     key: "checkAxis",
     value: function checkAxis(availableCell, playerCell, direction) {
@@ -751,7 +771,8 @@ function () {
       if ((direction === "left" || direction === "up") && availableId >= cellNb || (direction === "right" || direction === "down") && availableId < cellNb) {
         return true;
       }
-    }
+    } //On met à jour les infos des joueurs (playerTab) après le clic avec la nouvelle position
+
   }, {
     key: "move",
     value: function move(cellId, playerTab) {
@@ -775,29 +796,24 @@ function () {
       var oldWeapon = player.weapon;
 
       if (nextCell.dataset.playeraccess === "1" && nextCell.id !== currentCell.id) {
-        //Update player position
+        //On met à jour la position du joueur
         nextCell.setAttribute("data-player", player.id);
-        player.position = nextCell.id; //Update player weapon and weapon shown in the cell
+        player.position = nextCell.id; //On met à jour l'arme du joueur et l'arme déposée sur la case
 
         if (nextCell.hasAttribute("data-weapon")) {
           player.weapon = nextCell.dataset.weapon;
           nextCell.dataset.weapon = oldWeapon;
-        } //Remove last position
+        } //On supprime l'ancienne position du joueur sur le plateau
 
 
-        currentCell.removeAttribute("data-player");
+        currentCell.removeAttribute("data-player"); //On change le joueur qui doit jouer ensuite
+
         newPlayer.allowMove(playerTab);
-        this.getPlayer(player);
         return true;
       }
 
       return false;
-    }
-  }, {
-    key: "getPlayer",
-    value: function getPlayer(player) {
-      return player;
-    } //Vérifie si les 2 joueurs sont côte à côte (renvoie true), pour déclencher le fight
+    } //Vérifie si les 2 joueurs sont côte à côte (renvoie true), pour déclencher le combat
 
   }, {
     key: "checkIfFight",

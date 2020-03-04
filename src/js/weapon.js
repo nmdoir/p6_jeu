@@ -20,6 +20,7 @@ class Weapon {
         ];
     }
 
+    //Choisir aléatoirement des armes pour les placer ensuite sur le plateau
     getRandomWeapon() {
         let randomInt = 0;
 
@@ -29,6 +30,7 @@ class Weapon {
         return this.weaponTab[randomInt].name;
     }
 
+    //Récupérer le dégât d'une arme
     getWeaponDamage(weapon) {
         for (let i = 0; i < this.weaponTab.length; i++) {
             if (this.weaponTab[i].name === weapon) {
@@ -37,6 +39,7 @@ class Weapon {
         }
     }
 
+    //Récupérer la traduction de l'arme pour l'afficher dans les blocs d'infos des joueurs
     getFrenchWeaponName(weapon) {
         let translationTab = {
             "knife": "Couteau",
