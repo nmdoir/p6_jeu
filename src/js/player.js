@@ -163,10 +163,10 @@ class Player {
             if (playerTab[loser].life < 1) {
                 let playerName = null;
                 if (loser === 0) {
-                    playerName = nameJ1;
+                    playerName = nameJ2;
                 }
                 else {
-                    playerName = nameJ2;
+                    playerName = nameJ1;
                 }
                 //On masque tous les boutons d'attaque/défense
                 $("#buttonsj1").attr("class", "disable");

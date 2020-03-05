@@ -599,9 +599,9 @@ function () {
           var playerName = null;
 
           if (loser === 0) {
-            playerName = _index__WEBPACK_IMPORTED_MODULE_0__["nameJ1"];
-          } else {
             playerName = _index__WEBPACK_IMPORTED_MODULE_0__["nameJ2"];
+          } else {
+            playerName = _index__WEBPACK_IMPORTED_MODULE_0__["nameJ1"];
           } //On masque tous les boutons d'attaque/défense
 
 
