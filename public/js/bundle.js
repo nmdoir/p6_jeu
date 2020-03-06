@@ -176,31 +176,18 @@ function () {
       this.playerTab[0].move = true;
       $(table).attr("class", "center");
       $(tbody).appendTo(table);
+      var id = 0;
 
       for (var i = 0; i < this.row; i++) {
         var tr = document.createElement("tr");
         $(tr).attr("class", "tdstyle").appendTo(tbody); //On ajoute les coordonnées x/y à chaque case pour pouvoir les identifier ensuite dans nos fonctions de mouvement
 
-        for (var j = 0; j < this.column; j++) {
-          var td = document.createElement("td");
-          $(td).attr("class", "tdstyle").attr("data-x", j).attr("data-y", i); //td.id = "td-" + i + j;
-
-          $(td).appendTo(tr);
-        }
-      }
-
-      $(table).appendTo(this.board);
-      var tdList = document.querySelectorAll("td");
-      var id = 0;
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        var _loop = function _loop() {
-          var td = _step.value;
+        var _loop = function _loop(j) {
           var increment = id++;
-          td.id = _this.getTd(increment) + increment; //On écoute les événements de clics sur les cases pour les mouvements
+          var td = document.createElement("td");
+          $(td).attr("class", "tdstyle").attr("data-x", j).attr("data-y", i);
+          td.id = _this.getTd(increment) + increment; //td.id = "td-" + i + j;
+          //On écoute les événements de clics sur les cases pour les mouvements
 
           td.addEventListener("click", function () {
             if (td.dataset.playeraccess === "1") {
@@ -210,26 +197,15 @@ function () {
               _this.getPlayerInfo(_this.playerTab);
             }
           });
+          $(td).appendTo(tr);
         };
 
-        for (var _iterator = tdList[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          _loop();
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
+        for (var j = 0; j < this.column; j++) {
+          _loop(j);
         }
       }
 
+      $(table).appendTo(this.board);
       this.displayInfo(); //On affiche les cases cliquables pour le 1er joueur et on dispose aléatoirement les cases non accessibles et les armes
 
       this.createMovement();
