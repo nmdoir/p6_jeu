@@ -16,6 +16,7 @@ class GenGrid {
         let tbody = document.createElement("tbody");
         let move = new Move();
         let player = new Player;
+        let grid = new GenGrid();
         this.playerTab = player.getPlayerTab();
         this.playerTab[0].move = true;
         $(table).attr("class", "center");
@@ -29,21 +30,31 @@ class GenGrid {
             for (let j = 0; j < this.column; j++) {
                 let td = document.createElement("td");
                 $(td).attr("class", "tdstyle").attr("data-x", j).attr("data-y", i);
-                td.id = "td-" + i + j;
-                //On écoute les événements de clics sur les cases pour les mouvements
-                td.addEventListener("click", () => {
-                    if (td.dataset.playeraccess === "1") {
-                        this.playerTab = move.move(td.id, this.playerTab);
-                        move.availableMove(this.playerTab);
-                        this.getPlayerInfo(this.playerTab);
-                    }
-                });
+                //td.id = "td-" + i + j;
+
                 $(td).appendTo(tr);
             }
         }
 
-        this.displayInfo();
         $(table).appendTo(this.board);
+
+        let tdList = document.querySelectorAll("td");
+        let id = 0;
+        for (let td of tdList) {
+            let increment = id++;
+            td.id = this.getTd(increment) + increment;
+
+            //On écoute les événements de clics sur les cases pour les mouvements
+            td.addEventListener("click", () => {
+                if (td.dataset.playeraccess === "1") {
+                    this.playerTab = move.move(td.id, this.playerTab);
+                    move.availableMove(this.playerTab);
+                    this.getPlayerInfo(this.playerTab);
+                }
+            });
+        }
+
+        this.displayInfo();
         //On affiche les cases cliquables pour le 1er joueur et on dispose aléatoirement les cases non accessibles et les armes
         this.createMovement();
         this.createNoAccess();

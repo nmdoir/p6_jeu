@@ -95,8 +95,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_genGrid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
  //Demander le nom des joueurs
 
-var nameJ1 = prompt("Entrez le nom du joueur 1 : ");
-var nameJ2 = prompt("Entrez le nom du joueur 2 : "); //Leur donner un nom par défaut au cas où l'utilisateur n'entre rien
+var nameJ1 = ""; //prompt("Entrez le nom du joueur 1 : ");
+
+var nameJ2 = ""; //prompt("Entrez le nom du joueur 2 : ");
+//Leur donner un nom par défaut au cas où l'utilisateur n'entre rien
 
 if (!nameJ1 || nameJ1 === "") {
   nameJ1 = "Joueur 1";
@@ -169,6 +171,7 @@ function () {
       var tbody = document.createElement("tbody");
       var move = new _js_move__WEBPACK_IMPORTED_MODULE_2__["Move"]();
       var player = new _js_player__WEBPACK_IMPORTED_MODULE_1__["Player"]();
+      var grid = new GenGrid();
       this.playerTab = player.getPlayerTab();
       this.playerTab[0].move = true;
       $(table).attr("class", "center");
@@ -178,10 +181,26 @@ function () {
         var tr = document.createElement("tr");
         $(tr).attr("class", "tdstyle").appendTo(tbody); //On ajoute les coordonnées x/y à chaque case pour pouvoir les identifier ensuite dans nos fonctions de mouvement
 
-        var _loop = function _loop(j) {
+        for (var j = 0; j < this.column; j++) {
           var td = document.createElement("td");
-          $(td).attr("class", "tdstyle").attr("data-x", j).attr("data-y", i);
-          td.id = "td-" + i + j; //On écoute les événements de clics sur les cases pour les mouvements
+          $(td).attr("class", "tdstyle").attr("data-x", j).attr("data-y", i); //td.id = "td-" + i + j;
+
+          $(td).appendTo(tr);
+        }
+      }
+
+      $(table).appendTo(this.board);
+      var tdList = document.querySelectorAll("td");
+      var id = 0;
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        var _loop = function _loop() {
+          var td = _step.value;
+          var increment = id++;
+          td.id = _this.getTd(increment) + increment; //On écoute les événements de clics sur les cases pour les mouvements
 
           td.addEventListener("click", function () {
             if (td.dataset.playeraccess === "1") {
@@ -191,16 +210,27 @@ function () {
               _this.getPlayerInfo(_this.playerTab);
             }
           });
-          $(td).appendTo(tr);
         };
 
-        for (var j = 0; j < this.column; j++) {
-          _loop(j);
+        for (var _iterator = tdList[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          _loop();
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
         }
       }
 
-      this.displayInfo();
-      $(table).appendTo(this.board); //On affiche les cases cliquables pour le 1er joueur et on dispose aléatoirement les cases non accessibles et les armes
+      this.displayInfo(); //On affiche les cases cliquables pour le 1er joueur et on dispose aléatoirement les cases non accessibles et les armes
 
       this.createMovement();
       this.createNoAccess();
@@ -638,11 +668,13 @@ function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Move", function() { return Move; });
 /* harmony import */ var _js_player__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+/* harmony import */ var _js_genGrid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
 
@@ -657,8 +689,9 @@ function () {
     key: "availableMove",
     value: function availableMove(playerTab) {
       var td = null;
+      var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_1__["GenGrid"]();
 
-      for (var browseCells = 0; browseCells < 100; browseCells++) {
+      for (var browseCells = 0; browseCells < grid.gridLength; browseCells++) {
         td = this.checkTd(browseCells)[0];
         document.getElementById(td + browseCells).removeAttribute("data-playeraccess");
       }
@@ -680,7 +713,8 @@ function () {
 
           for (availableId = Number(playerId) + 1; availableId <= Number(playerId) + 3; availableId++) {
             noGoCellId = Number(availableId) + 1;
-            this.checkCellsAround(playerTab, i, td, availableId, "y", playerCell, "right", 99, noGoCellId);
+            var cellNb = grid.gridLength - 1;
+            this.checkCellsAround(playerTab, i, td, availableId, "y", playerCell, "right", cellNb, noGoCellId);
           } //Pour la gestion des déplacements haut/bas, on crée un array
 
 
@@ -690,7 +724,8 @@ function () {
             var jump = _verticals[_i];
             availableId = Number(playerId) - Number(jump);
             noGoCellId = Number(availableId) - 10;
-            this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "up", 10, noGoCellId);
+            var _cellNb = grid.column;
+            this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "up", _cellNb, noGoCellId);
           } //Cases autorisées vers le bas
 
 
@@ -698,7 +733,10 @@ function () {
             var _jump = _verticals2[_i2];
             availableId = Number(playerId) + Number(_jump);
             noGoCellId = Number(availableId) + 10;
-            this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "down", 90, noGoCellId);
+
+            var _cellNb2 = (grid.row - 1) * grid.column;
+
+            this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "down", _cellNb2, noGoCellId);
           }
         }
       } //Si les 2 joueurs sont sur des cases adjacentes, on déclenche le combat
@@ -709,9 +747,10 @@ function () {
   }, {
     key: "checkTd",
     value: function checkTd(availableId) {
+      var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_1__["GenGrid"]();
       var tdTab = [];
 
-      if (availableId >= 0 && availableId < 100) {
+      if (availableId >= 0 && availableId < grid.gridLength) {
         if (availableId < 10) {
           tdTab[0] = "td-0";
         } //On a besoin de 2 cas de figure pour gérer la variable noGoCellId, qui correspond à la case n+2 (pour empêcher l'accès aux cases se situant après un obstacle, l'obstacle étant la case n+1)
@@ -729,19 +768,20 @@ function () {
   }, {
     key: "checkCellsAround",
     value: function checkCellsAround(playerTab, i, td, availableId, axis, playerCell, direction, cellNb, noGoCellId) {
+      var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_1__["GenGrid"]();
       td = this.checkTd(availableId)[0];
       var availablePos = td + availableId;
       var availableCell = document.getElementById(availablePos); //La case n+2/n-2, utilisée pour empêcher l'accès s'il y a un obstacle en n+1/n-1
 
       var noGoCell = null;
 
-      if (availableId >= 0 && availableId < 100) {
+      if (availableId >= 0 && availableId < grid.gridLength) {
         if (playerTab[i].move === true && //On vérifie que la case étudiée est sur le même axe que la case du joueur
         this.checkAxis(availableCell, playerCell, direction) === true && //Et qu'elle n'est pas inaccessible
         !availableCell.hasAttribute("data-access") && !availableCell.hasAttribute("data-player") && !availableCell.hasAttribute("data-playeraccess")) {
           availableCell.setAttribute("data-playeraccess", 1);
         } else if ( //Si elle est inaccessible,
-        playerTab[i].move === true && this.checkAxis(availableCell, playerCell, direction) === true && //On vérifie que noGoCellId reste entre 0 et 99 pour éviter les erreurs de sortie de tableau
+        playerTab[i].move === true && this.checkAxis(availableCell, playerCell, direction) === true && //On vérifie que noGoCellId reste entre 0 et fin du tableau pour éviter les erreurs de sortie de tableau
         this.checkNoGoCell(availableId, direction, cellNb) === true && ( //et qu'il y a bien l'un des 3 obstacles
         availableCell.hasAttribute("data-access") || availableCell.hasAttribute("data-player") || availableCell.hasAttribute("data-playeraccess"))) {
           if (direction === "up" || direction === "down") {

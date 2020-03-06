@@ -1,8 +1,8 @@
 import {GenGrid} from "../js/genGrid";
 
 //Demander le nom des joueurs
-let nameJ1 = prompt("Entrez le nom du joueur 1 : ");
-let nameJ2 = prompt("Entrez le nom du joueur 2 : ");
+let nameJ1 = ""; //prompt("Entrez le nom du joueur 1 : ");
+let nameJ2 = ""; //prompt("Entrez le nom du joueur 2 : ");
 
 //Leur donner un nom par défaut au cas où l'utilisateur n'entre rien
 if (!nameJ1 || nameJ1 === "") {
