@@ -279,7 +279,9 @@ function () {
       } //On génère 25 cases non accessibles
 
 
-      for (var i = 0; i < 25; i++) {
+      var nbObstacles = Math.ceil(this.gridLength / 4);
+
+      for (var i = 0; i < nbObstacles; i++) {
         idNoAccess = this.getRandomCell(); //Pour éviter qu'un joueur ne se retrouve bloqué dans un coin, on interdit les cases non accessibles sur les axes x et y des 2 joueurs
 
         while (idNoAccess.dataset.x === cellPlayer[0].dataset.x || idNoAccess.dataset.x === cellPlayer[1].dataset.x || idNoAccess.dataset.y === cellPlayer[0].dataset.y || idNoAccess.dataset.y === cellPlayer[1].dataset.y) {
@@ -296,7 +298,6 @@ function () {
       var cellWeapon = null;
       var weapon = new _js_weapon__WEBPACK_IMPORTED_MODULE_0__["Weapon"]();
       var weaponsAvailable = Math.ceil(this.gridLength / 10);
-      console.log(weaponsAvailable);
 
       for (var i = 0; i < weaponsAvailable; i++) {
         var randomWeapon = weapon.getRandomWeapon();

@@ -104,7 +104,9 @@ class GenGrid {
             }
         }
         //On génère 25 cases non accessibles
-        for (let i = 0; i < 25; i++) {
+        let nbObstacles = Math.ceil(this.gridLength / 4);
+
+        for (let i = 0; i < nbObstacles; i++) {
             idNoAccess = this.getRandomCell();
             //Pour éviter qu'un joueur ne se retrouve bloqué dans un coin, on interdit les cases non accessibles sur les axes x et y des 2 joueurs
             while (idNoAccess.dataset.x === cellPlayer[0].dataset.x || idNoAccess.dataset.x === cellPlayer[1].dataset.x || idNoAccess.dataset.y === cellPlayer[0].dataset.y || idNoAccess.dataset.y === cellPlayer[1].dataset.y) {
@@ -119,7 +121,6 @@ class GenGrid {
         let cellWeapon = null;
         let weapon = new Weapon();
         let weaponsAvailable = Math.ceil(this.gridLength / 10);
-        console.log(weaponsAvailable);
 
         for (let i = 0; i < weaponsAvailable; i++) {
             let randomWeapon = weapon.getRandomWeapon();
