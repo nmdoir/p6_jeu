@@ -16,7 +16,6 @@ class GenGrid {
         let tbody = document.createElement("tbody");
         let move = new Move();
         let player = new Player;
-        let grid = new GenGrid();
         this.playerTab = player.getPlayerTab();
         this.playerTab[0].move = true;
         $(table).attr("class", "center");

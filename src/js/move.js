@@ -1,14 +1,16 @@
 import { Player } from "../js/player";
 import { GenGrid } from "../js/genGrid";
+import { rowWanted, colWanted } from "./index";
 
 class Move {
 
     availableMove(playerTab) {
         let td = null;
-        let grid = new GenGrid();
+        let grid = new GenGrid(rowWanted, colWanted);
         for (let browseCells = 0; browseCells < grid.gridLength; browseCells++) {
             td = this.checkTd(browseCells)[0];
             document.getElementById(td + browseCells).removeAttribute("data-playeraccess");
+            console.log(td + browseCells);
         }
 
         let player = new Player();
@@ -30,7 +32,7 @@ class Move {
                 //Cases autorisées à droite
                 for (availableId = Number(playerId) + 1; availableId <= Number(playerId) + 3; availableId++) {
                     noGoCellId = Number(availableId) + 1;
-                    let cellNb = grid.gridLength - 1;
+                    let cellNb = Number(grid.gridLength - 1);
                     this.checkCellsAround(playerTab, i, td, availableId, "y", playerCell, "right",
                         cellNb, noGoCellId);
                 }
@@ -64,7 +66,7 @@ class Move {
     }
 
     checkTd(availableId) {
-        let grid = new GenGrid();
+        let grid = new GenGrid(rowWanted, colWanted);
         let tdTab = [];
         if (availableId >= 0 && availableId < grid.gridLength) {
             if (availableId < 10) {
@@ -85,7 +87,7 @@ class Move {
     }
 
     checkCellsAround(playerTab, i, td, availableId, axis, playerCell, direction, cellNb, noGoCellId) {
-        let grid = new GenGrid();
+        let grid = new GenGrid(rowWanted, colWanted);
         td = this.checkTd(availableId)[0];
         let availablePos = td + availableId;
         let availableCell = document.getElementById(availablePos);
@@ -142,7 +144,7 @@ class Move {
                 availableCell.dataset.x === playerCell.dataset.x
             )
         ) {
-        return true;
+            return true;
         }
     }
 
@@ -158,7 +160,7 @@ class Move {
                 availableId < cellNb
             )
         ) {
-                return true;
+            return true;
         }
     }
 

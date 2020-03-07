@@ -1,6 +1,5 @@
 //On récupère les variables des noms des joueurs entrés par l'utilisateur
-import { nameJ1 } from "./index";
-import { nameJ2 } from "./index";
+import { nameJ1, nameJ2 } from "./index";
 import {Weapon} from "./weapon";
 
 class Player {

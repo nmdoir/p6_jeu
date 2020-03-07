@@ -92,6 +92,8 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "nameJ1", function() { return nameJ1; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "nameJ2", function() { return nameJ2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rowWanted", function() { return rowWanted; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "colWanted", function() { return colWanted; });
 /* harmony import */ var _js_genGrid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
  //Demander le nom des joueurs
 
@@ -120,12 +122,15 @@ $(window).click(function () {
   if (event.target === modal) {
     modal.style.display = "none";
   }
-}); //Insérer la grille dans le HTML
+}); //Définir la taille de la grille que l'on veut
+
+var rowWanted = 12;
+var colWanted = 14; //Insérer la grille dans le HTML
 
 $(document).ready(function () {
-  var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_0__["GenGrid"](10, 10);
+  var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_0__["GenGrid"](rowWanted, colWanted);
   grid.createGrid();
-}); //On exporte les 2 variables noms des joueurs afin de les utiliser dans la classe Player
+}); //On exporte les variables noms des joueurs et taille du plateau afin de les utiliser dans les classes Player et Move
 
 
 
@@ -171,7 +176,6 @@ function () {
       var tbody = document.createElement("tbody");
       var move = new _js_move__WEBPACK_IMPORTED_MODULE_2__["Move"]();
       var player = new _js_player__WEBPACK_IMPORTED_MODULE_1__["Player"]();
-      var grid = new GenGrid();
       this.playerTab = player.getPlayerTab();
       this.playerTab[0].move = true;
       $(table).attr("class", "center");
@@ -436,7 +440,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-
 var Player =
 /*#__PURE__*/
 function () {
@@ -645,11 +648,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Move", function() { return Move; });
 /* harmony import */ var _js_player__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
 /* harmony import */ var _js_genGrid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(0);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
 
@@ -665,11 +670,12 @@ function () {
     key: "availableMove",
     value: function availableMove(playerTab) {
       var td = null;
-      var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_1__["GenGrid"]();
+      var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_1__["GenGrid"](_index__WEBPACK_IMPORTED_MODULE_2__["rowWanted"], _index__WEBPACK_IMPORTED_MODULE_2__["colWanted"]);
 
       for (var browseCells = 0; browseCells < grid.gridLength; browseCells++) {
         td = this.checkTd(browseCells)[0];
         document.getElementById(td + browseCells).removeAttribute("data-playeraccess");
+        console.log(td + browseCells);
       }
 
       var player = new _js_player__WEBPACK_IMPORTED_MODULE_0__["Player"](); //On vérifie que les 2 joueurs ne sont pas à côté (combat)
@@ -689,7 +695,7 @@ function () {
 
           for (availableId = Number(playerId) + 1; availableId <= Number(playerId) + 3; availableId++) {
             noGoCellId = Number(availableId) + 1;
-            var cellNb = grid.gridLength - 1;
+            var cellNb = Number(grid.gridLength - 1);
             this.checkCellsAround(playerTab, i, td, availableId, "y", playerCell, "right", cellNb, noGoCellId);
           } //Pour la gestion des déplacements haut/bas, on crée un array
 
@@ -723,7 +729,7 @@ function () {
   }, {
     key: "checkTd",
     value: function checkTd(availableId) {
-      var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_1__["GenGrid"]();
+      var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_1__["GenGrid"](_index__WEBPACK_IMPORTED_MODULE_2__["rowWanted"], _index__WEBPACK_IMPORTED_MODULE_2__["colWanted"]);
       var tdTab = [];
 
       if (availableId >= 0 && availableId < grid.gridLength) {
@@ -744,7 +750,7 @@ function () {
   }, {
     key: "checkCellsAround",
     value: function checkCellsAround(playerTab, i, td, availableId, axis, playerCell, direction, cellNb, noGoCellId) {
-      var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_1__["GenGrid"]();
+      var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_1__["GenGrid"](_index__WEBPACK_IMPORTED_MODULE_2__["rowWanted"], _index__WEBPACK_IMPORTED_MODULE_2__["colWanted"]);
       td = this.checkTd(availableId)[0];
       var availablePos = td + availableId;
       var availableCell = document.getElementById(availablePos); //La case n+2/n-2, utilisée pour empêcher l'accès s'il y a un obstacle en n+1/n-1

@@ -30,12 +30,16 @@ $(window).click(function () {
     }
 });
 
+//Définir la taille de la grille que l'on veut
+let rowWanted = 12;
+let colWanted = 14;
+
 //Insérer la grille dans le HTML
 $(document).ready(function() {
-    let grid = new GenGrid(10, 10);
+    let grid = new GenGrid(rowWanted, colWanted);
     grid.createGrid();
 }
 );
 
-//On exporte les 2 variables noms des joueurs afin de les utiliser dans la classe Player
-export { nameJ1, nameJ2 };
+//On exporte les variables noms des joueurs et taille du plateau afin de les utiliser dans les classes Player et Move
+export { nameJ1, nameJ2, rowWanted, colWanted };
