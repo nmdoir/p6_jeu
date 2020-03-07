@@ -720,7 +720,8 @@ function () {
           for (var _i2 = 0, _verticals2 = verticals; _i2 < _verticals2.length; _i2++) {
             var _jump = _verticals2[_i2];
             availableId = Number(playerId) + Number(_jump);
-            noGoCellId = Number(availableId) + _index__WEBPACK_IMPORTED_MODULE_2__["colWanted"];
+            noGoCellId = Number(availableId) + Number(_index__WEBPACK_IMPORTED_MODULE_2__["colWanted"]);
+            console.log(noGoCellId);
 
             var _cellNb2 = (grid.row - 1) * grid.column;
 
