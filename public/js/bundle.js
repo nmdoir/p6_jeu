@@ -97,10 +97,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_genGrid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
  //Demander le nom des joueurs
 
-var nameJ1 = ""; //prompt("Entrez le nom du joueur 1 : ");
-
-var nameJ2 = ""; //prompt("Entrez le nom du joueur 2 : ");
-//Leur donner un nom par défaut au cas où l'utilisateur n'entre rien
+var nameJ1 = prompt("Entrez le nom du joueur 1 : ");
+var nameJ2 = prompt("Entrez le nom du joueur 2 : "); //Leur donner un nom par défaut au cas où l'utilisateur n'entre rien
 
 if (!nameJ1 || nameJ1 === "") {
   nameJ1 = "Joueur 1";
@@ -124,8 +122,17 @@ $(window).click(function () {
   }
 }); //Définir la taille de la grille que l'on veut
 
-var rowWanted = 12;
-var colWanted = 14; //Insérer la grille dans le HTML
+var rowWanted = prompt("Entrez le nombre de lignes pour la grille :");
+var colWanted = prompt("Entrez le nombre de lignes pour la grille :"); //Leur donner une valeur par défaut au cas où l'utilisateur n'entre rien
+
+if (!rowWanted || rowWanted === "") {
+  rowWanted = 10;
+}
+
+if (!colWanted || colWanted === "") {
+  colWanted = 10;
+} //Insérer la grille dans le HTML
+
 
 $(document).ready(function () {
   var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_0__["GenGrid"](rowWanted, colWanted);

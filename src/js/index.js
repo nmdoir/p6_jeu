@@ -1,8 +1,8 @@
 import {GenGrid} from "../js/genGrid";
 
 //Demander le nom des joueurs
-let nameJ1 = ""; //prompt("Entrez le nom du joueur 1 : ");
-let nameJ2 = ""; //prompt("Entrez le nom du joueur 2 : ");
+let nameJ1 = prompt("Entrez le nom du joueur 1 : ");
+let nameJ2 = prompt("Entrez le nom du joueur 2 : ");
 
 //Leur donner un nom par défaut au cas où l'utilisateur n'entre rien
 if (!nameJ1 || nameJ1 === "") {
@@ -31,8 +31,17 @@ $(window).click(function () {
 });
 
 //Définir la taille de la grille que l'on veut
-let rowWanted = 12;
-let colWanted = 14;
+let rowWanted = prompt("Entrez le nombre de lignes pour la grille :");
+let colWanted = prompt("Entrez le nombre de lignes pour la grille :");
+
+//Leur donner une valeur par défaut au cas où l'utilisateur n'entre rien
+if (!rowWanted || rowWanted === "") {
+    rowWanted = 10;
+}
+
+if (!colWanted || colWanted === "") {
+    colWanted = 10;
+}
 
 //Insérer la grille dans le HTML
 $(document).ready(function() {
