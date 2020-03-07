@@ -37,12 +37,12 @@ class Move {
                 }
 
                 //Pour la gestion des déplacements haut/bas, on crée un array
-                let verticals = [10, 20, 30];
+                let verticals = [colWanted, colWanted * 2, colWanted * 3];
 
                 //Cases autorisées vers le haut
                 for (let jump of verticals) {
                     availableId = Number(playerId) - Number(jump);
-                    noGoCellId = Number(availableId) - 10;
+                    noGoCellId = Number(availableId) - colWanted;
                     let cellNb = grid.column;
                     this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "up",
                         cellNb, noGoCellId);
@@ -51,7 +51,7 @@ class Move {
                 //Cases autorisées vers le bas
                 for (let jump of verticals) {
                     availableId = Number(playerId) + Number(jump);
-                    noGoCellId = Number(availableId) + 10;
+                    noGoCellId = Number(availableId) + colWanted;
                     let cellNb = (grid.row - 1) * grid.column;
                     this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "down", cellNb, noGoCellId);
                 }

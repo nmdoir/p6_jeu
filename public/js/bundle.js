@@ -124,8 +124,8 @@ $(window).click(function () {
   }
 }); //Définir la taille de la grille que l'on veut
 
-var rowWanted = 10;
-var colWanted = 10; //Insérer la grille dans le HTML
+var rowWanted = 12;
+var colWanted = 14; //Insérer la grille dans le HTML
 
 $(document).ready(function () {
   var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_0__["GenGrid"](rowWanted, colWanted);
@@ -699,12 +699,12 @@ function () {
           } //Pour la gestion des déplacements haut/bas, on crée un array
 
 
-          var verticals = [10, 20, 30]; //Cases autorisées vers le haut
+          var verticals = [_index__WEBPACK_IMPORTED_MODULE_2__["colWanted"], _index__WEBPACK_IMPORTED_MODULE_2__["colWanted"] * 2, _index__WEBPACK_IMPORTED_MODULE_2__["colWanted"] * 3]; //Cases autorisées vers le haut
 
           for (var _i = 0, _verticals = verticals; _i < _verticals.length; _i++) {
             var jump = _verticals[_i];
             availableId = Number(playerId) - Number(jump);
-            noGoCellId = Number(availableId) - 10;
+            noGoCellId = Number(availableId) - _index__WEBPACK_IMPORTED_MODULE_2__["colWanted"];
             var _cellNb = grid.column;
             this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "up", _cellNb, noGoCellId);
           } //Cases autorisées vers le bas
@@ -713,7 +713,7 @@ function () {
           for (var _i2 = 0, _verticals2 = verticals; _i2 < _verticals2.length; _i2++) {
             var _jump = _verticals2[_i2];
             availableId = Number(playerId) + Number(_jump);
-            noGoCellId = Number(availableId) + 10;
+            noGoCellId = Number(availableId) + _index__WEBPACK_IMPORTED_MODULE_2__["colWanted"];
 
             var _cellNb2 = (grid.row - 1) * grid.column;
 
