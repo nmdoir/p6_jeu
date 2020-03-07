@@ -35,11 +35,11 @@ let rowWanted = prompt("Entrez le nombre de lignes pour la grille :");
 let colWanted = prompt("Entrez le nombre de colonnes pour la grille :");
 
 //Leur donner une valeur par défaut au cas où l'utilisateur n'entre rien ou une valeur incorrecte
-if (!rowWanted || rowWanted === "" || isNaN(rowWanted)) {
+if (!rowWanted || rowWanted === "" || isNaN(rowWanted) || rowWanted < 5 || rowWanted > 16) {
     rowWanted = 10;
 }
 
-if (!colWanted || colWanted === "" || isNaN(colWanted)) {
+if (!colWanted || colWanted === "" || isNaN(colWanted) || colWanted < 5 || colWanted > 16) {
     colWanted = 10;
 }
 

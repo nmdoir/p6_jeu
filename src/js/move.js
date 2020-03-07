@@ -52,7 +52,6 @@ class Move {
                 for (let jump of verticals) {
                     availableId = Number(playerId) + Number(jump);
                     noGoCellId = Number(availableId) + Number(colWanted);
-                    console.log(noGoCellId);
                     let cellNb = (grid.row - 1) * grid.column;
                     this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "down", cellNb, noGoCellId);
                 }

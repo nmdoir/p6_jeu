@@ -1,6 +1,7 @@
 import {Weapon} from "../js/weapon";
 import {Player} from "../js/player";
 import {Move} from "../js/move";
+import {rowWanted, colWanted} from "./index";
 
 class GenGrid {
     constructor(row, column) {
@@ -117,8 +118,10 @@ class GenGrid {
     createWeapon() {
         let cellWeapon = null;
         let weapon = new Weapon();
+        let weaponsAvailable = Math.ceil(this.gridLength / 10);
+        console.log(weaponsAvailable);
 
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < weaponsAvailable; i++) {
             let randomWeapon = weapon.getRandomWeapon();
             cellWeapon = this.getRandomCell();
             $(cellWeapon).attr("data-weapon", randomWeapon);

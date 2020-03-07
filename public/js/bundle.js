@@ -123,13 +123,13 @@ $(window).click(function () {
 }); //Définir la taille de la grille que l'on veut
 
 var rowWanted = prompt("Entrez le nombre de lignes pour la grille :");
-var colWanted = prompt("Entrez le nombre de colonnes pour la grille :"); //Leur donner une valeur par défaut au cas où l'utilisateur n'entre rien
+var colWanted = prompt("Entrez le nombre de colonnes pour la grille :"); //Leur donner une valeur par défaut au cas où l'utilisateur n'entre rien ou une valeur incorrecte
 
-if (!rowWanted || rowWanted === "" || isNaN(rowWanted)) {
+if (!rowWanted || rowWanted === "" || isNaN(rowWanted) || rowWanted < 5 || rowWanted > 16) {
   rowWanted = 10;
 }
 
-if (!colWanted || colWanted === "" || isNaN(colWanted)) {
+if (!colWanted || colWanted === "" || isNaN(colWanted) || colWanted < 5 || colWanted > 16) {
   colWanted = 10;
 } //Insérer la grille dans le HTML
 
@@ -151,11 +151,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_weapon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var _js_player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
 /* harmony import */ var _js_move__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(0);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
 
@@ -293,8 +295,10 @@ function () {
     value: function createWeapon() {
       var cellWeapon = null;
       var weapon = new _js_weapon__WEBPACK_IMPORTED_MODULE_0__["Weapon"]();
+      var weaponsAvailable = Math.ceil(this.gridLength / 10);
+      console.log(weaponsAvailable);
 
-      for (var i = 0; i < 8; i++) {
+      for (var i = 0; i < weaponsAvailable; i++) {
         var randomWeapon = weapon.getRandomWeapon();
         cellWeapon = this.getRandomCell();
         $(cellWeapon).attr("data-weapon", randomWeapon);
@@ -721,7 +725,6 @@ function () {
             var _jump = _verticals2[_i2];
             availableId = Number(playerId) + Number(_jump);
             noGoCellId = Number(availableId) + Number(_index__WEBPACK_IMPORTED_MODULE_2__["colWanted"]);
-            console.log(noGoCellId);
 
             var _cellNb2 = (grid.row - 1) * grid.column;
 
