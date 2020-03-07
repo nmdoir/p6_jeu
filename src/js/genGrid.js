@@ -1,6 +1,7 @@
 import {Weapon} from "../js/weapon";
 import {Player} from "../js/player";
 import {Move} from "../js/move";
+import {rowWanted, colWanted} from "./index";
 
 class GenGrid {
     constructor(row, column) {
@@ -21,15 +22,19 @@ class GenGrid {
         $(table).attr("class", "center");
         $(tbody).appendTo(table);
 
+        let id = 0;
         for (let i = 0; i < this.row; i++) {
             let tr = document.createElement("tr");
             $(tr).attr("class", "tdstyle").appendTo(tbody);
 
             //On ajoute les coordonnées x/y à chaque case pour pouvoir les identifier ensuite dans nos fonctions de mouvement
             for (let j = 0; j < this.column; j++) {
+                let increment = id++;
                 let td = document.createElement("td");
                 $(td).attr("class", "tdstyle").attr("data-x", j).attr("data-y", i);
-                td.id = "td-" + i + j;
+                td.id = this.getTd(increment) + increment;
+                //td.id = "td-" + i + j;
+
                 //On écoute les événements de clics sur les cases pour les mouvements
                 td.addEventListener("click", () => {
                     if (td.dataset.playeraccess === "1") {
@@ -38,12 +43,14 @@ class GenGrid {
                         this.getPlayerInfo(this.playerTab);
                     }
                 });
+
                 $(td).appendTo(tr);
             }
         }
 
-        this.displayInfo();
         $(table).appendTo(this.board);
+
+        this.displayInfo();
         //On affiche les cases cliquables pour le 1er joueur et on dispose aléatoirement les cases non accessibles et les armes
         this.createMovement();
         this.createNoAccess();
@@ -111,8 +118,10 @@ class GenGrid {
     createWeapon() {
         let cellWeapon = null;
         let weapon = new Weapon();
+        let weaponsAvailable = Math.ceil(this.gridLength / 10);
+        console.log(weaponsAvailable);
 
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < weaponsAvailable; i++) {
             let randomWeapon = weapon.getRandomWeapon();
             cellWeapon = this.getRandomCell();
             $(cellWeapon).attr("data-weapon", randomWeapon);
@@ -127,8 +136,8 @@ class GenGrid {
         let cellPlayer1 = this.getRandomCell();
 
         //Eviter que les 2 joueurs se retrouvent à côté à l'initialisation du plateau
-        while (Number(cellPlayer1.id.slice(3)) > Number((cellPlayer0.id.slice(3) - 12)) && Number(cellPlayer1.id.slice(3)) < Number((cellPlayer0.id.slice(3) + 12))) {
-            cellPlayer1 = this.getRandomCell();
+        while (cellPlayer0.dataset.x === cellPlayer1.dataset.x || cellPlayer0.dataset.y === cellPlayer1.dataset.y) {
+                cellPlayer1 = this.getRandomCell();
         }
         this.playerTab[1].position = cellPlayer1.id;
         $(cellPlayer1).attr("data-player", this.playerTab[1].id);

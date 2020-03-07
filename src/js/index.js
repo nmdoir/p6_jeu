@@ -30,12 +30,25 @@ $(window).click(function () {
     }
 });
 
+//Définir la taille de la grille que l'on veut
+let rowWanted = prompt("Entrez le nombre de lignes pour la grille :");
+let colWanted = prompt("Entrez le nombre de colonnes pour la grille :");
+
+//Leur donner une valeur par défaut au cas où l'utilisateur n'entre rien ou une valeur incorrecte
+if (!rowWanted || rowWanted === "" || isNaN(rowWanted) || rowWanted < 5 || rowWanted > 16) {
+    rowWanted = 10;
+}
+
+if (!colWanted || colWanted === "" || isNaN(colWanted) || colWanted < 5 || colWanted > 16) {
+    colWanted = 10;
+}
+
 //Insérer la grille dans le HTML
 $(document).ready(function() {
-    let grid = new GenGrid(10, 10);
+    let grid = new GenGrid(rowWanted, colWanted);
     grid.createGrid();
 }
 );
 
-//On exporte les 2 variables noms des joueurs afin de les utiliser dans la classe Player
-export { nameJ1, nameJ2 };
+//On exporte les variables noms des joueurs et taille du plateau afin de les utiliser dans les classes Player et Move
+export { nameJ1, nameJ2, rowWanted, colWanted };

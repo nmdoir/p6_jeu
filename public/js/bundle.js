@@ -92,6 +92,8 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "nameJ1", function() { return nameJ1; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "nameJ2", function() { return nameJ2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rowWanted", function() { return rowWanted; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "colWanted", function() { return colWanted; });
 /* harmony import */ var _js_genGrid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
  //Demander le nom des joueurs
 
@@ -118,12 +120,24 @@ $(window).click(function () {
   if (event.target === modal) {
     modal.style.display = "none";
   }
-}); //Insérer la grille dans le HTML
+}); //Définir la taille de la grille que l'on veut
+
+var rowWanted = prompt("Entrez le nombre de lignes pour la grille :");
+var colWanted = prompt("Entrez le nombre de colonnes pour la grille :"); //Leur donner une valeur par défaut au cas où l'utilisateur n'entre rien ou une valeur incorrecte
+
+if (!rowWanted || rowWanted === "" || isNaN(rowWanted) || rowWanted < 5 || rowWanted > 16) {
+  rowWanted = 10;
+}
+
+if (!colWanted || colWanted === "" || isNaN(colWanted) || colWanted < 5 || colWanted > 16) {
+  colWanted = 10;
+} //Insérer la grille dans le HTML
+
 
 $(document).ready(function () {
-  var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_0__["GenGrid"](10, 10);
+  var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_0__["GenGrid"](rowWanted, colWanted);
   grid.createGrid();
-}); //On exporte les 2 variables noms des joueurs afin de les utiliser dans la classe Player
+}); //On exporte les variables noms des joueurs et taille du plateau afin de les utiliser dans les classes Player et Move
 
 
 
@@ -137,11 +151,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_weapon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var _js_player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
 /* harmony import */ var _js_move__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(0);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
 
@@ -173,15 +189,18 @@ function () {
       this.playerTab[0].move = true;
       $(table).attr("class", "center");
       $(tbody).appendTo(table);
+      var id = 0;
 
       for (var i = 0; i < this.row; i++) {
         var tr = document.createElement("tr");
         $(tr).attr("class", "tdstyle").appendTo(tbody); //On ajoute les coordonnées x/y à chaque case pour pouvoir les identifier ensuite dans nos fonctions de mouvement
 
         var _loop = function _loop(j) {
+          var increment = id++;
           var td = document.createElement("td");
           $(td).attr("class", "tdstyle").attr("data-x", j).attr("data-y", i);
-          td.id = "td-" + i + j; //On écoute les événements de clics sur les cases pour les mouvements
+          td.id = _this.getTd(increment) + increment; //td.id = "td-" + i + j;
+          //On écoute les événements de clics sur les cases pour les mouvements
 
           td.addEventListener("click", function () {
             if (td.dataset.playeraccess === "1") {
@@ -199,8 +218,8 @@ function () {
         }
       }
 
-      this.displayInfo();
-      $(table).appendTo(this.board); //On affiche les cases cliquables pour le 1er joueur et on dispose aléatoirement les cases non accessibles et les armes
+      $(table).appendTo(this.board);
+      this.displayInfo(); //On affiche les cases cliquables pour le 1er joueur et on dispose aléatoirement les cases non accessibles et les armes
 
       this.createMovement();
       this.createNoAccess();
@@ -276,8 +295,10 @@ function () {
     value: function createWeapon() {
       var cellWeapon = null;
       var weapon = new _js_weapon__WEBPACK_IMPORTED_MODULE_0__["Weapon"]();
+      var weaponsAvailable = Math.ceil(this.gridLength / 10);
+      console.log(weaponsAvailable);
 
-      for (var i = 0; i < 8; i++) {
+      for (var i = 0; i < weaponsAvailable; i++) {
         var randomWeapon = weapon.getRandomWeapon();
         cellWeapon = this.getRandomCell();
         $(cellWeapon).attr("data-weapon", randomWeapon);
@@ -291,7 +312,7 @@ function () {
       $(cellPlayer0).attr("data-player", this.playerTab[0].id);
       var cellPlayer1 = this.getRandomCell(); //Eviter que les 2 joueurs se retrouvent à côté à l'initialisation du plateau
 
-      while (Number(cellPlayer1.id.slice(3)) > Number(cellPlayer0.id.slice(3) - 12) && Number(cellPlayer1.id.slice(3)) < Number(cellPlayer0.id.slice(3) + 12)) {
+      while (cellPlayer0.dataset.x === cellPlayer1.dataset.x || cellPlayer0.dataset.y === cellPlayer1.dataset.y) {
         cellPlayer1 = this.getRandomCell();
       }
 
@@ -427,7 +448,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 //On récupère les variables des noms des joueurs entrés par l'utilisateur
-
 
 
 
@@ -638,11 +658,15 @@ function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Move", function() { return Move; });
 /* harmony import */ var _js_player__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+/* harmony import */ var _js_genGrid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(0);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
 
 
 
@@ -657,8 +681,9 @@ function () {
     key: "availableMove",
     value: function availableMove(playerTab) {
       var td = null;
+      var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_1__["GenGrid"](_index__WEBPACK_IMPORTED_MODULE_2__["rowWanted"], _index__WEBPACK_IMPORTED_MODULE_2__["colWanted"]);
 
-      for (var browseCells = 0; browseCells < 100; browseCells++) {
+      for (var browseCells = 0; browseCells < grid.gridLength; browseCells++) {
         td = this.checkTd(browseCells)[0];
         document.getElementById(td + browseCells).removeAttribute("data-playeraccess");
       }
@@ -680,25 +705,30 @@ function () {
 
           for (availableId = Number(playerId) + 1; availableId <= Number(playerId) + 3; availableId++) {
             noGoCellId = Number(availableId) + 1;
-            this.checkCellsAround(playerTab, i, td, availableId, "y", playerCell, "right", 99, noGoCellId);
+            var cellNb = Number(grid.gridLength - 1);
+            this.checkCellsAround(playerTab, i, td, availableId, "y", playerCell, "right", cellNb, noGoCellId);
           } //Pour la gestion des déplacements haut/bas, on crée un array
 
 
-          var verticals = [10, 20, 30]; //Cases autorisées vers le haut
+          var verticals = [_index__WEBPACK_IMPORTED_MODULE_2__["colWanted"], _index__WEBPACK_IMPORTED_MODULE_2__["colWanted"] * 2, _index__WEBPACK_IMPORTED_MODULE_2__["colWanted"] * 3]; //Cases autorisées vers le haut
 
           for (var _i = 0, _verticals = verticals; _i < _verticals.length; _i++) {
             var jump = _verticals[_i];
             availableId = Number(playerId) - Number(jump);
-            noGoCellId = Number(availableId) - 10;
-            this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "up", 10, noGoCellId);
+            noGoCellId = Number(availableId) - Number(_index__WEBPACK_IMPORTED_MODULE_2__["colWanted"]);
+            var _cellNb = grid.column;
+            this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "up", _cellNb, noGoCellId);
           } //Cases autorisées vers le bas
 
 
           for (var _i2 = 0, _verticals2 = verticals; _i2 < _verticals2.length; _i2++) {
             var _jump = _verticals2[_i2];
             availableId = Number(playerId) + Number(_jump);
-            noGoCellId = Number(availableId) + 10;
-            this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "down", 90, noGoCellId);
+            noGoCellId = Number(availableId) + Number(_index__WEBPACK_IMPORTED_MODULE_2__["colWanted"]);
+
+            var _cellNb2 = (grid.row - 1) * grid.column;
+
+            this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "down", _cellNb2, noGoCellId);
           }
         }
       } //Si les 2 joueurs sont sur des cases adjacentes, on déclenche le combat
@@ -709,9 +739,10 @@ function () {
   }, {
     key: "checkTd",
     value: function checkTd(availableId) {
+      var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_1__["GenGrid"](_index__WEBPACK_IMPORTED_MODULE_2__["rowWanted"], _index__WEBPACK_IMPORTED_MODULE_2__["colWanted"]);
       var tdTab = [];
 
-      if (availableId >= 0 && availableId < 100) {
+      if (availableId >= 0 && availableId < grid.gridLength) {
         if (availableId < 10) {
           tdTab[0] = "td-0";
         } //On a besoin de 2 cas de figure pour gérer la variable noGoCellId, qui correspond à la case n+2 (pour empêcher l'accès aux cases se situant après un obstacle, l'obstacle étant la case n+1)
@@ -729,19 +760,20 @@ function () {
   }, {
     key: "checkCellsAround",
     value: function checkCellsAround(playerTab, i, td, availableId, axis, playerCell, direction, cellNb, noGoCellId) {
+      var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_1__["GenGrid"](_index__WEBPACK_IMPORTED_MODULE_2__["rowWanted"], _index__WEBPACK_IMPORTED_MODULE_2__["colWanted"]);
       td = this.checkTd(availableId)[0];
       var availablePos = td + availableId;
       var availableCell = document.getElementById(availablePos); //La case n+2/n-2, utilisée pour empêcher l'accès s'il y a un obstacle en n+1/n-1
 
       var noGoCell = null;
 
-      if (availableId >= 0 && availableId < 100) {
+      if (availableId >= 0 && availableId < grid.gridLength) {
         if (playerTab[i].move === true && //On vérifie que la case étudiée est sur le même axe que la case du joueur
         this.checkAxis(availableCell, playerCell, direction) === true && //Et qu'elle n'est pas inaccessible
         !availableCell.hasAttribute("data-access") && !availableCell.hasAttribute("data-player") && !availableCell.hasAttribute("data-playeraccess")) {
           availableCell.setAttribute("data-playeraccess", 1);
         } else if ( //Si elle est inaccessible,
-        playerTab[i].move === true && this.checkAxis(availableCell, playerCell, direction) === true && //On vérifie que noGoCellId reste entre 0 et 99 pour éviter les erreurs de sortie de tableau
+        playerTab[i].move === true && this.checkAxis(availableCell, playerCell, direction) === true && //On vérifie que noGoCellId reste entre 0 et fin du tableau pour éviter les erreurs de sortie de tableau
         this.checkNoGoCell(availableId, direction, cellNb) === true && ( //et qu'il y a bien l'un des 3 obstacles
         availableCell.hasAttribute("data-access") || availableCell.hasAttribute("data-player") || availableCell.hasAttribute("data-playeraccess"))) {
           if (direction === "up" || direction === "down") {
