@@ -124,8 +124,8 @@ $(window).click(function () {
   }
 }); //Définir la taille de la grille que l'on veut
 
-var rowWanted = 12;
-var colWanted = 14; //Insérer la grille dans le HTML
+var rowWanted = 10;
+var colWanted = 10; //Insérer la grille dans le HTML
 
 $(document).ready(function () {
   var grid = new _js_genGrid__WEBPACK_IMPORTED_MODULE_0__["GenGrid"](rowWanted, colWanted);
@@ -301,7 +301,7 @@ function () {
       $(cellPlayer0).attr("data-player", this.playerTab[0].id);
       var cellPlayer1 = this.getRandomCell(); //Eviter que les 2 joueurs se retrouvent à côté à l'initialisation du plateau
 
-      while (Number(cellPlayer1.id.slice(3)) > Number(cellPlayer0.id.slice(3) - 12) && Number(cellPlayer1.id.slice(3)) < Number(cellPlayer0.id.slice(3) + 12)) {
+      while (cellPlayer0.dataset.x === cellPlayer1.dataset.x || cellPlayer0.dataset.y === cellPlayer1.dataset.y) {
         cellPlayer1 = this.getRandomCell();
       }
 
@@ -675,7 +675,6 @@ function () {
       for (var browseCells = 0; browseCells < grid.gridLength; browseCells++) {
         td = this.checkTd(browseCells)[0];
         document.getElementById(td + browseCells).removeAttribute("data-playeraccess");
-        console.log(td + browseCells);
       }
 
       var player = new _js_player__WEBPACK_IMPORTED_MODULE_0__["Player"](); //On vérifie que les 2 joueurs ne sont pas à côté (combat)

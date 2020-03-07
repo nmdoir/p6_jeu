@@ -10,7 +10,6 @@ class Move {
         for (let browseCells = 0; browseCells < grid.gridLength; browseCells++) {
             td = this.checkTd(browseCells)[0];
             document.getElementById(td + browseCells).removeAttribute("data-playeraccess");
-            console.log(td + browseCells);
         }
 
         let player = new Player();

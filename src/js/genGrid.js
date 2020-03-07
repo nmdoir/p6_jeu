@@ -133,8 +133,8 @@ class GenGrid {
         let cellPlayer1 = this.getRandomCell();
 
         //Eviter que les 2 joueurs se retrouvent à côté à l'initialisation du plateau
-        while (Number(cellPlayer1.id.slice(3)) > Number((cellPlayer0.id.slice(3) - 12)) && Number(cellPlayer1.id.slice(3)) < Number((cellPlayer0.id.slice(3) + 12))) {
-            cellPlayer1 = this.getRandomCell();
+        while (cellPlayer0.dataset.x === cellPlayer1.dataset.x || cellPlayer0.dataset.y === cellPlayer1.dataset.y) {
+                cellPlayer1 = this.getRandomCell();
         }
         this.playerTab[1].position = cellPlayer1.id;
         $(cellPlayer1).attr("data-player", this.playerTab[1].id);

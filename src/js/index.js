@@ -31,8 +31,8 @@ $(window).click(function () {
 });
 
 //Définir la taille de la grille que l'on veut
-let rowWanted = 12;
-let colWanted = 14;
+let rowWanted = 10;
+let colWanted = 10;
 
 //Insérer la grille dans le HTML
 $(document).ready(function() {
