@@ -123,13 +123,13 @@ $(window).click(function () {
 }); //Définir la taille de la grille que l'on veut
 
 var rowWanted = prompt("Entrez le nombre de lignes pour la grille :");
-var colWanted = prompt("Entrez le nombre de lignes pour la grille :"); //Leur donner une valeur par défaut au cas où l'utilisateur n'entre rien
+var colWanted = prompt("Entrez le nombre de colonnes pour la grille :"); //Leur donner une valeur par défaut au cas où l'utilisateur n'entre rien
 
-if (!rowWanted || rowWanted === "") {
+if (!rowWanted || rowWanted === "" || isNaN(rowWanted)) {
   rowWanted = 10;
 }
 
-if (!colWanted || colWanted === "") {
+if (!colWanted || colWanted === "" || isNaN(colWanted)) {
   colWanted = 10;
 } //Insérer la grille dans le HTML
 
@@ -711,7 +711,7 @@ function () {
           for (var _i = 0, _verticals = verticals; _i < _verticals.length; _i++) {
             var jump = _verticals[_i];
             availableId = Number(playerId) - Number(jump);
-            noGoCellId = Number(availableId) - _index__WEBPACK_IMPORTED_MODULE_2__["colWanted"];
+            noGoCellId = Number(availableId) - Number(_index__WEBPACK_IMPORTED_MODULE_2__["colWanted"]);
             var _cellNb = grid.column;
             this.checkCellsAround(playerTab, i, td, availableId, "x", playerCell, "up", _cellNb, noGoCellId);
           } //Cases autorisées vers le bas

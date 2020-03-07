@@ -32,14 +32,14 @@ $(window).click(function () {
 
 //Définir la taille de la grille que l'on veut
 let rowWanted = prompt("Entrez le nombre de lignes pour la grille :");
-let colWanted = prompt("Entrez le nombre de lignes pour la grille :");
+let colWanted = prompt("Entrez le nombre de colonnes pour la grille :");
 
-//Leur donner une valeur par défaut au cas où l'utilisateur n'entre rien
-if (!rowWanted || rowWanted === "") {
+//Leur donner une valeur par défaut au cas où l'utilisateur n'entre rien ou une valeur incorrecte
+if (!rowWanted || rowWanted === "" || isNaN(rowWanted)) {
     rowWanted = 10;
 }
 
-if (!colWanted || colWanted === "") {
+if (!colWanted || colWanted === "" || isNaN(colWanted)) {
     colWanted = 10;
 }
 
